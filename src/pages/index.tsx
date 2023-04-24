@@ -3,16 +3,80 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { Button } from "components/Button/button";
-import { PackageCard } from "../../components/Cards/card";
-
+import {
+  PackageCard,
+  InsureCard,
+  CarouselCard,
+} from "../../components/Cards/card";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 export default function Home() {
   const pacakages = [
     { img: "motor", text: "Motor" },
     { img: "health", text: "Health" },
-    { img: "travel", text: "Travel" },
+    { img: "Travel", text: "Travel" },
     { img: "policy", text: "Review your policy" },
   ];
 
+  const insureSec = [
+    {
+      head: "Buy Insurance in 2mins",
+      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst ",
+    },
+    {
+      head: "Get Quotes from different issuers",
+      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst",
+    },
+    {
+      head: "Compare prices from the best issuers",
+      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst ",
+    },
+  ];
+  const carousel = [
+    {
+      img: "star",
+      head: "More than just price comparison",
+      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst. ",
+    },
+    {
+      img: "check",
+      head: "100% Independent",
+      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst",
+    },
+    {
+      img: "world",
+      head: "Information at your finger tips",
+      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst ",
+    },
+  ];
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    vertical: true, // enable vertical scrolling
+    verticalSwiping: true, // enable vertical swiping
+    centerMode: true,
+    centerPadding: "0px",
+    focusOnSelect: true,
+    prevArrow: (
+      <Image
+        width={20}
+        height={20}
+        src={"/assets/arrow-down.svg"}
+        alt="img"
+      ></Image>
+    ),
+    nextArrow: (
+      <Image
+        width={20}
+        height={20}
+        src={"/assets/arrow-up.svg"}
+        alt="img"
+      ></Image>
+    ),
+  };
   return (
     <div>
       <Head>
@@ -164,6 +228,75 @@ export default function Home() {
               liscipit dicttumst
             </p>
             <Button text={"Get started"} className={""}></Button>
+          </div>
+        </div>
+        <div className="w-[80%] relative ml-[50%] mt-[15rem] transform translate-x-[-50%] flex justify-between">
+          <Image
+            width={133}
+            height={125}
+            src={"/assets/pluscombined.svg"}
+            alt="img"
+            className="absolute top-[-40px] right-0"
+          ></Image>
+          {insureSec.map((data, i) => (
+            <div key={i} className="w-[32%]">
+              <InsureCard
+                img={`/assets/sub${i == 2 ? i : i + 1}.svg`}
+                head={data.head}
+                text={data.text}
+              ></InsureCard>
+            </div>
+          ))}
+        </div>
+        <div
+          className={`${styles.Thirdsection} relative mt-[7rem] py-[3rem] w-[100%] flex justify-around items-center`}
+        >
+        
+            <Image
+              alt=""
+              src={"/assets/poly3.svg"}
+              width={110}
+              height={110}
+              className="absolute top-[40%] left-[40%]"
+            ></Image>
+            <Image
+              alt=""
+              src={"/assets/poly3.svg"}
+              width={110}
+              height={110}
+              className="absolute top-[50%] left-[40%]"
+            ></Image>
+          
+          <div className="h-[100%] absolute top-0 left-0 w-[80%]">
+            <Image fill alt="" src={"/assets/slant.svg"}></Image>
+          </div>
+          <div className="w-[40%]">
+            <h1 className="text-white my-[3rem]  text-[35px] leading-[53px] font-semibold">
+              What makes VendInsurance Policy different?
+            </h1>
+            <p className="text-[16px] text-white leading-[30px]  tracking-[0.02em]">
+              Odio morbi pharetra vulpultate varius facillisi ridiculus a
+              viverra enim faucibus liscipit dicttumst. Odio morbi pharetra
+              vulpultate varius facillisi ridiculus a viverra enim faucibus
+              liscipit dicttumst. Odio morbi pharetra vulpultate varius
+              facillisi ridiculus a viverra enim faucibus liscipit dicttumst.
+              Odio morbi pharetra vulpultate varius facillisi ridiculus a
+              viverra enim faucibus liscipit dicttumst{" "}
+            </p>
+            <Button text={"Get a Quote"} className={"mt-[3rem]"}></Button>
+          </div>
+          <div className="w-[40%] h-[100%]">
+            <Slider {...settings}>
+              {carousel.map((data) => (
+                <div key={data.head}>
+                  <CarouselCard
+                    img={`/assets/${data.img}.svg`}
+                    head={data.head}
+                    text={data.text}
+                  ></CarouselCard>
+                </div>
+              ))}
+            </Slider>
           </div>
         </div>
       </main>

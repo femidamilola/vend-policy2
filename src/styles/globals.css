@@ -13,3 +13,34 @@ html {
   font-family: "Open Sans", sans-serif;
   font-size: 62.5%;
 }
+.slick-slider {
+  position: relative;
+}
+.slick-arrow {
+  position: absolute;
+  top: 0;
+}
+.slick-arrow:hover {
+  opacity: 0.5;
+}
+
+.slick-prev,
+.slick-next {
+  position: absolute;
+  left: -25px !important;
+}
+.slick-next{
+  top: 130px !important;
+}
+.slick-slide {
+  position: relative;
+  opacity: 0.5; /* set opacity for non-active slides */
+  transition: all 0.5s ease-in-out; /* add transition effect */
+  z-index: -1; /* set z-index to keep non-active slides in the background */
+}
+.slick-center {
+  position: relative;
+  opacity: 1; /* set opacity for active slide */
+  z-index: 10; /* set z-index to bring active slide to the foreground */
+  transform: scale(1.1) translateX(-4%); /* add scaling effect */
+}
