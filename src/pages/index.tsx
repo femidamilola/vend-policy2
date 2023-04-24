@@ -115,7 +115,7 @@ export default function Home() {
           </p>
           <div className="flex justify-around pb-[2rem]">
             {pacakages.map((data) => (
-              <div key={data.img}>
+              <div key={data.img} className="w-[20%]">
                 <PackageCard
                   img={`/assets/${data.img}.svg`}
                   text={data.text}
