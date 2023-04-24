@@ -4,3 +4,6 @@
 .Firstsection{
   background: linear-gradient(253.33deg, #3A1F87 7.47%, #7051EF 123.98%);
 }
+.Secondsection{
+  box-shadow: 0px 8px 34px rgba(120, 168, 223, 0.18);
+}

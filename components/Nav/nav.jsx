@@ -2,7 +2,7 @@ import { Button } from "../../components/Button/button";
 import Image from "next/image";
 const Nav = () => {
   return (
-    <div className="absolute top-0 left-0 w-[100%] px-[60px]">
+    <div className="absolute top-0 left-0 w-[100%] px-[100px]">
       <div className="flex pt-[20px]">
         <Image
           src={"/assets/logo.svg"}
