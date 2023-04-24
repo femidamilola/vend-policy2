@@ -41,7 +41,7 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <img src="/assets/mainbg.svg" alt="" />
+            <img src="/assets/mainbg.svg" alt="img" />
           </div>
         </div>
       </main>
