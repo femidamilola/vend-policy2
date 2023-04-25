@@ -7,6 +7,7 @@ import {
   PackageCard,
   InsureCard,
   CarouselCard,
+  CommentCard,
 } from "../../components/Cards/card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -91,7 +92,7 @@ export default function Home() {
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </Head>
@@ -249,32 +250,31 @@ export default function Home() {
           ))}
         </div>
         <div
-          className={`${styles.Thirdsection} relative mt-[7rem] py-[3rem] w-[100%] flex justify-around items-center`}
+          className={`${styles.Thirdsection} relative mt-[7rem] py-[5rem] w-[100%] flex justify-between px-[10%] items-center`}
         >
-        
-            <Image
-              alt=""
-              src={"/assets/poly3.svg"}
-              width={110}
-              height={110}
-              className="absolute top-[40%] left-[40%]"
-            ></Image>
-            <Image
-              alt=""
-              src={"/assets/poly3.svg"}
-              width={110}
-              height={110}
-              className="absolute top-[50%] left-[40%]"
-            ></Image>
-          
+          <Image
+            alt=""
+            src={"/assets/poly3.svg"}
+            width={110}
+            height={110}
+            className="absolute top-[40%] left-[40%]"
+          ></Image>
+          <Image
+            alt=""
+            src={"/assets/poly3.svg"}
+            width={110}
+            height={110}
+            className="absolute top-[50%] left-[40%]"
+          ></Image>
+
           <div className="h-[100%] absolute top-0 left-0 w-[80%]">
             <Image fill alt="" src={"/assets/slant.svg"}></Image>
           </div>
           <div className="w-[40%]">
-            <h1 className="text-white my-[3rem]  text-[35px] leading-[53px] font-semibold">
+            <h1 className="text-white my-[3rem]  text-[30px] leading-[53px] font-semibold">
               What makes VendInsurance Policy different?
             </h1>
-            <p className="text-[16px] text-white leading-[30px]  tracking-[0.02em]">
+            <p className="text-[15px] text-white leading-[30px]  tracking-[0.02em]">
               Odio morbi pharetra vulpultate varius facillisi ridiculus a
               viverra enim faucibus liscipit dicttumst. Odio morbi pharetra
               vulpultate varius facillisi ridiculus a viverra enim faucibus
@@ -285,10 +285,10 @@ export default function Home() {
             </p>
             <Button text={"Get a Quote"} className={"mt-[3rem]"}></Button>
           </div>
-          <div className="w-[40%] h-[100%]">
+          <div className="w-[45%] h-[100%]">
             <Slider {...settings}>
               {carousel.map((data) => (
-                <div key={data.head}>
+                <div key={data.head} className="">
                   <CarouselCard
                     img={`/assets/${data.img}.svg`}
                     head={data.head}
@@ -297,6 +297,76 @@ export default function Home() {
                 </div>
               ))}
             </Slider>
+          </div>
+        </div>
+        <div
+          className={`${styles.Fourthsection} px-[10%] py-[4rem] mt-[8rem] flex justify-between`}
+        >
+          <div className="w-[45%]">
+            <h1 className="text-[#1B283B] text-[30px] font-semibold leading-[50px]">
+              We priortize service and satisfaction
+            </h1>
+            <p className="text-[15px] leading-[26px] text-[#657587] tracking-[2%] py-[3rem]">
+              Odio morbi pharetra vulpultate varius facillisi ridiculus a
+              viverra enim faucibus liscipit dicttumst. Odio morbi pharetra
+              vulpultate varius facillisi ridiculus a viverra enim faucibus
+              liscipit dicttumst. Odio morbi pharetra vulpultate varius
+              facillisi ridiculus a viverra enim faucibus liscipit dicttumst.
+              Odio morbi pharetra vulpultate varius facillisi ridiculus a{" "}
+            </p>
+            <div className="flex">
+              {[1, 2, 3, 4, 5].map((data) => (
+                <Image
+                  key={data}
+                  src={"/assets/rating.svg"}
+                  width={22}
+                  height={22}
+                  alt=""
+                  className="mr-[3px]"
+                ></Image>
+              ))}
+            </div>
+          </div>
+          <div className="w-[40%]">
+            <CommentCard
+              comment={
+                "“Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus. ridiculus a viverra enim”"
+              }
+              img={"/assets/user2.svg"}
+              name={"Kehinde Ogunsanya"}
+              className={"mb-[15px]"}
+            ></CommentCard>
+            <CommentCard
+              comment={
+                "“Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus. ridiculus a viverra enim”"
+              }
+              className={""}
+              img={"/assets/user1.svg"}
+              name={"Kevin Akpederi"}
+            ></CommentCard>
+            <p className="text-end text-[14px] mt-[4rem] text-[#3E96FC]">
+              View more
+            </p>
+          </div>
+        </div>
+        <div className="px-[10%] flex flex-col py-[2.5rem]">
+          <h1 className="text-[#1B283B] text-center py-[5rem] text-[30px] leading-[50px] font-semibold">
+            Our Partners
+          </h1>
+          <div className="grid grid-cols-6 justify-between">
+            {Array(12)
+              .fill(1)
+              .map((data, i) => (
+                <div className="grid m-auto" key={i}>
+                  <Image
+                    className="mb-[20px]"
+                    src={`assets/partner${i + 1}.svg`}
+                    width={130}
+                    height={100}
+                    alt=""
+                  ></Image>
+                </div>
+              ))}
           </div>
         </div>
       </main>

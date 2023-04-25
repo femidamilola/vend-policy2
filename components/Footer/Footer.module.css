@@ -1,0 +1,17 @@
+.Listcontainer p {
+  padding: 15px 0;
+}
+.Listcontainer div {
+  padding: 8px 0;
+}
+.Listcontainer p:first-child {
+  font-weight: 700;
+  font-size: 16px;
+}
+.Listcontainer p:not(:first-child) {
+    font-size: 14px;
+    font-weight: 400;
+}
+.Location{
+    font-weight: 700;
+}
