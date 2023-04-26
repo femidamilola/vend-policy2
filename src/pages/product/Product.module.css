@@ -1,0 +1,29 @@
+.Main {
+  background: linear-gradient(255.72deg, #3a2087 4.93%, #5d3fc9 110.31%);
+}
+.Healthcard {
+  background: linear-gradient(
+    209.8deg,
+    #f1edff -32.44%,
+    #ffffff 69.81%,
+    #ffffff 122.82%
+  );
+  box-shadow: 0px 7px 32px 1px rgba(0, 0, 0, 0.09);
+  border-radius: 0px 30px 0px 0px;
+}
+.Productcard {
+  background: #ffffff;
+  box-shadow: 0px 7px 32px 1px rgba(0, 0, 0, 0.09);
+  border-radius: 0px 0px 0px 30px;
+}
+
+.Travelcard {
+  background: linear-gradient(210.15deg, #ff7f09 -2.05%, #ff9e44 103.06%);
+  box-shadow: 0px 7px 32px 1px rgba(0, 0, 0, 0.06);
+  border-radius: 0px 0px 0px 30px;
+}
+.DropClass {
+  background: #ffffff;
+  box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 0px 0px 9px 9px;
+}

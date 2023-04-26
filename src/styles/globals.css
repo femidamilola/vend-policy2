@@ -9,9 +9,18 @@
   margin: 0;
   box-sizing: border-box;
 }
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/ProductSans-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
 html {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Google Sans", sans-serif;
   font-size: 62.5%;
+}
+body{
+    font-family: "Google Sans", sans-serif;
 }
 .slick-slider {
   position: relative;
@@ -29,8 +38,13 @@ html {
   position: absolute;
   left: -25px !important;
 }
-.slick-next{
+.slick-next {
   top: 130px !important;
+}
+.slick-list{
+  height: 120%;
+  padding: 3rem 0;
+  overflow: visible !important;
 }
 .slick-slide {
   position: relative;
@@ -44,3 +58,7 @@ html {
   z-index: 10; /* set z-index to bring active slide to the foreground */
   transform: scale(1.1) translateX(-4%); /* add scaling effect */
 }
+.slick-track {
+  height: calc(100% + 500px) !important;
+}
+

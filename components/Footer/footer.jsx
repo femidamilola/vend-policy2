@@ -1,10 +1,16 @@
 import { Button } from "components/Button/button";
 import styles from "./Footer.module.css";
 import Image from "next/image";
+import { useRouter } from "next/router";
 const Footer = () => {
+  const router = useRouter();
   return (
     <div className="w-[100%] relative pb-[5rem] mt-[20rem] bg-[#321C77]">
-      <div className="w-[80%] absolute left-[50%] transform translate-x-[-50%] top-[-140px] rounded-[18px] grid m-auto bg-[#6243D3]">
+      <div
+        className={`w-[80%]  absolute left-[50%] transform translate-x-[-50%] top-[-140px] rounded-[18px] grid m-auto bg-[#6243D3] ${
+          router.route.includes("product") ? "hidden" : "block"
+        }`}
+      >
         <div className="flex justify-around items-center text-white py-[50px]">
           <div className="w-[40%]">
             <h1 className="text-[30px] leading-[50px]">
@@ -21,12 +27,18 @@ const Footer = () => {
               <Image src={"/assets/user2.svg"} width={22} height={22}></Image>
               <Image src={"/assets/user1.svg"} width={22} height={22}></Image>
             </div>
-            <p className="text-[14px] leading-[22px]">Join Kehinde and millions of people to have a peaceful life</p>
+            <p className="text-[14px] leading-[22px]">
+              Join Kehinde and millions of people to have a peaceful life
+            </p>
           </div>
         </div>
       </div>
       <div className="w-[80%] grid m-auto ">
-        <div className="flex text-white w-[100%] px-[20px] mt-[15rem] justify-between">
+        <div
+          className={`flex text-white w-[100%] px-[20px] ${
+            router.route.includes("product") ? "mt-[5rem]" : "mt-[15rem]"
+          } justify-between`}
+        >
           <div className={`${styles.Listcontainer}`}>
             <p>Navigation</p>
             <p>About us</p>

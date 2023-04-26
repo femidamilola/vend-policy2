@@ -13,7 +13,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 export default function Home() {
-  const pacakages = [
+  const packages = [
     { img: "motor", text: "Motor" },
     { img: "health", text: "Health" },
     { img: "Travel", text: "Travel" },
@@ -52,14 +52,15 @@ export default function Home() {
     },
   ];
   const settings = {
-    infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 3,
     slidesToScroll: 1,
     vertical: true, // enable vertical scrolling
     verticalSwiping: true, // enable vertical swiping
     centerMode: true,
     centerPadding: "0px",
+    initialSlide: 1,
+    arrows: true,
     focusOnSelect: true,
     prevArrow: (
       <Image
@@ -77,6 +78,7 @@ export default function Home() {
         alt="img"
       ></Image>
     ),
+    infinite: true,
   };
   return (
     <div>
@@ -179,7 +181,7 @@ export default function Home() {
             Select package
           </p>
           <div className="flex justify-around pb-[2rem]">
-            {pacakages.map((data) => (
+            {packages.map((data) => (
               <div key={data.img} className="w-[20%]">
                 <PackageCard
                   img={`/assets/${data.img}.svg`}
@@ -242,7 +244,7 @@ export default function Home() {
           {insureSec.map((data, i) => (
             <div key={i} className="w-[32%]">
               <InsureCard
-                img={`/assets/sub${i == 2 ? i : i + 1}.svg`}
+                img={`/assets/sub${i + 1}.svg`}
                 head={data.head}
                 text={data.text}
               ></InsureCard>
@@ -250,7 +252,7 @@ export default function Home() {
           ))}
         </div>
         <div
-          className={`${styles.Thirdsection} relative mt-[7rem] py-[5rem] w-[100%] flex justify-between px-[10%] items-center`}
+          className={`${styles.Thirdsection} relative mt-[7rem] py-[15rem]  w-[100%] flex justify-between px-[10%] items-center`}
         >
           <Image
             alt=""
@@ -285,7 +287,7 @@ export default function Home() {
             </p>
             <Button text={"Get a Quote"} className={"mt-[3rem]"}></Button>
           </div>
-          <div className="w-[45%] h-[100%]">
+          <div className="w-[45%] h-[130%]">
             <Slider {...settings}>
               {carousel.map((data) => (
                 <div key={data.head} className="">
@@ -302,7 +304,7 @@ export default function Home() {
         <div
           className={`${styles.Fourthsection} px-[10%] py-[4rem] mt-[8rem] flex justify-between`}
         >
-          <div className="w-[45%]">
+          <div className="w-[35%]">
             <h1 className="text-[#1B283B] text-[30px] font-semibold leading-[50px]">
               We priortize service and satisfaction
             </h1>
