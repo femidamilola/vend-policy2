@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
 import { Button } from "components/Button/button";
 import {
@@ -80,6 +81,7 @@ export default function Home() {
     ),
     infinite: true,
   };
+  const router = useRouter();
   return (
     <div>
       <Head>
@@ -160,12 +162,6 @@ export default function Home() {
               src={"/assets/star.svg"}
               className="absolute top-0 right-[30px] top-[25%]"
             ></Image>
-            {/* <Image
-              alt={""}
-              width={30}
-              height={30}
-              src={"/assets/check.svg"}
-            ></Image> */}
             <Image
               width={403}
               height={605}
@@ -184,6 +180,9 @@ export default function Home() {
             {packages.map((data) => (
               <div key={data.img} className="w-[20%]">
                 <PackageCard
+                  onClick={() => {
+                    router.push("/product");
+                  }}
                   img={`/assets/${data.img}.svg`}
                   text={data.text}
                 ></PackageCard>

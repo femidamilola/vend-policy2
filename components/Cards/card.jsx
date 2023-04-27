@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export const PackageCard = ({ img, text }) => {
+export const PackageCard = ({ img, text, onClick }) => {
   return (
     <div
+      onClick={onClick}
       style={{ border: "1px solid rgba(119, 134, 155, 0.23) " }}
       className="flex flex-col rounded-[17px] w-[100%] justify-center items-center py-[20px]"
     >

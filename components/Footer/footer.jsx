@@ -5,7 +5,11 @@ import { useRouter } from "next/router";
 const Footer = () => {
   const router = useRouter();
   return (
-    <div className="w-[100%] relative pb-[5rem] mt-[20rem] bg-[#321C77]">
+    <div
+      className={`w-[100%] relative pb-[5rem] mt-[20rem] bg-[#321C77] ${
+        router.route.includes("sign") ? "hidden" : "block"
+      }`}
+    >
       <div
         className={`w-[80%]  absolute left-[50%] transform translate-x-[-50%] top-[-140px] rounded-[18px] grid m-auto bg-[#6243D3] ${
           router.route.includes("product") ? "hidden" : "block"

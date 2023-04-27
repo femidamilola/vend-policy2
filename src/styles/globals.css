@@ -10,8 +10,8 @@
   box-sizing: border-box;
 }
 @font-face {
-  font-family: 'Google Sans';
-  src: url('/fonts/ProductSans-Regular.ttf');
+  font-family: "Google Sans";
+  src: url("/fonts/ProductSans-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -19,8 +19,8 @@ html {
   font-family: "Google Sans", sans-serif;
   font-size: 62.5%;
 }
-body{
-    font-family: "Google Sans", sans-serif;
+body {
+  font-family: "Google Sans", sans-serif;
 }
 .slick-slider {
   position: relative;
@@ -41,7 +41,7 @@ body{
 .slick-next {
   top: 130px !important;
 }
-.slick-list{
+.slick-list {
   height: 120%;
   padding: 3rem 0;
   overflow: visible !important;
@@ -62,3 +62,16 @@ body{
   height: calc(100% + 500px) !important;
 }
 
+.react-tel-input .form-control {
+  width: 100% !important;
+  background: #fff9f4 !important;
+  border: 1px solid rgba(255, 124, 3, 0.56) !important;
+  height: auto !important;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  margin: 7px 0 !important;
+}
+.react-tel-input .flag-dropdown{
+  background: #fff9f4 !important;
+  border: 1px solid rgba(255, 124, 3, 0.56) !important;
+}
