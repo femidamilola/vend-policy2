@@ -2,8 +2,15 @@ import { Button } from "components/Button/button";
 import styles from "./Footer.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 const Footer = () => {
   const router = useRouter();
+  const [hideSub, setHideSub] = useState(false);
+  useEffect(() => {
+    router.route.includes("product") || router.route.includes("companies")
+      ? setHideSub(true)
+      : "";
+  }, []);
   return (
     <div
       className={`w-[100%] relative pb-[5rem] mt-[20rem] bg-[#321C77] ${
@@ -12,7 +19,7 @@ const Footer = () => {
     >
       <div
         className={`w-[80%]  absolute left-[50%] transform translate-x-[-50%] top-[-140px] rounded-[18px] grid m-auto bg-[#6243D3] ${
-          router.route.includes("product") ? "hidden" : "block"
+          hideSub ? "hidden" : "block"
         }`}
       >
         <div className="flex justify-around items-center text-white py-[50px]">
@@ -40,7 +47,7 @@ const Footer = () => {
       <div className="w-[80%] grid m-auto ">
         <div
           className={`flex text-white w-[100%] px-[20px] ${
-            router.route.includes("product") ? "mt-[5rem]" : "mt-[15rem]"
+            hideSub ? "mt-[5rem]" : "mt-[15rem]"
           } justify-between`}
         >
           <div className={`${styles.Listcontainer}`}>

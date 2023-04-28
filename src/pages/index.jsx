@@ -350,7 +350,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div className="px-[10%] flex flex-col py-[2.5rem]">
+        <div className="px-[5%] flex flex-col py-[2.5rem]">
           <h1 className="text-[#1B283B] text-center py-[5rem] text-[30px] leading-[50px] font-semibold">
             Our Partners
           </h1>

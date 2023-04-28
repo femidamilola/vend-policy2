@@ -15,6 +15,7 @@ module.exports = {
         major: "#FF7C03",
         input1: " rgba(255, 124, 3, 0.56)",
         confirmlabel: " rgba(29, 92, 105, 0.44);",
+        table1: "rgba(255, 188, 126, 0.13)",
       },
     },
   },
