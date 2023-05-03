@@ -1,7 +1,9 @@
 import styles from "./Company.module.css";
 import Image from "next/image";
 import { Button } from "../../../components/Button/button";
+import { useRouter } from "next/router";
 const Company = () => {
+  const router = useRouter();
   const Header = ({ img, location, price }) => (
     <div className="w-[100%] px-[25px] py-[40px] flex flex-col items-center">
       <Image
@@ -19,6 +21,9 @@ const Company = () => {
       <Button
         text={"Select package"}
         className={"w-[100%] rounded-[5px] mt-[10px]"}
+        onClick={() => {
+          router.push("/companies/details");
+        }}
       ></Button>
     </div>
   );
@@ -54,7 +59,7 @@ const Company = () => {
       <div className="px-[10%] flex justify-between items-center mt-[50px]">
         <div className="flex">
           <input
-          placeholder="Search keyword"
+            placeholder="Search keyword"
             style={{
               boxShadow: "inset 0px 0px 10px rgba(0, 0, 0, 0.05)",
               color: "rgba(108, 115, 124, 0.43)",
@@ -118,7 +123,7 @@ const Company = () => {
           <tbody className="pt-[30px]">
             {tableData.map((data, i) => (
               <tr
-              key={i}
+                key={i}
                 className={`py-[30px] ${
                   i % 2 == 0 ? "bg-white" : "bg-table1"
                 } `}
@@ -126,7 +131,7 @@ const Company = () => {
                 <td className="text-[#7E8690] py-[18px] text-[14px] leading-[25px]">
                   {data?.name}
                 </td>
-                {data.checks.map((data,i) => (
+                {data.checks.map((data, i) => (
                   <td key={i} className="w-[20%] py-[18px] text-center">
                     <div className="block w-[20px] ml-[50%] transform translate-x-[-50%] ">
                       {data === 1 ? <Pass></Pass> : ""}

@@ -75,6 +75,7 @@ export const ProductCard = ({
   subhead,
   orange,
   drop,
+  onClick,
 }) => {
   const [dropDown, setDrop] = useState(false);
   return (
@@ -124,9 +125,74 @@ export const ProductCard = ({
         ))}
       </div>
       <div
-        onClick={() => {
-          drop ? setDrop(!dropDown) : "";
+        onClick={onClick}
+        className={`${
+          orange ? "bg-[#ffffff] text-[#FF7C03]" : "bg-[#FF7C03] text-white"
+        } w-[100%] rounded-[6px] cursor-pointer font-bold flex justify-center py-[10px] text-[15px] `}
+      >
+        <p className="tracking-[0.05em]"> Select Package </p>
+      </div>
+    </div>
+  );
+};
+export const ProductCard1 = ({
+  className,
+  head,
+  dropClass,
+  subhead,
+  orange,
+  drop,
+  onClick,
+}) => {
+  const [dropDown, setDrop] = useState(false);
+  return (
+    <div
+      className={`px-[40px] w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
+    >
+      <h1
+        className={`${
+          orange ? "text-white" : "text-[#374453]"
+        }  pt-[30px] text-[25px] font-bold leading-[50px]`}
+      >
+        {head}
+      </h1>
+      <p
+        style={{
+          color: `${
+            orange ? "rgba(255, 255, 255, 0.76)" : "rgba(99, 94, 114, 0.78)"
+          } `,
         }}
+        className={`text-[15px] leading-[25px]`}
+      >
+        {subhead}
+      </p>
+      <div className="pb-[6rem] pt-[1rem]">
+        {[
+          "1 year Tenure",
+          "30 days Quote Validity",
+          "Extensive Coverage",
+          "Add-on Coverage",
+        ].map((data) => (
+          <div key={data} className=" flex ">
+            <Image
+              width={15}
+              height={15}
+              src={`/assets/mark${orange ? "white" : ""}.svg`}
+              alt=""
+              className="mr-[10px]"
+            ></Image>
+            <p
+              className={` ${
+                orange ? "text-white" : "text-[#77869B]"
+              } text-[15px] leading-[30px]`}
+            >
+              {data}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div
+        onClick={onClick}
         className={`${
           orange ? "bg-[#ffffff] text-[#FF7C03]" : "bg-[#FF7C03] text-white"
         } w-[100%] rounded-[6px] cursor-pointer font-bold flex justify-center py-[10px] text-[15px] `}

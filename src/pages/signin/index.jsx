@@ -94,7 +94,15 @@ const Signin = () => {
           src={"/assets/signbg.svg"}
           className={`absolute right-0 bottom-[-100px]`}
         ></Image>
-        <Image width={150} height={30} src={"/assets/logo.svg"}></Image>
+        <Image
+          width={150}
+          height={30}
+          onClick={() => {
+            router.push("/");
+          }}
+          className="cursor-pointer"
+          src={"/assets/logo.svg"}
+        ></Image>
         <div className="mt-[6rem]">
           <p className="font-bold text-[44px] leading-[55px] text-white">
             Be Safe.

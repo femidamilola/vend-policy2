@@ -10,10 +10,12 @@ const Footer = () => {
     router.route.includes("product") || router.route.includes("companies")
       ? setHideSub(true)
       : "";
-  }, []);
+  }, [router.route]);
   return (
     <div
-      className={`w-[100%] relative pb-[5rem] mt-[20rem] bg-[#321C77] ${
+      className={`${
+        hideSub ? "mt-[10rem]" : " mt-[20rem]"
+      } w-[100%] relative pb-[5rem] bg-[#321C77] ${
         router.route.includes("sign") ? "hidden" : "block"
       }`}
     >
@@ -74,12 +76,12 @@ const Footer = () => {
             ))}
           </div>
           <div className={`${styles.Listcontainer}`}>
-            <p>Contact Us</p>
+            <p className="tracking-[1px]">Contact Us</p>
             <div className="flex">
               <Image
                 src={"/assets/mail.svg"}
-                width={20}
-                height={20}
+                width={14}
+                height={14}
                 alt={""}
                 className="mr-[7px]"
               ></Image>
@@ -87,7 +89,7 @@ const Footer = () => {
             </div>
             <p
               style={{ fontWeight: "700", fontSize: "16px" }}
-              className={`font-bold text-[16px] ${styles.Location}`}
+              className={`font-bold text-[16px] tracking-[1px] ${styles.Location}`}
             >
               Location
             </p>
@@ -95,8 +97,8 @@ const Footer = () => {
               <div className="flex">
                 <Image
                   src={"/assets/location.svg"}
-                  width={20}
-                  height={20}
+                  width={12}
+                  height={12}
                   alt={""}
                   className="mr-[7px]"
                 ></Image>

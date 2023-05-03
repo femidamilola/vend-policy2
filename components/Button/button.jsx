@@ -4,7 +4,7 @@ export const Button = ({ text, className,onClick }) => {
   return (
     <div onClick={onClick}>
       <button
-        className={`bg-[#FF7C03] font-semibold text-[14px] tracking-[2%] rounded-[10px] px-[20px] py-[7px] text-[#ffffff] ${styles.Button} ${className}`}
+        className={`bg-[#FF7C03] font-semibold text-[14px] tracking-[1px] rounded-[10px] px-[20px] py-[7px] text-[#ffffff] ${styles.Button} ${className}`}
       >
         {text}
       </button>

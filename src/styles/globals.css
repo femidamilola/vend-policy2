@@ -71,7 +71,11 @@ body {
   padding-bottom: 7px;
   margin: 7px 0 !important;
 }
-.react-tel-input .flag-dropdown{
+.react-tel-input .flag-dropdown {
   background: #fff9f4 !important;
   border: 1px solid rgba(255, 124, 3, 0.56) !important;
+}
+
+.checkabout {
+  display: inline;
 }

@@ -2,7 +2,7 @@ import { Button, SigninButton } from "../../components/Button/button";
 import Image from "next/image";
 import { useRouter } from "next/router";
 const Nav = () => {
-  const router =useRouter()
+  const router = useRouter();
   return (
     <div
       className={`absolute top-0 left-0 w-[100%] px-[100px] ${
@@ -15,7 +15,10 @@ const Nav = () => {
           width={150}
           height={30}
           alt="img"
-          className="mr-[30px]"
+          className="mr-[30px] cursor-pointer"
+          onClick={() => {
+            router.push("/");
+          }}
         ></Image>
         <div className="flex h-[40px] items-stretch">
           <Button
@@ -29,7 +32,9 @@ const Nav = () => {
         </div>
 
         <ul className="text-[15px] text-medium text-white flex ml-auto">
-          <li className="mr-[20px]">About us</li>
+          <li className="mr-[20px] cursor-pointer" onClick={() => router.push("/about")}>
+            About us
+          </li>
           <li className="mr-[20px]">Policy Library</li>
           <li className="mr-[20px]">FAQ</li>
         </ul>
