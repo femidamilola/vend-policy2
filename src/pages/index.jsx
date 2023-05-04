@@ -158,7 +158,13 @@ export default function Home() {
               src={"/assets/lock.jpg"}
               className="absolute top-[40%] left-[-30px] rounded-[50%]"
             ></Image>
-            <img src="/assets/mainbg.svg" className="" alt="img" />
+            <Image
+              src="/assets/mainbg.svg"
+              width={404}
+              height={605}
+              className=""
+              alt="img"
+            />
           </div>
         </div>
         <div
