@@ -4,7 +4,18 @@ import { Inter } from "next/font/google";
 import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
 import { Button } from "components/Button/button";
-
+import {
+  Health,
+  Travel,
+  ReviewPolicy,
+  Motor,
+  Lock,
+  QuoteMain,
+  CheckMain,
+  World,
+  Star,
+  Twist,
+} from "../..//components/SVG/Small";
 import {
   PackageCard,
   InsureCard,
@@ -16,10 +27,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 export default function Home() {
   const packages = [
-    { img: "motor", text: "Motor" },
-    { img: "health", text: "Health" },
-    { img: "Travel", text: "Travel" },
-    { img: "policy", text: "Review your policy" },
+    { text: "Motor", img: <Motor></Motor> },
+    { img: <Health></Health>, text: "Health" },
+    { img: <Travel></Travel>, text: "Travel" },
+    { img: <ReviewPolicy></ReviewPolicy>, text: "Review your policy" },
   ];
 
   const insureSec = [
@@ -103,76 +114,55 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div
-          className={`${styles.Firstsection} z-50 flex justify-between items-center pt-[90px] px-[100px]`}
+          className={`${styles.Firstsection} z-50 flex justify-between items-center  pt-[90px] px-[10%]`}
         >
-          <div className="text-white w-[40%] ">
+          <div className="text-white w-[50%]">
             <h1 className="text-[48px] leading-[69px]">
               What policy will you be buying today?
             </h1>
-            <p className="text-[17px] pt-[25px] pb-[35px] leading-[29px] tracking-[1%]">
+            <p className="text-[17px] pt-[25px]  leading-[25px] tracking-[1%]">
               We work with some of the leading insurance companies to develop
               the best insurance tailored to meet your needs
             </p>
             <div className="flex justify-between items-center">
               <Button text={"Get a Quote"} className={""}></Button>
               <p className="text-[16px]">or</p>
-              <img src="/assets/twist.svg" alt="" />
+              <Twist></Twist>
             </div>
           </div>
-          <div className="relative mt-[60px]">
-            <div className="w-[250px] absolute right-[-90px] bottom-[25%]  bg-white rounded-[12px] py-[20px] px-[20px]">
-              <div className="w-[41px] absolute top-[-20px] left-[-20px]  flex justify-center items-start bg-[#FF7C03] h-[41px] rounded-[50%]">
-                <img
-                  className="mt-[50%] transform translate-y-[-50%]"
-                  src="/assets/quote.svg"
-                  alt=""
-                />
+          <div className="relative w-[50%] ml-[200px] ">
+            <div className=" absolute right-[60px] bottom-[60px] w-[200px]  bg-white rounded-[12px] py-[10px] px-[20px]">
+              <div className="absolute top-[-10px] left-[-10px] ">
+                <QuoteMain></QuoteMain>
               </div>
-              <p className="text-[16px] font-semibold leading-[25px]">
+
+              <p className="text-[14px] font-semibold ">
                 After using VendPolicy, life has been easy for us
               </p>
             </div>
-            <div className="absolute top-[60%] left-[-150px]  flex px-[10px] items-center py-[4px] rounded-[12px] bg-white">
-              <Image
-                alt={""}
-                width={41}
-                height={41}
-                src={"/assets/check.svg"}
-                className=" px-[3px]"
-              ></Image>
-              <p className="text-[17px] font-semibold">Officially verified</p>
+            <div className="absolute top-[65%] left-[-60px]  flex px-[10px] items-center py-[8px] rounded-[12px] bg-white">
+              <CheckMain></CheckMain>
+              <p className="text-[14px] font-semibold">Officially verified</p>
             </div>
+            <div className="absolute top-[45px] left-[20%]">
+              <World></World>
+            </div>
+            <div className="absolute top-0 right-[30px] top-[30%]">
+              <Star></Star>
+            </div>
+
             <Image
               alt={""}
-              width={41}
-              height={41}
-              src={"/assets/world.svg"}
-              className="absolute top-0 left-[20%]"
-            ></Image>
-            <Image
-              alt={""}
-              width={41}
-              height={41}
+              width={31}
+              height={31}
               src={"/assets/lock.jpg"}
-              className="absolute top-[40%] left-[-50px] rounded-[50%]"
+              className="absolute top-[40%] left-[-30px] rounded-[50%]"
             ></Image>
-            <Image
-              alt={""}
-              width={41}
-              height={41}
-              src={"/assets/star.svg"}
-              className="absolute top-0 right-[30px] top-[25%]"
-            ></Image>
-            <Image
-              width={403}
-              height={605}
-              src="/assets/mainbg.svg"
-              alt="img"
-            />
+            <img src="/assets/mainbg.svg" className="" alt="img" />
           </div>
         </div>
         <div
-          className={`${styles.Secondsection} bg-white relative z-[100] mt-[-100px] grid m-auto py-[15px] w-[80%] rounded-[24px]`}
+          className={`${styles.Secondsection} bg-white relative z-[100] mt-[-40px] grid m-auto  w-[80%] rounded-[24px]`}
         >
           <p className="text-[#1B283B] text-[20px] font-semibold text-center py-[20px]">
             Select package
@@ -184,7 +174,7 @@ export default function Home() {
                   onClick={() => {
                     router.push("/product");
                   }}
-                  img={`/assets/${data.img}.svg`}
+                  img={data.img}
                   text={data.text}
                 ></PackageCard>
               </div>

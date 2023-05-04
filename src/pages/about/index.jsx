@@ -38,12 +38,7 @@ const About = () => {
         </div>
       </div>
       <div className="px-[15%] flex justify-between mt-[5rem]">
-        <Image
-          src={"/assets/aboutimg1.svg"}
-          width={318}
-          height={300}
-          alt=""
-        ></Image>
+        <img src={"/assets/aboutimg1.svg"} alt=""></img>
         <div className="w-[40%]">
           <p className="text-[#FF7C03] font-bold">WHAT WE DO</p>
           <div className="flex">
@@ -183,6 +178,45 @@ const About = () => {
                 ></Image>
               </div>
             ))}
+        </div>
+      </div>
+      <div className="px-[5%] flex flex-col py-[2.5rem]">
+        <p className="text-[#FF7C03] font-bold tracking-[1px] py-[20px] text-center">
+          OUR HISTORY
+        </p>
+        <h1 className="text-center pb-[20px] text-[#33496A] text-[32px]">
+          VendPolicy in Numbers
+        </h1>
+        <div className="flex justify-center">
+          <div
+            className={`${styles.Background} rounded-[25px] px-[60px] py-[50px] flex justify-between w-[70%]`}
+          >
+            <div className="flex flex-col ">
+              <h1 className="text-white text-[38px] leading-[53px] font-bold">
+                2022
+              </h1>
+              <p className="text-major text-[14px]">Year Founded</p>
+            </div>
+            <div className="flex flex-col ">
+              <h1 className="text-white text-[38px] leading-[53px] font-bold">
+                75+
+              </h1>
+              <p className="text-major text-[14px]">Members</p>
+            </div>
+            <div className="flex flex-col ">
+              <h1 className="text-white text-[38px] leading-[53px] font-bold">
+                10+
+              </h1>
+              <p className="text-major text-[14px]">Investors</p>
+            </div>
+            <div className="flex flex-col ">
+              <h1 className="text-white text-[38px] leading-[53px] font-bold">
+                <span className="text-[19px]">₦</span>
+                25M
+              </h1>
+              <p className="text-major text-[14px]">Year Founded</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
