@@ -505,3 +505,118 @@ export const ReviewPolicy = () => {
     </svg>
   );
 };
+export const GreaterThan=()=>{
+  return (
+    <svg
+      width="29"
+      height="51"
+      viewBox="0 0 29 51"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M2.5 1L27.5 26L0.5 50.5" stroke="#E7E6E9" />
+    </svg>
+  );
+}
+export const LeftArrow=()=>{
+  return (
+    <svg
+      width="24"
+      height="16"
+      viewBox="0 0 24 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.292892 7.29289C-0.0976315 7.68342 -0.0976315 8.31658 0.292892 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292892 7.29289ZM24 7L1 7V9L24 9V7Z"
+        fill="#33496A"
+        fill-opacity="0.26"
+      />
+    </svg>
+  );
+}
+export const File=()=>{
+  return (
+    <svg
+      width="31"
+      height="43"
+      viewBox="0 0 31 43"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M19.1111 0H3.19877C1.43214 0 0 1.43069 0 3.19686V39.8031C0 41.5687 1.41888 43 3.18108 43H27.0782C28.835 43 30.2592 41.5811 30.2592 39.8189V12.7407H22.3057C20.5414 12.7407 19.1111 11.3286 19.1111 9.55858V0ZM20.7037 0V9.55089C20.7037 10.433 21.4219 11.1481 22.2816 11.1481H30.2592L20.7037 0ZM4.77778 11.1481V12.7407H15.9259V11.1481H4.77778ZM4.77778 6.37037V7.96296H15.9259V6.37037H4.77778ZM4.77778 15.9259V17.5185H25.4815V15.9259H4.77778ZM4.77778 20.7037V22.2963H25.4815V20.7037H4.77778ZM4.77778 25.4815V27.0741H25.4815V25.4815H4.77778ZM4.77778 30.2593V31.8519H25.4815V30.2593H4.77778ZM4.77778 35.037V36.6296H25.4815V35.037H4.77778Z"
+        fill="#321C77"
+      />
+    </svg>
+  );
+}
+export const Camera=()=>{
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clip-path="url(#clip0_480_4654)">
+        <path
+          d="M15.3337 12.6667C15.3337 13.0203 15.1932 13.3594 14.9431 13.6095C14.6931 13.8595 14.354 14 14.0003 14H8.00031H2.00033C1.6467 14 1.30757 13.8595 1.05752 13.6095C0.807468 13.3594 0.666992 13.0203 0.666992 12.6667V5.33333C0.666992 4.97971 0.807468 4.64057 1.05752 4.39052C1.30757 4.14048 1.6467 4 2.00033 4H4.66699L6.00033 2H10.0003L11.3337 4H14.0003C14.354 4 14.6931 4.14048 14.9431 4.39052C15.1932 4.64057 15.3337 4.97971 15.3337 5.33333V12.6667Z"
+          stroke="#6C829B"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M7.99967 11.3333C9.47243 11.3333 10.6663 10.1394 10.6663 8.66667C10.6663 7.19391 9.47243 6 7.99967 6C6.52691 6 5.33301 7.19391 5.33301 8.66667C5.33301 10.1394 6.52691 11.3333 7.99967 11.3333Z"
+          stroke="#6C829B"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_480_4654">
+          <rect width="16" height="16" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
+export const Upload=({className})=>{
+  return (
+    <svg
+      width="16"
+      height="16"
+      className={className}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M14 10V12.6667C14 13.0203 13.8595 13.3594 13.6095 13.6095C13.3594 13.8595 13.0203 14 12.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V10"
+        stroke="#6C829B"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M11.3337 5.33333L8.00033 2L4.66699 5.33333"
+        stroke="#6C829B"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8 2V10"
+        stroke="#6C829B"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}

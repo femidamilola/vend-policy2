@@ -2,7 +2,9 @@ import Image from "next/image";
 import styles from "./Company.module.css";
 import { Location, Check } from "../../../components/SVG/Small";
 import { Button } from "../../../components/Button/button";
+import { useRouter } from "next/router";
 const Details = () => {
+  const router = useRouter();
   return (
     <div className="px-[5%]">
       <div className="w-[100%] h-[300px] absolute z-[-10] top-0 left-0">
@@ -99,7 +101,11 @@ const Details = () => {
           back on the skyline of her hometown Bookmarksgrove, the headline{" "}
         </p>
       </div>
-      <Button className={"mt-[4rem]"} text={"Buy Insurance (N33,000.00)"}></Button>
+      <Button
+        className={"mt-[4rem]"}
+        onClick={() => router.push("/upload")}
+        text={"Buy Insurance (N33,000.00)"}
+      ></Button>
     </div>
   );
 };

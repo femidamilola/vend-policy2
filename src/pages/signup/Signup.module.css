@@ -1,9 +1,22 @@
-.Secondsection{
-    background: linear-gradient(196.18deg, #422695 3.2%, #6446D7 98.25%);
+.Secondsection {
+  background: linear-gradient(196.18deg, #422695 3.2%, #6446d7 98.25%);
 }
-.Firstsection{
-    background: #FFFFFF;
+.Firstsection {
+  background: #ffffff;
 }
-.Button{
-    border-radius: 5px;
+.Button {
+  border-radius: 5px;
+}
+.InputClass {
+  width: 100% !important;
+  background: #fff9f4 !important;
+  border: 1px solid rgba(255, 124, 3, 0.56) !important;
+  height: auto !important;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  margin: 7px 0 !important;
+}
+.Dropdown {
+  background: #fff9f4 !important;
+  border: 1px solid rgba(255, 124, 3, 0.56) !important;
 }

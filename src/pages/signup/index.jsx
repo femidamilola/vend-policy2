@@ -99,7 +99,9 @@ const Signin = () => {
             </label>
             <PhoneInput
               country={"us"}
-              inputClass="my-[7px]"
+              inputClass={`my-[7px] ${styles.InputClass}`}
+              buttonClass={`${styles.Dropdown}`}
+              
               onChange={() => {
                 "";
               }}

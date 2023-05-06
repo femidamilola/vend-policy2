@@ -1,0 +1,15 @@
+.Shadow1 {
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.02);
+}
+.Shadow2 {
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.03);
+}
+.Shadow3{
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.06);
+}
+.BorderDashed{
+ background: #FFFBF8;
+border: 1px dashed #FFE6CE;
+border-radius: 8px;
+
+}

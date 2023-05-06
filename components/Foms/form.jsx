@@ -1,16 +1,16 @@
-export const TextInput1 = ({ className, label, inputClass }) => {
+export const TextInput1 = ({ className, label,labelClass, inputClass }) => {
   return (
-    <div>
+    
       <div className={className}>
-        <label className="text-[#77869B]  text-[16px]" htmlFor="">
+        <label className={`text-[#77869B]  text-[16px] ${labelClass}`} htmlFor="">
           {label}
         </label>
         <input
-          className={`w-[100%] border text-[14px] my-[7px] py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px] ${inputClass}`}
+          className={`w-[100%] pl-[10px] border text-[14px] my-[7px] outline-0 py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px] ${inputClass}`}
           type="text"
         />
       </div>
-    </div>
+   
   );
 };
 export const SelectInput = ({ label, options,selectClass }) => {

@@ -159,6 +159,7 @@ export default function Home() {
               className="absolute top-[40%] left-[-30px] rounded-[50%]"
             ></Image>
             <Image
+              priority={true}
               src="/assets/mainbg.svg"
               width={404}
               height={605}

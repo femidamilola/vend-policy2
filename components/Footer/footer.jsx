@@ -7,7 +7,9 @@ const Footer = () => {
   const router = useRouter();
   const [hideSub, setHideSub] = useState(false);
   useEffect(() => {
-    router.route.includes("product") || router.route.includes("companies")
+    router.route.includes("product") ||
+    router.route.includes("companies") ||
+    router.route.includes("upload")
       ? setHideSub(true)
       : "";
   }, [router.route]);
