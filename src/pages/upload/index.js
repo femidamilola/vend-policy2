@@ -6,8 +6,9 @@ import PhoneInput from "react-phone-input-2";
 import { Button } from "../../../components/Button/button";
 import "react-phone-input-2/lib/style.css";
 import { useState } from "react";
+import { PayLock, Paycard, Paypal } from "../../../components/SVG/Svg";
 const FileUpload = () => {
-  const [section, setSection] = useState(2);
+  const [section, setSection] = useState(1);
   const [id, setId] = useState("");
   let sectionDisplayed = <div></div>;
 
@@ -202,7 +203,10 @@ const FileUpload = () => {
           ></UploadCard>
           <div className="mt-[30px] flex items-center">
             <Button
-              onClick={() => setSection(3)}
+              onClick={() => {
+                setSection(3);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               text={"Proceed to payment"}
             ></Button>
             <p className="text-[#F5564C] ml-[50px] text-[14px]">Cancel</p>
@@ -217,7 +221,7 @@ const FileUpload = () => {
         <p className="text-[#374453] text-[23px] leading-[53px] font-bold my-[20px]">
           Checkout
         </p>
-        <div className="flex justify-between">
+        <div className="flex justify-between items-stretch">
           <div
             className={`${styles.Shadow2} bg-white px-[5%] w-[60%]   py-[50px]`}
           >
@@ -254,11 +258,62 @@ const FileUpload = () => {
                 label={"E-mail Address"}
               ></TextInput1>
             </div>
+            <div className="flex mt-[30px]">
+              <div className="flex items-center h-[43px] mr-[40px] border border-[#E0E0E0] px-[15px] rounded-[5px]">
+                <Paycard></Paycard>
+                <p className="text-[#535D6C] text-[15px] tracking-[1px] font-bold px-[20px]">
+                  Debit card
+                </p>
+                <div className="w-[20px] h-[20px] rounded-[50%] flex justify-center items-center border border-[#E0E0E0]">
+                  <div className="w-[12px] h-[12px] rounded-[50%] bg-[#E0E0E0]"></div>
+                </div>
+              </div>
+              <div className="flex items-center h-[43px] border border-[#E0E0E0] px-[15px] rounded-[5px]">
+                <Paypal></Paypal>
+                <p className="text-[#535D6C] text-[15px] tracking-[1px] font-bold px-[20px]">
+                  Paypal
+                </p>
+                <div className="w-[20px] h-[20px] rounded-[50%] flex justify-center items-center border border-[#E0E0E0]">
+                  <div className="w-[12px] h-[12px] rounded-[50%] bg-[#E0E0E0]"></div>
+                </div>
+              </div>
+            </div>
+            <div className="flex mt-[25px]">
+              <PayLock></PayLock>
+              <p className="text-[#77869B] ml-[15px] text-[12px]">
+                Your transaction is secure with SSL encryption
+              </p>
+            </div>
           </div>
           <div
-            className={`${styles.Shadow2} bg-white px-[5%] w-[30%]  py-[50px]`}
+            className={`${styles.Shadow2} bg-white px-[10px] py-[15px] pb-[100px] w-[30%]`}
           >
-          
+            <div className={`${styles.CheckoutBg} w-[100%] h-[40%]`}></div>
+            <p
+              className={`${styles.Line} mt-[20px] grid m-auto w-[80%] tracking-[1px] text-[#77869B] text-[15px] font-bold text-center px-[20px] py-[13px]`}
+            >
+              Third Party Fire Insurance
+            </p>
+            <div className="px-[15px] pt-[30px]">
+              <div className="flex justify-between mb-[20px]">
+                <p className="text-[15px] text-[#77869B]">Subtotal</p>
+                <p className="text-[15px] font-bold text-[#77869B]">
+                  ₦23,000.00
+                </p>
+              </div>
+              <div className="flex justify-between mb-[20px]">
+                <p className="text-[15px] text-[#77869B]">Discount</p>
+                <p className="text-[15px] font-bold text-[#77869B]">₦0.00</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="text-[15px] text-[#77869B]">Service Fee</p>
+                <p className="text-[15px] font-bold text-[#77869B]">₦0.00</p>
+              </div>
+            </div>
+            <Button
+              text={"Pay Insurance"}
+              className={"w-[100%] my-[15px] mt-[30px]"}
+            ></Button>
           </div>
         </div>
       </div>
@@ -312,7 +367,20 @@ const FileUpload = () => {
             <p>Document</p>
             <GreaterThan></GreaterThan>
           </div>
-          <p className="text-[#D3D8DF] ml-[8px] text-[15px]">Payment</p>
+          <div
+            className={`flex ${
+              section == 3 ? "text-major" : "text-[#D3D8DF] "
+            } items-center text-[15px]`}
+          >
+            <p
+              className={`mx-[8px] border  ${
+                section == 3 ? "border-major" : "border-[#D3D8DF]"
+              } rounded-[50%] py-[7px] px-[14px]`}
+            >
+              3
+            </p>
+            <p className="ml-[8px] text-[15px]">Payment</p>
+          </div>
         </div>
       </div>
       {sectionDisplayed}
