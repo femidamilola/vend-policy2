@@ -1,0 +1,7 @@
+.BorderTop {
+  border-top: 1px solid rgba(119, 134, 155, 0.19);
+}
+.Card {
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}

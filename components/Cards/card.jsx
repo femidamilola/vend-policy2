@@ -2,7 +2,8 @@ import { showPackageModal } from "@/store/slices";
 import Image from "next/image";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-
+import styles from "./Card.module.css"
+import { DashboardButton } from "components/Button/button";
 export const PackageCard = ({ img, text, onClick }) => {
   return (
     <div
@@ -192,7 +193,7 @@ export const ProductCard1 = ({
       <div
         onClick={() => {
           if (buttonInput !== "Select Package") {
-            dispatch(showPackageModal("carterms"))
+            dispatch(showPackageModal("carterms"));
           }
         }}
         className={`${
@@ -218,9 +219,9 @@ export const ProductCard1 = ({
           dropDown ? "block" : "hidden"
         } py-[10px] transform translate-x-[-50%] ${dropClass}`}
       >
-        {options.map((data,i) => (
+        {options.map((data, i) => (
           <p
-          key={i}
+            key={i}
             onClick={() => {
               setbuttonInput(data);
               setDrop(false);
@@ -231,6 +232,22 @@ export const ProductCard1 = ({
           </p>
         ))}
       </div>
+    </div>
+  );
+};
+export const DashboardCard = ({ type, svg, company, btnText }) => {
+  return (
+    <div
+      className={`w-[200px] border-b border-b-[#F5564C] border-b-[5px] py-[20px] rounded-[8px] flex flex-col items-center ${styles.Card}`}
+    >
+      <div className="flex px-[15px] py-[5px] bg-medical w-[100px] rounded-[4px]">
+        {svg}
+        <p className="text-[#FF7777] text-[13px]">{type}</p>
+      </div>
+      <p className="text-common  px-[30px] text-center py-[30px] text-[16px] font-bold">
+        {company}
+      </p>
+      <DashboardButton text={btnText}></DashboardButton>
     </div>
   );
 };

@@ -50,6 +50,9 @@ const Signin = () => {
           <Button
             text={"Sign in"}
             className={`w-[100%] my-[2rem] rounded-[5px] ${styles.Button}`}
+            onClick={() => {
+              router.push("/dashboard");
+            }}
           ></Button>
           <div className="flex justify-between">
             <div className="flex items-center">

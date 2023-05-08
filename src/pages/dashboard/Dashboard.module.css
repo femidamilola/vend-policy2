@@ -1,0 +1,18 @@
+.Navcontainer {
+  background: linear-gradient(255.72deg, #3a2087 4.93%, #5d3fc9 110.31%);
+}
+.Id {
+  color: rgba(255, 255, 255, 0.51);
+}
+.User {
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+.BorderTop {
+  border-top: 1px solid rgba(119, 134, 155, 0.19);
+}
+.Card {
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}

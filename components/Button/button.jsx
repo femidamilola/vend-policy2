@@ -1,10 +1,21 @@
 import styles from "./Button.module.css";
 import { useRouter } from "next/router";
-export const Button = ({ text, className,onClick }) => {
+export const Button = ({ text, className, onClick }) => {
   return (
     <div onClick={onClick}>
       <button
         className={`bg-[#FF7C03] whitespace-nowrap font-semibold text-[14px] tracking-[1px] rounded-[10px] px-[20px] py-[7px] text-[#ffffff] ${styles.Button} ${className}`}
+      >
+        {text}
+      </button>
+    </div>
+  );
+};
+export const DashboardButton = ({ text, className, onClick }) => {
+  return (
+    <div onClick={onClick}>
+      <button
+        className={`bg-[#FFFFFF] whitespace-nowrap text-[14px] tracking-[1px] px-[20px] py-[7px] text-major ${styles.Dashbutton} ${className}`}
       >
         {text}
       </button>

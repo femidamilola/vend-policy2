@@ -6,7 +6,9 @@ const Nav = () => {
   return (
     <div
       className={`absolute top-0 left-0 w-[100%] px-[100px] ${
-        router.route.includes("sign") ? "hidden" : "block"
+        router.route.includes("sign") || router.route.includes("dashboard")
+          ? "hidden"
+          : "block"
       }`}
     >
       <div className="flex items-center pt-[20px]">
@@ -32,7 +34,10 @@ const Nav = () => {
         </div>
 
         <ul className="text-[15px] text-medium text-white flex ml-auto">
-          <li className="mr-[20px] cursor-pointer" onClick={() => router.push("/about")}>
+          <li
+            className="mr-[20px] cursor-pointer"
+            onClick={() => router.push("/about")}
+          >
             About us
           </li>
           <li className="mr-[20px]">Policy Library</li>

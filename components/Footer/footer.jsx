@@ -18,7 +18,9 @@ const Footer = () => {
       className={`${
         hideSub ? "mt-[10rem]" : " mt-[20rem]"
       } w-[100%] relative pb-[5rem] bg-[#321C77] ${
-        router.route.includes("sign") ? "hidden" : "block"
+        router.route.includes("sign") || router.route.includes("dashboard")
+          ? "hidden"
+          : "block"
       }`}
     >
       <div
