@@ -1,21 +1,22 @@
 import { Button } from "../Button/button";
 import { TextInput1, SelectInput } from "../Foms/form";
 import { useDispatch, useSelector } from "react-redux";
-import { showPackageModal } from "../../src/store/slices";
+import { showPackageModal, setDisplayedProposal } from "../../src/store/slices";
 import { Location, Round, Date } from "../SVG/Small";
 import { useRouter } from "next/router";
+import styles from "./Modals.module.css";
 export const CarModal = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const showModal = useSelector(({ state }) => state.showPackageModal);
   return (
     <div
       className={`w-[100%] ${
-        showModal ? "block" : "hidden"
+        showModal === "car" ? "block" : "hidden"
       } flex justify-center items-center fixed  top-0 left-0 z-[200] h-[100vh]`}
     >
       <div
         onClick={() => {
-          console.log(showModal);
           dispatch(showPackageModal(""));
         }}
         className="absolute top-0 left-0 w-[100%] h-[100%] bg-black opacity-[0.63]"
@@ -32,6 +33,62 @@ export const CarModal = () => {
         <Button
           text={"Proceed"}
           className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
+          onClick={() => {
+            dispatch(setDisplayedProposal("motor"));
+            dispatch(showPackageModal(""));
+            router.push("/companies");
+          }}
+        ></Button>
+      </div>
+    </div>
+  );
+};
+export const CarTermsModal = () => {
+  const dispatch = useDispatch();
+  const showModal = useSelector(({ state }) => state.showPackageModal);
+  return (
+    <div
+      className={`w-[100%] ${
+        showModal == "carterms" ? "block" : "hidden"
+      } flex justify-center items-center fixed  top-0 left-0 z-[200] h-[100vh]`}
+    >
+      <div
+        onClick={() => {
+          dispatch(showPackageModal(""));
+        }}
+        className="absolute top-0 left-0 w-[100%] h-[100%] bg-black opacity-[0.63]"
+      ></div>
+      <div className="w-[40%] px-[40px] py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
+        <p className="text-[#33496A] text-[20px] text-center font-bold leading-[53px]">
+          Third Party Fire Insurance
+        </p>
+        <div>
+          <p
+            className={`${styles.scrollbarhide} text-[#77869B] text-[14px] leading-[30px] h-[250px] overflow-y-scroll`}
+          >
+            Far far away, behind the word mountains, far from the countries
+            Vokalia and Consonantia, there live the blind texts. Separated they
+            live in Bookmarksgrove right at the coast of the Semantics, a large
+            language ocean. A small river named Duden flows by their place and
+            supplies it with the necessary regelialia. It is a paradisematic
+            country, in which roasted parts of sentences fly into your mouth.
+            Even the all-powerful Pointing has no control about the blind texts
+            it is an almost unorthographic life One day however a small line of
+            blind text by the name of Lorem Ipsum decided to leave for the far
+            World of Grammar. The Big Oxmox advised her not to do so, because
+            there were thousands of bad Commas, wild Question Marks and devious
+            Semikoli, but the Little Blind Text didn’t listen. She packed her
+            seven versalia, put her initial into the belt and made herself on
+            the way. When she reached the first hills of the Italic Mountains,
+            she had a last view back on the skyline of her hometown
+            Bookmarksgrove, the headline{" "}
+          </p>
+        </div>
+
+        <Button
+          text={"Proceed"}
+          className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
+          onClick={() => dispatch(showPackageModal("car"))}
         ></Button>
       </div>
     </div>
@@ -116,6 +173,8 @@ export const TravelModal = () => {
           text={"Proceed"}
           className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
           onClick={() => {
+            dispatch(setDisplayedProposal("travel"));
+            dispatch(showPackageModal(""));
             router.push("/companies");
           }}
         ></Button>
@@ -169,6 +228,8 @@ export const HealthModal = () => {
           text={"Proceed"}
           className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
           onClick={() => {
+            dispatch(setDisplayedProposal("health"));
+            dispatch(showPackageModal(""));
             router.push("/companies");
           }}
         ></Button>

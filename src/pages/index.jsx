@@ -114,7 +114,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div
-          className={`${styles.Firstsection} z-50 flex justify-between items-center  pt-[90px] px-[10%]`}
+          className={`${styles.Firstsection} z-50 flex justify-between items-center h-[100vh] px-[10%]`}
         >
           <div className="text-white w-[50%]">
             <h1 className="text-[48px] leading-[69px]">
@@ -130,7 +130,7 @@ export default function Home() {
               <Twist></Twist>
             </div>
           </div>
-          <div className="relative w-[50%] ml-[200px] ">
+          <div className="absolute bottom-[0px]  right-[5%]  ">
             <div className=" absolute right-[60px] bottom-[60px] w-[200px]  bg-white rounded-[12px] py-[10px] px-[20px]">
               <div className="absolute top-[-10px] left-[-10px] ">
                 <QuoteMain></QuoteMain>
@@ -163,7 +163,9 @@ export default function Home() {
               src="/assets/mainbg.svg"
               width={404}
               height={605}
-              className=""
+              loading="eager"
+              
+              className="mr-[50px]"
               alt="img"
             />
           </div>

@@ -1,5 +1,7 @@
+import { showPackageModal } from "@/store/slices";
 import Image from "next/image";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export const PackageCard = ({ img, text, onClick }) => {
   return (
@@ -68,16 +70,7 @@ export const CommentCard = ({ img, name, comment, className }) => {
   );
 };
 
-export const ProductCard = ({
-  className,
-  head,
-  dropClass,
-  subhead,
-  orange,
-  drop,
-  onClick,
-}) => {
-  const [dropDown, setDrop] = useState(false);
+export const ProductCard = ({ className, head, subhead, orange, onClick }) => {
   return (
     <div
       className={`px-[40px] w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
@@ -141,10 +134,15 @@ export const ProductCard1 = ({
   dropClass,
   subhead,
   orange,
-  drop,
-  onClick,
 }) => {
   const [dropDown, setDrop] = useState(false);
+  const dispatch = useDispatch();
+  const [buttonInput, setbuttonInput] = useState("Select Package");
+  const options = [
+    "Third Party Insurance",
+    "Third Party Fire and Theft Insurace",
+    "Third Party and Fire Insurance",
+  ];
   return (
     <div
       className={`px-[40px] w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
@@ -192,43 +190,47 @@ export const ProductCard1 = ({
         ))}
       </div>
       <div
-        onClick={onClick}
+        onClick={() => {
+          if (buttonInput !== "Select Package") {
+            dispatch(showPackageModal("carterms"))
+          }
+        }}
         className={`${
-          orange ? "bg-[#ffffff] text-[#FF7C03]" : "bg-[#FF7C03] text-white"
-        } w-[100%] rounded-[6px] cursor-pointer font-bold flex justify-center py-[10px] text-[15px] `}
+          orange ? "bg-[#ffffff]  text-[#FF7C03]" : "bg-[#FF7C03] text-white"
+        } w-[100%] rounded-[6px] whitespace-nowrap  cursor-pointer font-bold flex justify-center py-[10px] ${
+          buttonInput.length > 20 ? "text-[12px]" : "text-[15px]"
+        } `}
       >
-        <p className="tracking-[0.05em]"> Select Package </p>
-        {drop ? (
-          <Image
-            className="ml-[5px]"
-            src={"/assets/down.svg"}
-            alt=""
-            width={10}
-            height={10}
-          ></Image>
-        ) : (
-          ""
-        )}
+        <p className="tracking-[0.05em] "> {buttonInput} </p>
+
+        <Image
+          className="ml-[5px]"
+          src={"/assets/down.svg"}
+          alt=""
+          width={10}
+          height={10}
+          onClick={() => setDrop(!dropDown)}
+        ></Image>
       </div>
-      {drop ? (
-        <div
-          className={`w-[80%] absolute bottom-[-100px] left-[50%] ${
-            dropDown ? "block" : "hidden"
-          } py-[10px] transform translate-x-[-50%] ${dropClass}`}
-        >
-          <p className="text-[15px] leading-[25px] tracking-[2%] text-[#77869B] hover:bg-[#FF7C03] hover:text-white px-[10px] py-[3px]">
-            Third Party Insurance
+
+      <div
+        className={`w-[80%] absolute bottom-[-100px] left-[50%] ${
+          dropDown ? "block" : "hidden"
+        } py-[10px] transform translate-x-[-50%] ${dropClass}`}
+      >
+        {options.map((data,i) => (
+          <p
+          key={i}
+            onClick={() => {
+              setbuttonInput(data);
+              setDrop(false);
+            }}
+            className="text-[15px] cursor-pointer whitespace-nowrap leading-[25px] tracking-[2%] text-[#77869B] hover:bg-[#FF7C03] hover:text-white px-[10px] py-[3px]"
+          >
+            {data}
           </p>
-          <p className="text-[15px] leading-[25px] tracking-[2%] text-[#77869B] hover:bg-[#FF7C03] hover:text-white px-[10px] py-[3px]">
-            Third Party Fire and Theft Insurace
-          </p>
-          <p className="text-[15px] leading-[25px] tracking-[2%] text-[#77869B] hover:bg-[#FF7C03] hover:text-white px-[10px] py-[3px]">
-            Third Party and Fire Insurance
-          </p>
-        </div>
-      ) : (
-        ""
-      )}
+        ))}
+      </div>
     </div>
   );
 };

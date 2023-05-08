@@ -1,14 +1,14 @@
 import styles from "./UploadCard.module.css";
 
 import { Camera, File, Upload } from "../SVG/Small";
-const UploadCard = ({ name, setName, identity }) => {
+const UploadCard = ({ name, setName, identity ,fill}) => {
   return (
     <div className="w-[250px]">
       <div
         className={`${styles.BorderDashed} w-[250px] flex flex-col py-[50px] items-center px-[25px] `}
       >
         <span className={`${styles.Shadow3}  rounded-[6px] p-[15px]`}>
-          <File></File>
+          <File fill={fill}></File>
         </span>
         <p className="text-[#6C829B] my-[15px] text-[14px] leading-[25px]">
           {name}

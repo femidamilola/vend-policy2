@@ -1,6 +1,6 @@
 import { ProductCard,ProductCard1 } from "../../../components/Cards/card";
 import styles from "./Product.module.css";
-import { CarModal,HealthModal,TravelModal } from "../../../components/Modals/Modals";
+import { CarModal,HealthModal,TravelModal,CarTermsModal } from "../../../components/Modals/Modals";
 import { useDispatch, useSelector } from "react-redux";
 import { showPackageModal } from "../../store/slices";
 import { useEffect } from "react";
@@ -15,6 +15,7 @@ const Product = () => {
       <CarModal></CarModal>
       <HealthModal></HealthModal>
       <TravelModal></TravelModal>
+      <CarTermsModal></CarTermsModal>
       <div
         className={`${styles.Main} flex flex-col justify-center items-center py-[15rem] w-[100%] text-white`}
       >
