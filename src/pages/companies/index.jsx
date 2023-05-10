@@ -4,7 +4,7 @@ import { Button } from "../../../components/Button/button";
 import { useRouter } from "next/router";
 const Company = () => {
   const router = useRouter();
-  console.log("");
+  
   const Header = ({ img, location, price }) => (
     <div className="w-[100%] px-[25px] py-[40px] flex flex-col items-center">
       <Image
