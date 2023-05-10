@@ -2,7 +2,7 @@ import { showPackageModal } from "@/store/slices";
 import Image from "next/image";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import styles from "./Card.module.css"
+import styles from "./Card.module.css";
 import { DashboardButton } from "components/Button/button";
 export const PackageCard = ({ img, text, onClick }) => {
   return (
@@ -235,14 +235,24 @@ export const ProductCard1 = ({
     </div>
   );
 };
-export const DashboardCard = ({ type, svg, company, btnText }) => {
+export const DashboardCard = ({
+  type,
+  svg,
+  company,
+  btnText,
+  color,
+  background,
+  borderbuttom,
+}) => {
   return (
     <div
-      className={`w-[200px] border-b border-b-[#F5564C] border-b-[5px] py-[20px] rounded-[8px] flex flex-col items-center ${styles.Card}`}
+      className={`w-[200px] border-b ${borderbuttom} border-b-[5px] py-[20px] rounded-[8px] flex flex-col items-center ${styles.Card}`}
     >
-      <div className="flex px-[15px] py-[5px] bg-medical w-[100px] rounded-[4px]">
+      <div
+        className={`flex px-[15px] h-[30px] justify-center ${background} items-center  w-[100px] rounded-[4px]`}
+      >
         {svg}
-        <p className="text-[#FF7777] text-[13px]">{type}</p>
+        <p className={` ${color} ml-[4px] text-[13px]`}>{type}</p>
       </div>
       <p className="text-common  px-[30px] text-center py-[30px] text-[16px] font-bold">
         {company}
