@@ -160,7 +160,7 @@ export default function Home() {
             ></Image>
             <Image
               priority={true}
-              src="/assets/mainbg.svg"
+              src="/assets/mainimg.png"
               width={404}
               height={605}
               loading="eager"
@@ -202,7 +202,7 @@ export default function Home() {
             <Image
               width={414}
               height={358}
-              src={"/assets/smile.svg"}
+              src={"/assets/smile.png"}
               alt="img"
             ></Image>
             <div className="flex absolute bottom-[-40px] left-[30px] z-[-30]">
@@ -361,7 +361,7 @@ export default function Home() {
                 <div className="grid m-auto" key={i}>
                   <Image
                     className="mb-[20px]"
-                    src={`assets/partner${i + 1}.svg`}
+                    src={`/assets/partner${i + 1}.png`}
                     width={130}
                     height={100}
                     alt=""

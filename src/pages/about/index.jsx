@@ -38,7 +38,7 @@ const About = () => {
         </div>
       </div>
       <div className="px-[15%] flex justify-between mt-[5rem]">
-        <Image src={"/assets/aboutimg1.svg"} width={318} height={200} loading="eager" alt=""></Image>
+        <Image src={"/assets/aboutimg1.jpg"} width={417} height={400} loading="eager" alt=""></Image>
         <div className="w-[40%]">
           <p className="text-[#FF7C03] font-bold">WHAT WE DO</p>
           <div className="flex">
@@ -171,7 +171,7 @@ const About = () => {
               <div className="grid m-auto" key={i}>
                 <Image
                   className="mb-[20px]"
-                  src={`assets/partner${i + 1}.svg`}
+                  src={`/assets/partner${i + 1}.png`}
                   width={130}
                   height={100}
                   alt=""
