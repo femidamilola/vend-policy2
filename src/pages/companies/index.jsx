@@ -9,7 +9,7 @@ const Company = () => {
       <Image
         width={130}
         height={50}
-        src={`/assets/partner${img}.svg`}
+        src={`/assets/partner${img}.png`}
         alt=""
       ></Image>
       <p style={{ color: "rgba(55, 68, 83, 0.44)" }} className="text-[15px]">
