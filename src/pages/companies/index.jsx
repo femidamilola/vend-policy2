@@ -4,6 +4,7 @@ import { Button } from "../../../components/Button/button";
 import { useRouter } from "next/router";
 const Company = () => {
   const router = useRouter();
+  console.log("");
   const Header = ({ img, location, price }) => (
     <div className="w-[100%] px-[25px] py-[40px] flex flex-col items-center">
       <Image
@@ -12,6 +13,7 @@ const Company = () => {
         src={`/assets/partner${img}.png`}
         alt=""
       ></Image>
+
       <p style={{ color: "rgba(55, 68, 83, 0.44)" }} className="text-[15px]">
         {location}
       </p>
