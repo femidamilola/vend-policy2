@@ -1,7 +1,7 @@
 import styles from "./Proposal.module.css";
 import { GreaterThan, LeftArrow } from "../SVG/Small";
 import UploadCard from "../UploadCard";
-import { TextInput1 } from "../Foms/form";
+import { TextInput1 } from "../Forms/form";
 import PhoneInput from "react-phone-input-2";
 import { Button } from "../Button/button";
 import "react-phone-input-2/lib/style.css";

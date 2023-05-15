@@ -22,14 +22,16 @@ import {
   CarouselCard,
   CommentCard,
 } from "../../components/Cards/card";
+import { useDispatch, useSelector } from "react-redux";
+import { setPurchaseProps } from "@/store/purchaseSlice";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 export default function Home() {
   const packages = [
-    { text: "Motor", img: <Motor></Motor> },
-    { img: <Health></Health>, text: "Health" },
-    { img: <Travel></Travel>, text: "Travel" },
+    { text: "Motor", img: <Motor></Motor>, productType: "Motor Insurance" },
+    { img: <Health></Health>, text: "Health", productType: "Health Insurance" },
+    { img: <Travel></Travel>, text: "Travel", productType: "Travel Insurance" },
     { img: <ReviewPolicy></ReviewPolicy>, text: "Review your policy" },
   ];
 
@@ -64,6 +66,8 @@ export default function Home() {
       text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst ",
     },
   ];
+
+  const dispatch = useDispatch();
   const settings = {
     speed: 500,
     slidesToShow: 3,
@@ -94,6 +98,8 @@ export default function Home() {
     infinite: true,
   };
   const router = useRouter();
+  const states = useSelector((state) => console.log(state));
+
   return (
     <div>
       <Head>
@@ -164,7 +170,6 @@ export default function Home() {
               width={404}
               height={605}
               loading="eager"
-              
               className="mr-[50px]"
               alt="img"
             />
@@ -181,6 +186,12 @@ export default function Home() {
               <div key={data.img} className="w-[20%]">
                 <PackageCard
                   onClick={() => {
+                    if (!data.text.toLowerCase().includes("renew")) {
+                      dispatch(
+                        setPurchaseProps({ productType: data.productType })
+                      );
+                      console.log(states);
+                    } else "";
                     router.push("/product");
                   }}
                   img={data.img}

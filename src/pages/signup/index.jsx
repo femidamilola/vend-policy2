@@ -2,14 +2,43 @@ import styles from "./Signup.module.css";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../../../components/Button/button";
-import { TextInput1, TextInput2 } from "../../../components/Foms/form";
+import { TextInput1, TextInput2 } from "../../../components/Forms/form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useRouter } from "next/router";
+import { useSignUpMutation } from "../../api/apiSlice";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { data } from "autoprefixer";
+import { redirect } from "next/dist/server/api-utils";
 const Signin = () => {
   const [section, setSection] = useState("verification");
   const [checked, setChecked] = useState([1, 0, 0]);
+  const [userDetails, setUserDetails] = useState({});
   const router = useRouter();
+  const [signUp] = useSignUpMutation();
+  const schema = yup.object().shape({
+    fullName: yup.string().required("Fullname is required"),
+    email: yup.string().required("Email address is required"),
+    bvnData: yup.string().required("BVN is required").length(11),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters long")
+      .matches(
+        /^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        "Password must contain a capital letter and a special character"
+      ),
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   let main = <div></div>;
 
   if (section == "registered") {
@@ -53,20 +82,75 @@ const Signin = () => {
           inputClass={"outline-0 px-[10px]"}
           label={"Full Name"}
           className={"mt-[3rem]"}
+          Formvals={{ ...register("fullName", { required: true }) }}
+          formError={
+            errors.fullName && (
+              <span className="text-major">This field is required</span>
+            )
+          }
+        ></TextInput1>
+        <TextInput1
+          inputClass={"outline-0 px-[10px]"}
+          label={"Email Address"}
+          className={"mt-[10px]"}
+          Formvals={{ ...register("email", { required: true }) }}
+          formError={
+            errors.email && (
+              <span className="text-major">This field is required</span>
+            )
+          }
+        ></TextInput1>
+        <TextInput1
+          inputClass={"outline-0 px-[10px]"}
+          label={"Password"}
+          className={"mt-[1rem]"}
+          Formvals={{
+            ...register("password", { required: true, minLength: 8 }),
+          }}
+          formError={
+            errors.password && (
+              <span className="text-major">{errors.password.message}</span>
+            )
+          }
         ></TextInput1>
 
         <TextInput1
           inputClass={"outline-0 px-[10px]"}
           label={"Bank verification number"}
           className={"mt-[1rem]"}
+          Formvals={{
+            ...register("bvnData", {
+              required: true,
+              minLength: 11,
+              maxLength: 11,
+            }),
+          }}
+          formError={
+            errors.bvnData && (
+              <span className="text-major">This field is required</span>
+            )
+          }
         ></TextInput1>
         <Button
           text={"Next"}
-          onClick={() => {
-            setSection("confirm");
-            console.log(checked);
-            setChecked([1, 2, 0]);
-          }}
+          onClick={handleSubmit((data) => {
+            signUp(data)
+              .unwrap()
+              .then((payload) => {
+                console.log("fulfilled", payload);
+                setUserDetails(payload.bvnData);
+                setSection("confirm");
+                setChecked([1, 2, 0]);
+              })
+              .catch((error) => {
+                console.error("rejected", error);
+                if (error.data.message === "email exists already") {
+                  router.push("/signin");
+                } else {
+                  ("");
+                }
+              });
+          })}
           className={`w-[100%] my-[2rem] rounded-[5px] ${styles.Button}`}
         ></Button>
       </div>
@@ -84,31 +168,41 @@ const Signin = () => {
         <div className="flex justify-between mt-[3rem]">
           <div className="w-[70%]">
             {" "}
-            <TextInput2 className={""} label={"Full Name"}></TextInput2>
+            <TextInput2
+              className={""}
+              label={"Full Name"}
+              value={userDetails?.firstName + " " + userDetails?.lastName}
+            ></TextInput2>
           </div>
           <div className="w-[25%]" label={"Date of Birth"}>
             {" "}
-            <TextInput2 label={"Date Of Birth"}></TextInput2>
+            <TextInput2
+              label={"Date Of Birth"}
+              value={userDetails?.dateOfBirth}
+            ></TextInput2>
           </div>
         </div>
-        <TextInput2 label={"Residential address"}></TextInput2>
+        <TextInput2
+          label={"Residential address"}
+          value={"University of Lagos, Akoka."}
+        ></TextInput2>
         <div className="flex justify-between items-center">
           <div className="w-[60%]">
             <label className="text-confirmlabel text-[16px]" htmlFor="">
               Phone Number
             </label>
             <PhoneInput
-              country={"us"}
+              country={userDetails?.country.toLowerCase()}
               inputClass={`my-[7px] ${styles.InputClass}`}
               buttonClass={`${styles.Dropdown}`}
-              
+              value={"234" + userDetails?.mobile}
               onChange={() => {
                 "";
               }}
             ></PhoneInput>
           </div>
           <div className="w-[35%]">
-            <TextInput2 label={"City"}></TextInput2>
+            <TextInput2 label={"City"} value={"Lagos"}></TextInput2>
           </div>
         </div>
         <div className="flex mt-[2rem] items-center">
@@ -142,10 +236,10 @@ const Signin = () => {
         alt=""
       ></Image>
       <div
-        className={`flex flex-col pt-[10rem] items-center w-[65%] ${styles.Firstsection}`}
+        className={`flex flex-col pt-[20px] items-center w-[65%] ${styles.Firstsection}`}
       >
         <div className="w-[60%]">
-          <div className="flex w-[100%] mb-[3rem]  justify-between">
+          <div className="flex w-[100%] mb-[2rem]  justify-between">
             {checked.map((data, i) => (
               <p
                 key={i}

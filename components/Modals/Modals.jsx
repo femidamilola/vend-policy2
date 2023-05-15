@@ -1,10 +1,12 @@
 import { Button } from "../Button/button";
-import { TextInput1, SelectInput } from "../Foms/form";
+import { TextInput1, SelectInput } from "../Forms/form";
 import { useDispatch, useSelector } from "react-redux";
 import { showPackageModal, setDisplayedProposal } from "../../src/store/slices";
+import { setPurchaseProps } from "../../src/store/purchaseSlice";
 import { Location, Round, Date } from "../SVG/Small";
 import { useRouter } from "next/router";
 import styles from "./Modals.module.css";
+import { useForm } from "react-hook-form";
 export const CarModal = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -183,6 +185,11 @@ export const TravelModal = () => {
   );
 };
 export const HealthModal = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const dispatch = useDispatch();
   const showModal = useSelector(({ state }) => state.showPackageModal);
   const router = useRouter();
@@ -213,6 +220,7 @@ export const HealthModal = () => {
               label={"Gender"}
               options={["Male", "Female"]}
               selectClass={"outline-0"}
+              Formprops={{ ...register("gender") }}
             ></SelectInput>
           </div>
           <div className="w-[45%]">
@@ -220,6 +228,7 @@ export const HealthModal = () => {
               label={"Age"}
               inputClass={"outline-0 pl-[20px]"}
               className={" "}
+              Formvals={{ ...register("age") }}
             ></TextInput1>
           </div>
         </div>
@@ -227,11 +236,13 @@ export const HealthModal = () => {
         <Button
           text={"Proceed"}
           className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
-          onClick={() => {
+          onClick={handleSubmit((data) => {
             dispatch(setDisplayedProposal("health"));
             dispatch(showPackageModal(""));
+            
+            dispatch(setPurchaseProps(data));
             router.push("/companies");
-          }}
+          })}
         ></Button>
       </div>
     </div>

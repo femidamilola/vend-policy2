@@ -12,17 +12,10 @@ export const modalSlice = createSlice({
     showPackageModal: (state, action) => {
       state.showPackageModal = action.payload;
     },
-  },
-});
-export const { showPackageModal } = modalSlice.actions;
-// Action creators are generated for each case reducer function
-export const proposalSlice = createSlice({
-  name: "show_carmodal",
-  initialState,
-  reducers: {
     setDisplayedProposal: (state, action) => {
       state.displayedProposal = action.payload;
     },
   },
 });
-export const { setDisplayedProposal } = proposalSlice.actions;
+export const { showPackageModal, setDisplayedProposal } = modalSlice.actions;
+// Action creators are generated for each case reducer function

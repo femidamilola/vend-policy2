@@ -2,10 +2,12 @@ import styles from "./Company.module.css";
 import Image from "next/image";
 import { Button } from "../../../components/Button/button";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { setPurchaseProps } from "../../store/purchaseSlice";
 const Company = () => {
   const router = useRouter();
-  
-  const Header = ({ img, location, price }) => (
+  const dispatch = useDispatch();
+  const Header = ({ img, location, price, onClick }) => (
     <div className="w-[100%] px-[25px] py-[40px] flex flex-col items-center">
       <Image
         width={130}
@@ -23,9 +25,7 @@ const Company = () => {
       <Button
         text={"Select package"}
         className={"w-[100%] rounded-[5px] mt-[10px]"}
-        onClick={() => {
-          router.push("/companies/details");
-        }}
+        onClick={onClick}
       ></Button>
     </div>
   );
@@ -36,6 +36,27 @@ const Company = () => {
     { name: "Medical Coverage", checks: [0, 1, 1] },
     { name: "Emergency Roadside Assistance", checks: [1, 1, 0] },
   ];
+
+  const companyData = [
+    {
+      nameOfPackage: "Axa Mansard Insurance",
+      img: 1,
+      location: "Lagos, Nigeria",
+      price: "N 23,000.00/yr",
+    },
+    {
+      nameOfPackage: "NSIA Insurance",
+      img: 7,
+      location: "PH, Nigeria",
+      price: "N 24,000.00/yr",
+    },
+    {
+      nameOfPackage: "Lasaco Assurance PLC",
+      img: 12,
+      location: "Lagos, Nigeria",
+      price: "N 27,000.00/yr",
+    },
+  ];
   const Pass = () => (
     <div className=" ">
       <div className="w-[20px] h-[20px] flex justify-center items-center rounded-[50%] bg-major">
@@ -43,6 +64,7 @@ const Company = () => {
       </div>
     </div>
   );
+  const states = useSelector((state) => state.purchaseState);
   return (
     <div className="">
       <div className={`${styles.Main} py-[10rem] flex justify-center`}>
@@ -99,27 +121,26 @@ const Company = () => {
           <thead>
             <tr className="">
               <th></th>
-              <th className="pb-[30px]">
-                <Header
-                  img={1}
-                  location={"Lagos, Nigeria"}
-                  price={"N 23,000.00/yr"}
-                ></Header>
-              </th>
-              <th className="pb-[30px]">
-                <Header
-                  img={7}
-                  location={"PH, Nigeria"}
-                  price={"N 24,000.00/yr"}
-                ></Header>
-              </th>
-              <th className="pb-[30px]">
-                <Header
-                  img={12}
-                  location={"Lagos, Nigeria"}
-                  price={"N 27,000.00/yr"}
-                ></Header>
-              </th>
+              {companyData.map((data,i) => (
+                <th key={i}  className="pb-[30px]">
+                  <Header
+                    img={data.img}
+                    location={data.location}
+                    price={data.price}
+                    onClick={() => {
+                      dispatch(
+                        setPurchaseProps({
+                          nameOfPackage: data.nameOfPackage,
+                          location: data.location,
+                          nicRegulated: false,
+                        })
+                      );
+                      console.log(states);
+                      router.push("/companies/details");
+                    }}
+                  ></Header>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="pt-[30px]">

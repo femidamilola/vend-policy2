@@ -2,11 +2,15 @@ import Image from "next/image";
 import { Heart, Notification, Plane, Bike } from "../../../components/SVG/Svg";
 import styles from "./Dashboard.module.css";
 import { DashboardButton } from "../../../components/Button/button";
+import { useRouter } from "next/router";
 import { DashboardCard } from "../../../components/Cards/card";
 import dynamic from "next/dynamic";
-const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+import { useGetPackagesQuery } from "../../api/apiSlice";
+import { useEffect } from "react";
 
+const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const Dashboard = () => {
+  const router = useRouter();
   const MedIcon = (
     <div className="h-[20px] w-[30px] bg-medical flex justify-center items-center rounded-[4px]">
       <Heart fill="#FF7777"></Heart>
@@ -35,6 +39,21 @@ const Dashboard = () => {
       </div>
     );
   };
+  const {
+    data: packages,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetPackagesQuery();
+
+  useEffect(() => {
+    if (packages) {
+      console.log(packages);
+    } else if (isError) {
+      console.log(error);
+    }
+  }, []);
   const tableData = [
     {
       claims: (
@@ -288,9 +307,9 @@ const Dashboard = () => {
             Active Packages
           </p>
           <div className="flex justify-between w-[100%]">
-            {actives.map((data,i) => (
+            {actives.map((data, i) => (
               <DashboardCard
-              key={i}
+                key={i}
                 svg={data.svg}
                 background={data.background}
                 type={data.type}
@@ -308,7 +327,7 @@ const Dashboard = () => {
           Expired Packages
         </p>
         <div className="flex  w-[100%]">
-          {expired.map((data,i) => (
+          {expired.map((data, i) => (
             <div key={i} className="mr-[40px]">
               <DashboardCard
                 svg={data.svg}
@@ -363,7 +382,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody className={`w-[100%] px-[20px] pt-[30px]`}>
-                {tableData.map((data,i) => (
+                {tableData.map((data, i) => (
                   <tr key={i} className=" w-[100%] ">
                     <td className="text-center py-[15px]">{data.claims}</td>
                     <td className="text-center text-common text-[14px]">
@@ -379,7 +398,9 @@ const Dashboard = () => {
                 ))}
               </tbody>
             </table>
-            <p className="relative top-[20px] cursor-pointer text-[12px] text-major">Back to Home Page</p>
+            <p className="relative top-[20px] cursor-pointer text-[12px] text-major">
+              Back to Home Page
+            </p>
           </div>
         </div>
       </div>

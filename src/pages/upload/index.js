@@ -7,15 +7,15 @@ import MotorForm from "../../../components/ProposalForm/MotorForm";
 import HealthForm from "../../../components/ProposalForm/HealthForm";
 const FileUpload = () => {
   const displayedModal = useSelector(
-    ({ proposalState }) => proposalState.displayedProposal
+    ({ purchaseState }) => purchaseState.proposalBody
   );
   console.log(displayedModal);
   let sectionDisplayed = <div></div>;
-  if (displayedModal === "motor") {
+  if (displayedModal.productType.includes("Motor")) {
     sectionDisplayed = <MotorForm></MotorForm>;
-  } else if (displayedModal === "travel") {
+  } else  if (displayedModal.productType.includes("Travel")) {
     sectionDisplayed = <TravelForm></TravelForm>;
-  } else if (displayedModal === "health") {
+  } else  if (displayedModal.productType.includes("Health")) {
     sectionDisplayed = <HealthForm></HealthForm>;
   }
 

@@ -12,9 +12,9 @@ const Details = () => {
       </div>
       <div className={`mt-[250px] flex   `}>
         <div
-          className={`${styles.Filter} bg-white px-[15px] justify-self-start py-[10px] rounded-[5px] border border-[#FF7C03]`}
+          className={`${styles.Filter} bg-white px-[15px] justify-self-start py-[10px] rounded-[5px]`}
         >
-          <Image width={133} height={52} src={"/assets/partner3.svg"}></Image>
+          <Image width={133} height={52} src={"/assets/partner3.png"}></Image>
         </div>
       </div>
       <div className="mt-[3rem]">

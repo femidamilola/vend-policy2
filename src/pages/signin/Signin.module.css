@@ -1,9 +1,13 @@
-.Secondsection{
-    background: linear-gradient(196.18deg, #422695 3.2%, #6446D7 98.25%);
+.Secondsection {
+  background: linear-gradient(196.18deg, #422695 3.2%, #6446d7 98.25%);
 }
-.Firstsection{
-    background: #FFFFFF;
+.Firstsection {
+  background: #ffffff;
 }
-.Button{
-    border-radius: 5px;
+.Button {
+  border-radius: 5px;
+}
+.Shadow {
+  box-shadow: 0px 7px 32px 1px rgba(0, 0, 0, 0.09);
+  border-radius: 10px;
 }

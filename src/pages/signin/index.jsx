@@ -1,11 +1,24 @@
 import styles from "./Signin.module.css";
 import Image from "next/image";
 import { Button } from "../../../components/Button/button";
-import { TextInput1 } from "../../../components/Foms/form";
+import { TextInput1 } from "../../../components/Forms/form";
 import { useRouter } from "next/router";
+import { useSignInMutation } from "../../api/apiSlice";
+import { set, useForm } from "react-hook-form";
+import { useState } from "react";
+import { setCookie } from "cookies-next";
 
 const Signin = () => {
   const router = useRouter();
+  const [userDetails, setUserDetails] = useState({});
+  const [error, setError] = useState({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [passType, setPasType] = useState(false);
+  const [signIn] = useSignInMutation();
   return (
     <div className="h-[100vh] overflow-y-hidden relative flex w-[100%]">
       <Image
@@ -25,8 +38,17 @@ const Signin = () => {
           <p className="text-[#77869B] text-[16px] leading-[25px]">
             Login to start managing your account today
           </p>
+          <p
+            className={`${
+              error?.status ? "block" : "hidden"
+            } text-center text-[#B10808] text-[16px] px-[20px] py-[5px] bg-white border-[#B10808] `}
+          >
+            Invalid username or password
+          </p>
+
           <TextInput1
             inputClass={"outline-0 px-[10px]"}
+            Formvals={{ ...register("email", { required: true }) }}
             label={"Email address"}
             className={"mt-[3rem]"}
           ></TextInput1>
@@ -37,12 +59,14 @@ const Signin = () => {
             <div className="relative">
               <input
                 className="w-[100%] outline-0 px-[10px] text-[14px] py-[10px] my-[7px] text-[#6C829B] border border-[#E0E0E0] rounded-[5px]"
-                type="text"
+                type={`${passType === false ? "password" : "text"}`}
+                {...register("password", { register: true })}
               />
               <Image
                 width={15}
                 height={10}
                 className="absolute top-[50%] right-[5px] transform translate-y-[-50%]"
+                onClick={() => setPasType(!passType)}
                 src={"/assets/eye.svg"}
               ></Image>
             </div>
@@ -50,9 +74,22 @@ const Signin = () => {
           <Button
             text={"Sign in"}
             className={`w-[100%] my-[2rem] rounded-[5px] ${styles.Button}`}
-            onClick={() => {
-              router.push("/dashboard");
-            }}
+            onClick={handleSubmit((data) => {
+              signIn(data)
+                .unwrap()
+                .then((payload) => {
+                  setCookie("token", payload?.token, {
+                    path: "/",
+                    secure: true,
+                  });
+                  setUserDetails(payload?.data);
+                  router.push("/dashboard");
+                })
+                .catch((error) => {
+                  setError(error?.data);
+                  console.log(error);
+                });
+            })}
           ></Button>
           <div className="flex justify-between">
             <div className="flex items-center">
