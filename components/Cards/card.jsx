@@ -9,7 +9,7 @@ export const PackageCard = ({ img, text, onClick }) => {
     <div
       onClick={onClick}
       style={{ border: "1px solid rgba(119, 134, 155, 0.23) " }}
-      className="flex flex-col rounded-[17px] h-[110px] w-[100%] justify-center items-center py-[20px]"
+      className="flex flex-col cursor-pointer rounded-[17px] h-[110px] w-[100%] justify-center items-center py-[20px]"
     >
       {img}
       <p className="text-[16px] text-[#2D4565] leading-[27px]">{text}</p>
@@ -74,7 +74,7 @@ export const CommentCard = ({ img, name, comment, className }) => {
 export const ProductCard = ({ className, head, subhead, orange, onClick }) => {
   return (
     <div
-      className={`px-[40px] w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
+      className={`px-[40px] w-[30%] relative ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
     >
       <h1
         className={`${
@@ -120,11 +120,11 @@ export const ProductCard = ({ className, head, subhead, orange, onClick }) => {
       </div>
       <div
         onClick={onClick}
-        className={`${
+        className={` absolute bottom-[25px] left-[50%] transform translate-x-[-50%] ${
           orange ? "bg-[#ffffff] text-[#FF7C03]" : "bg-[#FF7C03] text-white"
-        } w-[100%] rounded-[6px] cursor-pointer font-bold flex justify-center py-[10px] text-[15px] `}
+        } w-[80%] rounded-[6px] cursor-pointer font-bold flex justify-center py-[10px] text-[15px] `}
       >
-        <p className="tracking-[0.05em]"> Select Package </p>
+        <p className=" tracking-[0.05em]"> Select Package </p>
       </div>
     </div>
   );
@@ -146,7 +146,7 @@ export const ProductCard1 = ({
   ];
   return (
     <div
-      className={`px-[40px] w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
+      className={`px-[40px] relative  w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
     >
       <h1
         className={`${
@@ -191,18 +191,23 @@ export const ProductCard1 = ({
         ))}
       </div>
       <div
-        onClick={() => {
-          if (buttonInput !== "Select Package") {
-            dispatch(showPackageModal("carterms"));
-          }
-        }}
-        className={`${
+        className={` absolute bottom-[25px] left-[50%] transform translate-x-[-50%] ${
           orange ? "bg-[#ffffff]  text-[#FF7C03]" : "bg-[#FF7C03] text-white"
-        } w-[100%] rounded-[6px] whitespace-nowrap  cursor-pointer font-bold flex justify-center py-[10px] ${
+        } w-[80%] rounded-[6px] whitespace-nowrap  cursor-pointer font-bold flex justify-center py-[10px] ${
           buttonInput.length > 20 ? "text-[12px]" : "text-[15px]"
         } `}
       >
-        <p className="tracking-[0.05em] "> {buttonInput} </p>
+        <p
+          onClick={() => {
+            if (buttonInput !== "Select Package") {
+              dispatch(showPackageModal("carterms"));
+            }
+          }}
+          className="tracking-[0.05em] "
+        >
+          {" "}
+          {buttonInput}{" "}
+        </p>
 
         <Image
           className="ml-[5px]"

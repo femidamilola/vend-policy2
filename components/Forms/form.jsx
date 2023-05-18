@@ -8,6 +8,8 @@ export const TextInput1 = ({
   Formvals,
   formError,
   value,
+  onChange,
+  id,
 }) => {
   return (
     <div className={className}>
@@ -15,10 +17,13 @@ export const TextInput1 = ({
         {label}
       </label>
       <input
+        id={id}
         className={`w-[100%] pl-[10px] border text-[14px] my-[7px] outline-0 py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px] ${inputClass}`}
         type="text"
         value={value}
         {...Formvals}
+        onChange={onChange}
+        
       />
       {formError}
     </div>

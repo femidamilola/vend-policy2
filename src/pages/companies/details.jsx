@@ -3,7 +3,14 @@ import styles from "./Company.module.css";
 import { Location, Check } from "../../../components/SVG/Small";
 import { Button } from "../../../components/Button/button";
 import { useRouter } from "next/router";
+import { getCookie } from "cookies-next";
+import { useEffect, useState } from "react";
 const Details = () => {
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    const toks = getCookie("token");
+    setToken(toks);
+  }, [token]);
   const router = useRouter();
   return (
     <div className="px-[5%]">
@@ -103,7 +110,9 @@ const Details = () => {
       </div>
       <Button
         className={"mt-[4rem]"}
-        onClick={() => router.push("/upload")}
+        onClick={() => {
+          token ? router.push("/upload") : router.push("/signin");
+        }}
         text={"Buy Insurance (N33,000.00)"}
       ></Button>
     </div>

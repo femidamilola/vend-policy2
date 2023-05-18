@@ -5,7 +5,7 @@ import { TextInput1 } from "../../../components/Forms/form";
 import { useRouter } from "next/router";
 import { useSignInMutation } from "../../api/apiSlice";
 import { set, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { setCookie } from "cookies-next";
 
 const Signin = () => {
@@ -16,9 +16,11 @@ const Signin = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const [passType, setPasType] = useState(false);
-  const [signIn] = useSignInMutation();
+  const [signIn, { isLoading: signLoad }] = useSignInMutation();
+
   return (
     <div className="h-[100vh] overflow-y-hidden relative flex w-[100%]">
       <Image
@@ -38,6 +40,15 @@ const Signin = () => {
           <p className="text-[#77869B] text-[16px] leading-[25px]">
             Login to start managing your account today
           </p>
+          {signLoad ? (
+            <p
+              className={`text-center  text-[16px] px-[20px] py-[5px] bg-white border-[#B10808] `}
+            >
+              Signing in.....
+            </p>
+          ) : (
+            ""
+          )}
           <p
             className={`${
               error?.status ? "block" : "hidden"
@@ -51,6 +62,7 @@ const Signin = () => {
             Formvals={{ ...register("email", { required: true }) }}
             label={"Email address"}
             className={"mt-[3rem]"}
+            id={"email"}
           ></TextInput1>
           <div>
             <label className="text-[#77869B] text-[16px]" htmlFor="">
@@ -61,6 +73,7 @@ const Signin = () => {
                 className="w-[100%] outline-0 px-[10px] text-[14px] py-[10px] my-[7px] text-[#6C829B] border border-[#E0E0E0] rounded-[5px]"
                 type={`${passType === false ? "password" : "text"}`}
                 {...register("password", { register: true })}
+                id={"password"}
               />
               <Image
                 width={15}

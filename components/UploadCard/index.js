@@ -1,7 +1,7 @@
 import styles from "./UploadCard.module.css";
 
 import { Camera, File, Upload } from "../SVG/Small";
-const UploadCard = ({ name, setName, identity ,fill}) => {
+const UploadCard = ({ name, setName, setValue, identity, fill }) => {
   return (
     <div className="w-[250px]">
       <div
@@ -33,8 +33,10 @@ const UploadCard = ({ name, setName, identity ,fill}) => {
             </label>
             <input
               type="file"
+              accept="image/png, image/jpeg,image/jpg, .pdf"
               onChange={(e) => {
-                setName(e.target.files[0].name);
+                setName(e?.target?.files[0]?.name);
+                setValue(e?.target?.files[0]);
               }}
               className=" absolute opacity-0 top-0 left-0 w-[100%] h-[100%] cursor-pointer"
             />

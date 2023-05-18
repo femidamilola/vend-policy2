@@ -135,7 +135,6 @@ const Company = () => {
                           nicRegulated: false,
                         })
                       );
-                      console.log(states);
                       router.push("/companies/details");
                     }}
                   ></Header>

@@ -35,8 +35,30 @@ export const apiSlice = createApi({
 
       providesTags: ["Todos"],
     }),
+    ///product/health/uploadDocument
+    postForm: builder.mutation({
+      query: (form) => ({
+        url: `/product/health/submitProposalForm`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    uploadDocument: builder.mutation({
+      query: (form) => ({
+        url: `/product/health/uploadDocument`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
   }),
 });
 
-export const { useSignUpMutation, useSignInMutation, useGetPackagesQuery } =
-  apiSlice;
+export const {
+  useSignUpMutation,
+  useSignInMutation,
+  useGetPackagesQuery,
+  usePostFormMutation,
+  useUploadDocumentMutation,
+} = apiSlice;

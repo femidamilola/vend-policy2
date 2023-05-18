@@ -5,12 +5,36 @@ import { TextInput1 } from "../Forms/form";
 import PhoneInput from "react-phone-input-2";
 import { Button } from "../Button/button";
 import "react-phone-input-2/lib/style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setPurchaseProps,
+  clearPurchaseProps,
+} from "../../src/store/purchaseSlice";
+import { setProposalForm } from "../../src/store/slices";
+import axios from "axios";
+import {
+  usePostFormMutation,
+  useUploadDocumentMutation,
+} from "../../src/api/apiSlice";
+import { useForm } from "react-hook-form";
 import { PayLock, Paycard, Paypal } from "../SVG/Svg";
+
 const HealthForm = () => {
   const [section, setSection] = useState(1);
   const [id, setId] = useState("");
   let sectionDisplayed = <div></div>;
+  const [employmentData, setEmploymentData] = useState({});
+  const [postForm, { isLoading: formLoading }] = usePostFormMutation();
+  const [uploadDocument, { isLoading: uploadLoading }] =
+    useUploadDocumentMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [planSelection, setPlanSelection] = useState("");
+  const [id1, setId1] = useState("");
   const plans = [
     "FGH PEARL",
     "FGH JADE",
@@ -23,7 +47,17 @@ const HealthForm = () => {
     "FGH PLUM",
     "FGH IRIS",
   ];
-  const CheckComp = ({ name }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setId1(JSON.parse(localStorage.getItem("id")));
+  }, []);
+  const proposalTest = useSelector(({ state }) => state.proposalForm);
+  const purchasedState = useSelector(
+    ({ purchaseState }) => purchaseState.proposalBody
+  );
+
+  console.log(proposalTest);
+  const CheckComp = ({ name, onChange, checked, register }) => {
     return (
       <div className="flex flex-col items-center mr-[10px]">
         <label
@@ -36,13 +70,17 @@ const HealthForm = () => {
           <input
             type="checkbox"
             id="defaultcheck"
+            checked={checked}
+            {...register}
             className={`${styles.DefaultCheckbox}`}
+            onChange={onChange}
           />
           <div id="customcheck" className={`${styles.CustomCheckbox}`}></div>
         </div>
       </div>
     );
   };
+
   if (section === 1) {
     sectionDisplayed = (
       <div className="px-[10%] ">
@@ -55,24 +93,57 @@ const HealthForm = () => {
               <TextInput1
                 className={"w-[47%]"}
                 label={"Name of Proposer (Mr/Mrs/Ms)"}
+                Formvals={{ ...register("nameOfProposer", { required: true }) }}
+                formError={
+                  errors.nameOfProposer && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
               <TextInput1
                 className={"w-[47%]"}
                 label={"E-mail Address"}
+                Formvals={{ ...register("emailAddress", { required: true }) }}
+                formError={
+                  errors.emailAddress && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
               <TextInput1
                 className={"w-[28%]"}
                 label={"Date Of Birth"}
+                Formvals={{ ...register("dateOfBirth", { required: true }) }}
+                formError={
+                  errors.dateOfBirth && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
               <TextInput1
                 className={"w-[67%]"}
                 label={"Home Address (Full)"}
+                Formvals={{ ...register("homeAddress", { required: true }) }}
+                formError={
+                  errors.homeAddress && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
-              <TextInput1 label={"City"} className={"w-[35%]"}></TextInput1>
+              <TextInput1
+                label={"City"}
+                className={"w-[35%]"}
+                Formvals={{ ...register("mailingAdress", { required: true }) }}
+                formError={
+                  errors.mailingAdress && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
+              ></TextInput1>
               <div className="w-[35%]">
                 <label
                   className="text-[#77869B] py-[10px] text-[16px]"
@@ -80,19 +151,24 @@ const HealthForm = () => {
                 >
                   Contact Phone No
                 </label>
-                <PhoneInput
-                  country={"us"}
-                  containerClass={`${styles.ContainerClass}`}
-                  inputClass={`my-[7px] ${styles.InputClass}`}
-                  buttonClass={`${styles.Dropdown}`}
-                  onChange={() => {
-                    "";
-                  }}
-                ></PhoneInput>
+                <input
+                  className={`w-[100%] pl-[10px] border text-[14px] my-[7px] outline-0 py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px]`}
+                  type="tel"
+                  {...register("phoneNumber", { required: true })}
+                />
+                {errors.phoneNumber && (
+                  <span className="text-major">This field is required</span>
+                )}
               </div>
               <TextInput1
                 label={"Marital Status"}
                 className={"w-[25%]"}
+                Formvals={{ ...register("maritalStatus", { required: true }) }}
+                formError={
+                  errors.maritalStatus && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
             </div>
             <div className={`flex items-center py-[25px] ${styles.Line}`}>
@@ -101,7 +177,14 @@ const HealthForm = () => {
               </p>
               <div className="flex">
                 {plans.map((data) => (
-                  <CheckComp key={data} name={data}></CheckComp>
+                  <CheckComp
+                    key={data}
+                    onChange={() => {
+                      setPlanSelection(() => data);
+                    }}
+                    checked={planSelection ? planSelection === data : false}
+                    name={data}
+                  ></CheckComp>
                 ))}
               </div>
             </div>
@@ -116,20 +199,48 @@ const HealthForm = () => {
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"Name Of Company"}
+                Formvals={{ ...register("nameOfCompany", { required: true }) }}
+                formError={
+                  errors.nameOfCompany && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
                 label={"Name Of Hospital"}
+                Formvals={{ ...register("nameOfHospital", { required: true }) }}
+                formError={
+                  errors.nameOfHospital && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
             </div>
             <div className="flex  mb-[20px]">
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"Residential Address"}
+                Formvals={{
+                  ...register("residentialAddress", { required: true }),
+                }}
+                formError={
+                  errors.residentialAddress && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
                 label={"Address Of Hospital"}
+                Formvals={{
+                  ...register("choiceOfHospital", { required: true }),
+                }}
+                formError={
+                  errors.choiceOfHospital && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
             </div>
 
@@ -137,6 +248,20 @@ const HealthForm = () => {
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"LGA"}
+                Formvals={{
+                  ...register("lga", { required: true }),
+                }}
+                formError={
+                  errors.lga && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
+                onChange={(e) => {
+                  setEmploymentData(() => ({
+                    ...employmentData,
+                    lga: e.target.value,
+                  }));
+                }}
               ></TextInput1>
             </div>
           </div>
@@ -150,42 +275,134 @@ const HealthForm = () => {
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"Spouse"}
+                Formvals={{
+                  ...register("spouse", { required: true }),
+                }}
+                formError={
+                  errors.spouse && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
-              <TextInput1 className={"w-[35%]"} label={"Children"}></TextInput1>
+              <TextInput1
+                className={"w-[35%]"}
+                label={"Children"}
+                Formvals={{
+                  ...register("children", { required: true }),
+                }}
+                formError={
+                  errors.children && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
+              ></TextInput1>
             </div>
             <div className="flex  mb-[20px]">
               <TextInput1
-                className={"w-[40%] mr-[40px]"}
-                label={"Spouse"}
-              ></TextInput1>
-              <TextInput1
-                className={"w-[10%] mr-[40px]"}
-                label={"Date OF Birth"}
+                className={"w-[25%] mr-[40px]"}
+                label={"Date Of Birth"}
+                Formvals={{
+                  ...register("dob", { required: true }),
+                }}
+                formError={
+                  errors.dob && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
               <TextInput1
                 className={"w-[10%] mr-[40px]"}
                 label={"Gender"}
+                Formvals={{
+                  ...register("sex", { required: true }),
+                }}
+                formError={
+                  errors.sex && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
               <TextInput1
                 className={"w-[20%] mr-[40px]"}
                 label={"Medical Conditions"}
+                Formvals={{
+                  ...register("medicalCondition", { required: true }),
+                }}
+                formError={
+                  errors.medicalCondition && (
+                    <span className="text-major">This field is required</span>
+                  )
+                }
               ></TextInput1>
             </div>
             <div className="mt-[30px] flex items-center">
               <Button
-                onClick={() => {
-                  setSection(2);
+                onClick={handleSubmit((data) => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+
+                  const form = {
+                    personalData: {
+                      nameOfProposer: data.nameOfProposer,
+                      emailAddress: data.emailAddress,
+                      dateOfBirth: data.dateOfBirth,
+                      homeAddress: data.homeAddress,
+                      mailingAdress: data.mailingAdress,
+                      phoneNumber: data.phoneNumber,
+                      maritalStatus: data.maritalStatus,
+                      planSelection: planSelection,
+                    },
+                    employmentData: {
+                      nameOfCompany: data.nameOfCompany,
+                      residentialAddress: data.residentialAddress,
+                      lga: data.lga,
+                    },
+                    choiceOfHospital: {
+                      nameOfHospital: data.nameOfHospital,
+                      address: data.choiceOfHospital,
+                    },
+                    dependant: {
+                      spouse: data.spouse,
+                      children: data.children,
+                      dob: data.dob,
+                      sex: data.sex,
+                      medicalCondition: data.medicalCondition,
+                    },
+                  };
+                 
+                  postForm({ ...purchasedState, proposalForm: form })
+                    .unwrap()
+                    .then((payload) => {
+                      localStorage.setItem(
+                        "id",
+                        JSON.stringify(payload?.packageDetails?.userId)
+                      );
+                      setSection(() => 2);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      error.data.message ==
+                      "You have already created this package Kindly proceed to upload document"
+                        ? setSection(2)
+                        : "";
+                    });
+                })}
                 text={"Upload Documents"}
               ></Button>
-              <p className="text-[#F5564C] ml-[50px] text-[14px]">Cancel</p>
+              <p
+                className="text-[#F5564C] ml-[50px] text-[14px]"
+                onClick={() => {
+                  dispatch(clearPurchaseProps());
+                }}
+              >
+                Cancel
+              </p>
             </div>
           </div>
         </div>{" "}
       </div>
     );
   }
+  const [file, setFile] = useState("");
   if (section == 2) {
     sectionDisplayed = (
       <div className="px-[10%]">
@@ -197,13 +414,27 @@ const HealthForm = () => {
             name={id}
             setName={setId}
             identity={"Who are you? (ID verification)"}
+            setValue={setFile}
             fill={"#321C77"}
           ></UploadCard>
           <div className="mt-[30px] flex items-center">
             <Button
               onClick={() => {
-                setSection(3);
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                const formData = new FormData();
+                formData.append("id_card", file);
+                formData.append("form_id", id1);
+                uploadDocument(formData)
+                  .unwrap()
+                  .then((payload) => {
+                    console.log(payload);
+                    setSection(3);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                    console.log(formData.has("id_card"));
+                  });
+               
               }}
               text={"Proceed to payment"}
             ></Button>

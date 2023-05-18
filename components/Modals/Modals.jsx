@@ -192,6 +192,7 @@ export const HealthModal = () => {
   } = useForm();
   const dispatch = useDispatch();
   const showModal = useSelector(({ state }) => state.showPackageModal);
+  const checkPurchase = useSelector((state) => state);
   const router = useRouter();
   return (
     <div
@@ -239,8 +240,11 @@ export const HealthModal = () => {
           onClick={handleSubmit((data) => {
             dispatch(setDisplayedProposal("health"));
             dispatch(showPackageModal(""));
+            console.log(data, checkPurchase);
+            dispatch(
+              setPurchaseProps({ productType: "Health Insurance", ...data })
+            );
             
-            dispatch(setPurchaseProps(data));
             router.push("/companies");
           })}
         ></Button>

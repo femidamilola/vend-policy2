@@ -5,7 +5,7 @@ const Nav = () => {
   const router = useRouter();
   return (
     <div
-      className={`absolute z-[200] top-0 left-0 w-[100%] px-[100px] ${
+      className={`absolute z-[200] top-0 left-0 w-[100%]  px-[100px] ${
         router.route.includes("sign") || router.route.includes("dashboard")
           ? "hidden"
           : "block"

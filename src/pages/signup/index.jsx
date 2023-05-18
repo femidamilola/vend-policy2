@@ -10,8 +10,7 @@ import { useSignUpMutation } from "../../api/apiSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { data } from "autoprefixer";
-import { redirect } from "next/dist/server/api-utils";
+import { setCookie } from "cookies-next";
 const Signin = () => {
   const [section, setSection] = useState("verification");
   const [checked, setChecked] = useState([1, 0, 0]);
@@ -63,6 +62,7 @@ const Signin = () => {
         </p>
         <Button
           text={"Proceed to Product"}
+          onClick={() => router.push("/companies/details")}
           className={"w-[100%] rounded-[5px] my-[5rem]"}
         ></Button>
       </div>
@@ -137,7 +137,10 @@ const Signin = () => {
             signUp(data)
               .unwrap()
               .then((payload) => {
-                console.log("fulfilled", payload);
+                setCookie("token", payload?.token, {
+                  path: "/",
+                  secure: true,
+                });
                 setUserDetails(payload.bvnData);
                 setSection("confirm");
                 setChecked([1, 2, 0]);

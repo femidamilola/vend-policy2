@@ -9,9 +9,13 @@ export const purchaseSlice = createSlice({
   initialState,
   reducers: {
     setPurchaseProps: (state, action) => {
-      state.proposalBody = { ...state.proposalBody, ...action.payload };
+      const updated = Object.assign({}, state.proposalBody, action.payload);
+      state.proposalBody = updated;
+    },
+    clearPurchaseProps: (state, action) => {
+      state.proposalBody = { ...state.proposalBody, proposalForm: {} };
     },
   },
 });
-export const { setPurchaseProps } = purchaseSlice.actions;
+export const { setPurchaseProps, clearPurchaseProps } = purchaseSlice.actions;
 // Action creators are generated for each case reducer function

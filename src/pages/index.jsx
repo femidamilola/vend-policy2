@@ -120,7 +120,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div
-          className={`${styles.Firstsection} z-50 flex justify-between items-center h-[100vh] px-[10%]`}
+          className={`${styles.Firstsection} relative  z-50 flex justify-between items-center h-[700px] px-[10%]`}
         >
           <div className="text-white w-[50%]">
             <h1 className="text-[48px] leading-[69px]">
@@ -186,12 +186,6 @@ export default function Home() {
               <div key={data.img} className="w-[20%]">
                 <PackageCard
                   onClick={() => {
-                    if (!data.text.toLowerCase().includes("renew")) {
-                      dispatch(
-                        setPurchaseProps({ productType: data.productType })
-                      );
-                      console.log(states);
-                    } else "";
                     router.push("/product");
                   }}
                   img={data.img}

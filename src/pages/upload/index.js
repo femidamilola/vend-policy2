@@ -1,22 +1,25 @@
 import styles from "./Upload.module.css";
-
+import { useRouter } from "next/router";
 import "react-phone-input-2/lib/style.css";
 import TravelForm from "../../../components/ProposalForm/TravelForm";
 import { useSelector } from "react-redux";
 import MotorForm from "../../../components/ProposalForm/MotorForm";
 import HealthForm from "../../../components/ProposalForm/HealthForm";
 const FileUpload = () => {
+  const router = useRouter();
   const displayedModal = useSelector(
     ({ purchaseState }) => purchaseState.proposalBody
   );
   console.log(displayedModal);
   let sectionDisplayed = <div></div>;
-  if (displayedModal.productType.includes("Motor")) {
+  if (displayedModal?.productType?.includes("Motor")) {
     sectionDisplayed = <MotorForm></MotorForm>;
-  } else  if (displayedModal.productType.includes("Travel")) {
+  } else if (displayedModal?.productType?.includes("Travel")) {
     sectionDisplayed = <TravelForm></TravelForm>;
-  } else  if (displayedModal.productType.includes("Health")) {
+  } else if (displayedModal?.productType?.includes("Health")) {
     sectionDisplayed = <HealthForm></HealthForm>;
+  } else {
+    router.push("/");
   }
 
   return (
