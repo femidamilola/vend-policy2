@@ -7,6 +7,7 @@ import { Button } from "../Button/button";
 import "react-phone-input-2/lib/style.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setCookie } from "cookies-next";
 import {
   setPurchaseProps,
   clearPurchaseProps,
@@ -17,10 +18,12 @@ import {
   usePostFormMutation,
   useUploadDocumentMutation,
 } from "../../src/api/apiSlice";
+import { showPaymentModal } from "../../src/store/slices";
 import { useForm } from "react-hook-form";
 import { PayLock, Paycard, Paypal } from "../SVG/Svg";
-
+import { useRouter } from "next/router";
 const HealthForm = () => {
+  const router=useRouter()
   const [section, setSection] = useState(1);
   const [id, setId] = useState("");
   let sectionDisplayed = <div></div>;
@@ -94,21 +97,13 @@ const HealthForm = () => {
                 className={"w-[47%]"}
                 label={"Name of Proposer (Mr/Mrs/Ms)"}
                 Formvals={{ ...register("nameOfProposer", { required: true }) }}
-                formError={
-                  errors.nameOfProposer && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.nameOfProposer}
               ></TextInput1>
               <TextInput1
                 className={"w-[47%]"}
                 label={"E-mail Address"}
                 Formvals={{ ...register("emailAddress", { required: true }) }}
-                formError={
-                  errors.emailAddress && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.emailAddress}
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
@@ -116,21 +111,13 @@ const HealthForm = () => {
                 className={"w-[28%]"}
                 label={"Date Of Birth"}
                 Formvals={{ ...register("dateOfBirth", { required: true }) }}
-                formError={
-                  errors.dateOfBirth && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.dateOfBirth}
               ></TextInput1>
               <TextInput1
                 className={"w-[67%]"}
                 label={"Home Address (Full)"}
                 Formvals={{ ...register("homeAddress", { required: true }) }}
-                formError={
-                  errors.homeAddress && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.homeAddress}
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
@@ -138,11 +125,7 @@ const HealthForm = () => {
                 label={"City"}
                 className={"w-[35%]"}
                 Formvals={{ ...register("mailingAdress", { required: true }) }}
-                formError={
-                  errors.mailingAdress && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.mailingAdress}
               ></TextInput1>
               <div className="w-[35%]">
                 <label
@@ -164,11 +147,7 @@ const HealthForm = () => {
                 label={"Marital Status"}
                 className={"w-[25%]"}
                 Formvals={{ ...register("maritalStatus", { required: true }) }}
-                formError={
-                  errors.maritalStatus && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.maritalStatus}
               ></TextInput1>
             </div>
             <div className={`flex items-center py-[25px] ${styles.Line}`}>
@@ -200,21 +179,13 @@ const HealthForm = () => {
                 className={"w-[35%] mr-[40px]"}
                 label={"Name Of Company"}
                 Formvals={{ ...register("nameOfCompany", { required: true }) }}
-                formError={
-                  errors.nameOfCompany && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.nameOfCompany}
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
                 label={"Name Of Hospital"}
                 Formvals={{ ...register("nameOfHospital", { required: true }) }}
-                formError={
-                  errors.nameOfHospital && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.nameOfHospital}
               ></TextInput1>
             </div>
             <div className="flex  mb-[20px]">
@@ -224,11 +195,7 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("residentialAddress", { required: true }),
                 }}
-                formError={
-                  errors.residentialAddress && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.residentialAddress}
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
@@ -236,11 +203,7 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("choiceOfHospital", { required: true }),
                 }}
-                formError={
-                  errors.choiceOfHospital && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.choiceOfHospital}
               ></TextInput1>
             </div>
 
@@ -251,11 +214,7 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("lga", { required: true }),
                 }}
-                formError={
-                  errors.lga && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.lga}
                 onChange={(e) => {
                   setEmploymentData(() => ({
                     ...employmentData,
@@ -278,11 +237,7 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("spouse", { required: true }),
                 }}
-                formError={
-                  errors.spouse && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.spouse}
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
@@ -290,11 +245,7 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("children", { required: true }),
                 }}
-                formError={
-                  errors.children && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.children}
               ></TextInput1>
             </div>
             <div className="flex  mb-[20px]">
@@ -304,11 +255,7 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("dob", { required: true }),
                 }}
-                formError={
-                  errors.dob && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.dob}
               ></TextInput1>
               <TextInput1
                 className={"w-[10%] mr-[40px]"}
@@ -316,11 +263,7 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("sex", { required: true }),
                 }}
-                formError={
-                  errors.sex && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.sex}
               ></TextInput1>
               <TextInput1
                 className={"w-[20%] mr-[40px]"}
@@ -328,48 +271,51 @@ const HealthForm = () => {
                 Formvals={{
                   ...register("medicalCondition", { required: true }),
                 }}
-                formError={
-                  errors.medicalCondition && (
-                    <span className="text-major">This field is required</span>
-                  )
-                }
+                formError={errors.medicalCondition}
               ></TextInput1>
             </div>
             <div className="mt-[30px] flex items-center">
               <Button
                 onClick={handleSubmit((data) => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
-
-                  const form = {
-                    personalData: {
-                      nameOfProposer: data.nameOfProposer,
-                      emailAddress: data.emailAddress,
-                      dateOfBirth: data.dateOfBirth,
-                      homeAddress: data.homeAddress,
-                      mailingAdress: data.mailingAdress,
-                      phoneNumber: data.phoneNumber,
-                      maritalStatus: data.maritalStatus,
-                      planSelection: planSelection,
-                    },
-                    employmentData: {
-                      nameOfCompany: data.nameOfCompany,
-                      residentialAddress: data.residentialAddress,
-                      lga: data.lga,
-                    },
-                    choiceOfHospital: {
-                      nameOfHospital: data.nameOfHospital,
-                      address: data.choiceOfHospital,
-                    },
-                    dependant: {
-                      spouse: data.spouse,
-                      children: data.children,
-                      dob: data.dob,
-                      sex: data.sex,
-                      medicalCondition: data.medicalCondition,
+                  const healthDetails = {
+                    productType: purchasedState.productType,
+                    gender: purchasedState.gender,
+                    age: purchasedState.age,
+                    nameOfPackage: purchasedState.nameOfPackage,
+                    location: purchasedState.location,
+                    nicRegulated: purchasedState.nicRegulated,
+                    proposalForm: {
+                      personalData: {
+                        nameOfProposer: data.nameOfProposer,
+                        emailAddress: data.emailAddress,
+                        dateOfBirth: data.dateOfBirth,
+                        homeAddress: data.homeAddress,
+                        mailingAdress: data.mailingAdress,
+                        phoneNumber: data.phoneNumber,
+                        maritalStatus: data.maritalStatus,
+                        planSelection: planSelection,
+                      },
+                      employmentData: {
+                        nameOfCompany: data.nameOfCompany,
+                        residentialAddress: data.residentialAddress,
+                        lga: data.lga,
+                      },
+                      choiceOfHospital: {
+                        nameOfHospital: data.nameOfHospital,
+                        address: data.choiceOfHospital,
+                      },
+                      dependant: {
+                        spouse: data.spouse,
+                        children: data.children,
+                        dob: data.dob,
+                        sex: data.sex,
+                        medicalCondition: data.medicalCondition,
+                      },
                     },
                   };
-                 
-                  postForm({ ...purchasedState, proposalForm: form })
+
+                  postForm(healthDetails)
                     .unwrap()
                     .then((payload) => {
                       localStorage.setItem(
@@ -380,10 +326,18 @@ const HealthForm = () => {
                     })
                     .catch((error) => {
                       console.log(error);
-                      error.data.message ==
-                      "You have already created this package Kindly proceed to upload document"
-                        ? setSection(2)
-                        : "";
+                      if (
+                        error.data.message ==
+                        "You have already created this package Kindly proceed to upload document"
+                      )
+                        setSection(2);
+                      else if (error.data.message.name.includes("TokenError")) {
+                        setCookie("token", null, {
+                          path: "/",
+                          secure: true,
+                        });
+                        router.push("/");
+                      } else "";
                     });
                 })}
                 text={"Upload Documents"}
@@ -434,7 +388,6 @@ const HealthForm = () => {
                     console.log(error);
                     console.log(formData.has("id_card"));
                   });
-               
               }}
               text={"Proceed to payment"}
             ></Button>
@@ -541,6 +494,9 @@ const HealthForm = () => {
             </div>
             <Button
               text={"Pay Insurance"}
+              onClick={() => {
+                dispatch(showPaymentModal());
+              }}
               className={"w-[100%] my-[15px] mt-[30px]"}
             ></Button>
           </div>

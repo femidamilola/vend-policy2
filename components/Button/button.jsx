@@ -1,9 +1,10 @@
 import styles from "./Button.module.css";
 import { useRouter } from "next/router";
-export const Button = ({ text, className, onClick }) => {
+export const Button = ({ text, className, onClick, disable }) => {
   return (
     <div onClick={onClick}>
       <button
+        disabled={disable}
         className={`bg-[#FF7C03] whitespace-nowrap font-semibold text-[14px] tracking-[1px] rounded-[10px] px-[20px] py-[7px] text-[#ffffff] ${styles.Button} ${className}`}
       >
         {text}

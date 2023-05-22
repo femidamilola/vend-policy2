@@ -7,7 +7,6 @@ export const apiSlice = createApi({
     baseUrl: "https://vend-policy-api.fly.dev",
     prepareHeaders: (headers) => {
       const token = getCookie("token");
-      console.log(token);
       headers.set("Authorization", token);
       return headers;
     },
@@ -44,9 +43,41 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Todos"],
     }),
+    submitMotorForm: builder.mutation({
+      query: (form) => ({
+        url: `/product/motor/submitProposalForm`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    submitTravelForm: builder.mutation({
+      query: (form) => ({
+        url: `/product/travel/submitProposalForm`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
     uploadDocument: builder.mutation({
       query: (form) => ({
         url: `/product/health/uploadDocument`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    uploadMotorDocument: builder.mutation({
+      query: (form) => ({
+        url: `/product/motor/uploadDocument`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    uploadTravelDocument: builder.mutation({
+      query: (form) => ({
+        url: `/product/travel/uploadDocument`,
         method: "POST",
         body: form,
       }),
@@ -61,4 +92,8 @@ export const {
   useGetPackagesQuery,
   usePostFormMutation,
   useUploadDocumentMutation,
+  useSubmitMotorFormMutation,
+  useUploadMotorDocumentMutation,
+  useSubmitTravelFormMutation,
+  useUploadTravelDocumentMutation
 } = apiSlice;

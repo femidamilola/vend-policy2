@@ -261,11 +261,24 @@ const Dashboard = () => {
           }}
         ></Image>
         <ul className="flex text-white text-[16px] mr-auto">
-          <li className="px-[20px]">Dashboard</li>
-          <li className="px-[20px]">Settings</li>
-          <li className="px-[20px]">Damages and Claims</li>
+          <li className="px-[10px]">Dashboard</li>
+          <li
+            onClick={() => {
+              router.push("/");
+            }}
+            className="px-[10px] cursor-pointer"
+          >
+            Product
+          </li>
+          <li className="px-[10px]">Settings</li>
+          <li className="px-[10px]">Damages and Claims</li>
         </ul>
-        <p className="text-[16px] text-white pr-[7px]">Logout</p>
+        <p
+          onClick={() => router.push("/signin")}
+          className="text-[16px] text-white pr-[7px] cursor-pointer"
+        >
+          Logout
+        </p>
         <Notification></Notification>
         <div className="flex">
           <Image
@@ -273,7 +286,7 @@ const Dashboard = () => {
             src={"/assets/profpic.svg"}
             height={34}
             alt=""
-            className="mx-[20px]"
+            className="mx-[16px]"
           ></Image>
           <div>
             <p className="text-[15px] text-white">Adeyemi Oladayo</p>

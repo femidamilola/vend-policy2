@@ -13,7 +13,7 @@ export const purchaseSlice = createSlice({
       state.proposalBody = updated;
     },
     clearPurchaseProps: (state, action) => {
-      state.proposalBody = { ...state.proposalBody, proposalForm: {} };
+      state.proposalBody = {};
     },
   },
 });

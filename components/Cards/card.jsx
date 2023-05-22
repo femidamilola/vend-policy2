@@ -1,9 +1,10 @@
 import { showPackageModal } from "@/store/slices";
 import Image from "next/image";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./Card.module.css";
 import { DashboardButton } from "components/Button/button";
+import { setPurchaseProps } from "@/store/purchaseSlice";
 export const PackageCard = ({ img, text, onClick }) => {
   return (
     <div
@@ -144,6 +145,8 @@ export const ProductCard1 = ({
     "Third Party Fire and Theft Insurace",
     "Third Party and Fire Insurance",
   ];
+  const check = useSelector(({ purchaseState }) => purchaseState);
+  console.log(check);
   return (
     <div
       className={`px-[40px] relative  w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
@@ -229,6 +232,7 @@ export const ProductCard1 = ({
             key={i}
             onClick={() => {
               setbuttonInput(data);
+              dispatch(setPurchaseProps({ typeOfPackage: data }));
               setDrop(false);
             }}
             className="text-[15px] cursor-pointer whitespace-nowrap leading-[25px] tracking-[2%] text-[#77869B] hover:bg-[#FF7C03] hover:text-white px-[10px] py-[3px]"

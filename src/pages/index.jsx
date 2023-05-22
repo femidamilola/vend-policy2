@@ -98,7 +98,6 @@ export default function Home() {
     infinite: true,
   };
   const router = useRouter();
-  const states = useSelector((state) => console.log(state));
 
   return (
     <div>

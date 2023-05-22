@@ -5,14 +5,41 @@ import { TextInput1 } from "../Forms/form";
 import PhoneInput from "react-phone-input-2";
 import { Button } from "../Button/button";
 import "react-phone-input-2/lib/style.css";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { PayLock, Paycard, Paypal } from "../SVG/Svg";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import {
+  useSubmitMotorFormMutation,
+  useUploadMotorDocumentMutation,
+} from "../../src/api/apiSlice";
+import { showPaymentModal } from "../../src/store/slices";
+import { useRouter } from "next/router";
+import { setCookie } from "cookies-next";
 const MotorForm = () => {
   const [section, setSection] = useState(1);
+  const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [util, setUtil] = useState("");
-  let sectionDisplayed = <div></div>;
+  const data1 = useSelector(({ purchaseState }) => purchaseState.proposalBody);
+  const router = useRouter();
 
+  const [idCard, setIdCard] = useState(null);
+  const [utilFile, setUtilFile] = useState(null);
+  let sectionDisplayed = <div></div>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [submitMotorForm] = useSubmitMotorFormMutation();
+  const [uploadMotorDocument] = useUploadMotorDocumentMutation();
+
+  const [id1, setId1] = useState(null);
+  useEffect(() => {
+    setId1(JSON.parse(localStorage.getItem("id")));
+  }, []);
   if (section === 1) {
     sectionDisplayed = (
       <div className="px-[10%] ">
@@ -25,24 +52,38 @@ const MotorForm = () => {
               <TextInput1
                 className={"w-[47%]"}
                 label={"Name of Proposer (Mr/Mrs/Ms)"}
+                Formvals={{ ...register("nameOfProposer", { required: true }) }}
+                formError={errors.nameOfProposer}
               ></TextInput1>
               <TextInput1
                 className={"w-[47%]"}
                 label={"E-mail Address"}
+                Formvals={{ ...register("emailAddress", { required: true }) }}
+                formError={errors.emailAddress}
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
               <TextInput1
                 className={"w-[28%]"}
                 label={"Date Of Birth"}
+                Formvals={{ ...register("dateOfBirth", { required: true }) }}
+                formError={errors.dateOfBirth}
               ></TextInput1>
               <TextInput1
                 className={"w-[67%]"}
                 label={"Home Address (Full)"}
+                Formvals={{ ...register("homeAddress", { required: true }) }}
+                formError={errors.homeAddress}
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
-              <TextInput1 label={"City"} className={"w-[35%]"}></TextInput1>
+              <TextInput1
+                label={"City"}
+                className={"w-[35%]"}
+                Formvals={{ ...register("mailingAdress", { required: true }) }}
+                formError={errors.mailingAdress}
+              ></TextInput1>
+
               <div className="w-[35%]">
                 <label
                   className="text-[#77869B] py-[10px] text-[16px]"
@@ -50,33 +91,43 @@ const MotorForm = () => {
                 >
                   Contact Phone No
                 </label>
-                <PhoneInput
-                  country={"us"}
-                  containerClass={`${styles.ContainerClass}`}
-                  inputClass={`my-[7px] ${styles.InputClass}`}
-                  buttonClass={`${styles.Dropdown}`}
-                  onChange={() => {
-                    "";
-                  }}
-                ></PhoneInput>
+                <input
+                  className={`w-[100%] pl-[10px] border text-[14px] my-[7px] outline-0 py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px]`}
+                  type="tel"
+                  {...register("phoneNumber", { required: true })}
+                />
+                {errors.phoneNumber && (
+                  <span className="text-major">This field is required</span>
+                )}
               </div>
+
               <TextInput1
                 label={"Marital Status"}
                 className={"w-[25%]"}
+                Formvals={{ ...register("maritalStatus", { required: true }) }}
+                formError={errors.maritalStatus}
               ></TextInput1>
             </div>
             <div className="flex mb-[20px] justify-between">
               <TextInput1
                 className={"w-[35%]"}
                 label={"Driver’s license No"}
+                Formvals={{
+                  ...register("driverLicenseNumber", { required: true }),
+                }}
+                formError={errors.driverLicenseNumber}
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
                 label={"Date Issued"}
+                Formvals={{ ...register("dateIssued", { required: true }) }}
+                formError={errors.dateIssued}
               ></TextInput1>
               <TextInput1
                 className={"w-[25%]"}
                 label={"Class(es)"}
+                Formvals={{ ...register("classes", { required: true }) }}
+                formError={errors.classes}
               ></TextInput1>
             </div>
             <div className="flex mb-[20px] justify-between">
@@ -87,22 +138,34 @@ const MotorForm = () => {
               <TextInput1
                 className={"w-[47%]"}
                 label={"Trade/Occupation"}
+                Formvals={{ ...register("occupation", { required: true }) }}
+                formError={errors.occupation}
               ></TextInput1>
             </div>
             <div className="flex mb-[20px] justify-between">
               <TextInput1
                 className={"w-[47%]"}
                 label={"Name of Employer"}
+                Formvals={{ ...register("nameOfEmployer", { required: true }) }}
+                formError={errors.nameOfEmployer}
               ></TextInput1>
               <TextInput1
                 className={"w-[47%]"}
                 label={"Employment E-mail Address"}
+                Formvals={{
+                  ...register("employmentEmailAddress", { required: true }),
+                }}
+                formError={errors.employmentEmailAddress}
               ></TextInput1>
             </div>
             <div className="flex mb-[20px] justify-between">
               <TextInput1
                 className={"w-[47%]"}
                 label={"Do you have any other insurance with this company?"}
+                Formvals={{
+                  ...register("existingInsurance", { required: true }),
+                }}
+                formError={errors.existingInsurance}
               ></TextInput1>
               <TextInput1
                 className={"w-[47%]"}
@@ -111,10 +174,47 @@ const MotorForm = () => {
             </div>
             <div className="mt-[30px] flex items-center">
               <Button
-                onClick={() => {
-                  setSection(2);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+                onClick={handleSubmit((data) => {
+                  const motorDetails = {
+                    productType: data1.productType,
+                    typeOfPackage: data1.typeOfPackage,
+                    vehicleRegistrationNumber: data1.vehicleRegistrationNumber,
+                    nameOfPackage: data1.nameOfPackage,
+                    location: data1.location,
+                    nicRegulated: data1.nicRegulated,
+                    proposalForm: data,
+                  };
+
+                  submitMotorForm(motorDetails)
+                    .unwrap()
+                    .then((payload) => {
+                      console.log(payload);
+                      localStorage.setItem(
+                        "id",
+                        JSON.stringify(payload.packageDetails._id)
+                      );
+                      setSection(2);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      if (
+                        error.data.message ==
+                        "You have already created this package Kindly proceed to upload document"
+                      ) {
+                        setSection(2);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      } else if (
+                        error.data.message.name == "TokenExpiredError"
+                      ) {
+                        setCookie("token", null, {
+                          path: "/",
+                          secure: true,
+                        });
+                        router.push("/");
+                      } else "";
+                    });
+                })}
                 text={"Upload Documents"}
               ></Button>
               <p className="text-[#F5564C] ml-[50px] text-[14px]">Cancel</p>
@@ -137,12 +237,14 @@ const MotorForm = () => {
                 name={id}
                 fill={"#321C77"}
                 setName={setId}
+                setValue={setIdCard}
                 identity={"Who are you? (ID verification)"}
               ></UploadCard>
             </div>
             <UploadCard
               name={util}
               setName={setUtil}
+              setValue={setUtilFile}
               fill={"#FF7C03"}
               identity={"Utility Bill in the last 3 months"}
             ></UploadCard>
@@ -151,8 +253,19 @@ const MotorForm = () => {
           <div className="mt-[30px] flex items-center">
             <Button
               onClick={() => {
-                setSection(3);
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                const formData = new FormData();
+                formData.append("id_card", idCard);
+                formData.append("utility_bill", utilFile);
+                formData.append("form_id", id1);
+                uploadMotorDocument(formData)
+                  .unwrap()
+                  .then((payload) => {
+                    setSection(3);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
               }}
               text={"Proceed to payment"}
             ></Button>
@@ -259,6 +372,9 @@ const MotorForm = () => {
             </div>
             <Button
               text={"Pay Insurance"}
+              onClick={() => {
+                dispatch(showPaymentModal());
+              }}
               className={"w-[100%] my-[15px] mt-[30px]"}
             ></Button>
           </div>
@@ -267,7 +383,7 @@ const MotorForm = () => {
     );
   }
   return (
-    <div>
+    <div className="relative">
       <div
         className={`px-[10%] flex items-center py-[20px]  ${styles.Shadow1}`}
       >

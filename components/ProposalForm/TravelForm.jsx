@@ -2,16 +2,38 @@ import styles from "./Proposal.module.css";
 import { GreaterThan, LeftArrow } from "../SVG/Small";
 import UploadCard from "../UploadCard";
 import { TextInput1 } from "../Forms/form";
-import PhoneInput from "react-phone-input-2";
+import { useForm } from "react-hook-form";
 import { Button } from "../Button/button";
 import "react-phone-input-2/lib/style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PayLock, Paycard, Paypal } from "../SVG/Svg";
+import { useDispatch, useSelector } from "react-redux";
+import { showPaymentModal } from "../../src/store/slices";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
+import {
+  useSubmitTravelFormMutation,
+  useUploadTravelDocumentMutation,
+} from "../../src/api/apiSlice";
 const TravelForm = () => {
   const [section, setSection] = useState(1);
   const [id, setId] = useState("");
+  const [id1, setId1] = useState("");
+  const [idCard, setIdCard] = useState(null);
+  const [submitTravelForm] = useSubmitTravelFormMutation();
+  const [uploadTravelDocument] = useUploadTravelDocumentMutation();
   let sectionDisplayed = <div></div>;
-
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setId1(JSON.parse(localStorage.getItem("id")));
+  }, []);
+  const data1 = useSelector(({ purchaseState }) => purchaseState.proposalBody);
   if (section === 1) {
     sectionDisplayed = (
       <div className="px-[10%] ">
@@ -24,24 +46,37 @@ const TravelForm = () => {
               <TextInput1
                 className={"w-[47%]"}
                 label={"Name of Proposer (Mr/Mrs/Ms)"}
+                Formvals={{ ...register("nameOfProposer", { required: true }) }}
+                formError={errors.nameOfProposer}
               ></TextInput1>
               <TextInput1
                 className={"w-[47%]"}
                 label={"E-mail Address"}
+                Formvals={{ ...register("emailAddress", { required: true }) }}
+                formError={errors.emailAddress}
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
               <TextInput1
                 className={"w-[28%]"}
                 label={"Date Of Birth"}
+                Formvals={{ ...register("dateOfBirth", { required: true }) }}
+                formError={errors.dateOfBirth}
               ></TextInput1>
               <TextInput1
                 className={"w-[67%]"}
                 label={"Home Address (Full)"}
+                Formvals={{ ...register("homeAddress", { required: true }) }}
+                formError={errors.homeAddress}
               ></TextInput1>
             </div>
             <div className="flex justify-between mb-[20px]">
-              <TextInput1 label={"City"} className={"w-[35%]"}></TextInput1>
+              <TextInput1
+                label={"City"}
+                Formvals={{ ...register("city", { required: true }) }}
+                formError={errors.city}
+                className={"w-[35%]"}
+              ></TextInput1>
               <div className="w-[35%]">
                 <label
                   className="text-[#77869B] py-[10px] text-[16px]"
@@ -49,29 +84,34 @@ const TravelForm = () => {
                 >
                   Contact Phone No
                 </label>
-                <PhoneInput
-                  country={"us"}
-                  containerClass={`${styles.ContainerClass}`}
-                  inputClass={`my-[7px] ${styles.InputClass}`}
-                  buttonClass={`${styles.Dropdown}`}
-                  onChange={() => {
-                    "";
-                  }}
-                ></PhoneInput>
+                <input
+                  className={`w-[100%] pl-[10px] border text-[14px] my-[7px] outline-0 py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px]`}
+                  type="tel"
+                  {...register("phoneNumber", { required: true })}
+                />
+                {errors.phoneNumber && (
+                  <span className="text-major">This field is required</span>
+                )}
               </div>
               <TextInput1
                 label={"Marital Status"}
                 className={"w-[25%]"}
+                Formvals={{ ...register("maritalStatus", { required: true }) }}
+                formError={errors.maritalStatus}
               ></TextInput1>
             </div>
             <div className="flex mb-[20px]">
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"Nationality"}
+                Formvals={{ ...register("nationality", { required: true }) }}
+                formError={errors.nationality}
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
                 label={"Occupation"}
+                Formvals={{ ...register("occupation", { required: true }) }}
+                formError={errors.occupation}
               ></TextInput1>
             </div>
           </div>
@@ -85,24 +125,39 @@ const TravelForm = () => {
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"Type"}
+                Formvals={{ ...register("type", { required: true }) }}
+                formError={errors.type}
               ></TextInput1>
               <TextInput1
                 className={"w-[35%]"}
                 label={"Geography"}
+                Formvals={{ ...register("geography", { required: true }) }}
+                formError={errors.geography}
               ></TextInput1>
             </div>
             <div className="flex  mb-[20px]">
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"Proposed Policy Period"}
+                Formvals={{
+                  ...register("proposedPolicyPeriod", { required: true }),
+                }}
+                formError={errors.proposedPolicyPeriod}
               ></TextInput1>
-              <TextInput1 className={"w-[35%]"} label={"To"}></TextInput1>
+              <TextInput1
+                className={"w-[35%]"}
+                Formvals={{ ...register("to", { required: true }) }}
+                formError={errors.to}
+                label={"To"}
+              ></TextInput1>
             </div>
 
             <div className="flex mb-[20px]">
               <TextInput1
                 className={"w-[35%] mr-[40px]"}
                 label={"Passport Number"}
+                Formvals={{ ...register("passportNumber", { required: true }) }}
+                formError={errors.passportNumber}
               ></TextInput1>
             </div>
           </div>
@@ -116,15 +171,30 @@ const TravelForm = () => {
               <TextInput1
                 className={"w-[20%]"}
                 label={"Amount of Person insured"}
+                Formvals={{
+                  ...register("amountOfPersonInsured", { required: true }),
+                }}
+                formError={errors.amountOfPersonInsured}
               ></TextInput1>
               <TextInput1
                 className={"w-[40%]"}
                 label={"Person to be Insured"}
+                Formvals={{
+                  ...register("personToBeInsured", { required: true }),
+                }}
+                formError={errors.personToBeInsured}
               ></TextInput1>
-              <TextInput1 className={"w-[10%]"} label={"Gender"}></TextInput1>
+              <TextInput1
+                className={"w-[10%]"}
+                Formvals={{ ...register("gender", { required: true }) }}
+                formError={errors.gender}
+                label={"Gender"}
+              ></TextInput1>
               <TextInput1
                 className={"w-[20%]"}
                 label={"Date OF Birth"}
+                Formvals={{ ...register("dob", { required: true }) }}
+                formError={errors.dob}
               ></TextInput1>
             </div>
             <div className="flex  mb-[20px]">
@@ -173,13 +243,70 @@ const TravelForm = () => {
               className={"w-[100%] "}
               labelClass={"text-[14px]"}
               label={"If yes, Provide details"}
+              Formvals={{ ...register("yesOrNo", { required: true }) }}
+              formError={errors.yesOrNo}
             ></TextInput1>
             <div className="mt-[30px] flex items-center">
               <Button
-                onClick={() => {
-                  setSection(2);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+                onClick={handleSubmit((data) => {
+                  const travelDetails = {
+                    productType: data1.productType,
+                    nameOfPackage: data1.nameOfPackage,
+                    location: data1.location,
+                    nicRegulated: true,
+                    origin: data1.origin,
+                    destination: data1.destination,
+                    departure: data1.departure,
+                    returnTrip: data1.returnTrip,
+                    travelInsuranceType: data1.travelInsuranceType,
+                    age: "25",
+                    proposalForm: {
+                      personalData: {
+                        nameOfProposer: data.nameOfProposer,
+                        emailAddress: data.emailAddress,
+                        dateOfBirth: data.dateOfBirth,
+                        homeAddress: data.homeAddress,
+                        city: data.city,
+                        phoneNumber: data.phoneNumber,
+                        maritalStatus: data.maritalStatus,
+                        nationality: data.nationality,
+                        occupation: data.occupation,
+                      },
+                      travelDetails: {
+                        type: data.type,
+                        geography: data.geography,
+                        proposedPolicyPeriod: data.proposedPolicyPeriod,
+                        to: data.to,
+                        passportNumber: data.passportNumber,
+                      },
+                      proposedInsuranceDetails: {
+                        amountOfPersonInsured: data.amountOfPersonInsured,
+                        personToBeInsured: data.personToBeInsured,
+                        gender: data.gender,
+                        dob: data.dob,
+                      },
+                      medicalLifestyle: {
+                        yesOrNo: data.yesOrNo,
+                      },
+                    },
+                  };
+                  submitTravelForm(travelDetails)
+                    .unwrap()
+                    .then((payload) => {
+                      setSection(2);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      if (error.data.message.name == "TokenExpiredError") {
+                        setCookie("token", null, {
+                          path: "/",
+                          secure: true,
+                        });
+                        router.push("/");
+                      } else "";
+                    });
+                })}
                 text={"Upload Documents"}
               ></Button>
               <p className="text-[#F5564C] ml-[50px] text-[14px]">Cancel</p>
@@ -200,13 +327,24 @@ const TravelForm = () => {
             name={id}
             fill={"#321C77"}
             setName={setId}
+            setValue={setIdCard}
             identity={"Who are you? (ID verification)"}
           ></UploadCard>
           <div className="mt-[30px] flex items-center">
             <Button
               onClick={() => {
-                setSection(3);
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                const formData = new FormData();
+                formData.append("id_card", idCard);
+                formData.append("form_id", id1);
+                uploadTravelDocument(formData)
+                  .unwrap()
+                  .then((payload) => {
+                    setSection(3);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
               }}
               text={"Proceed to payment"}
             ></Button>
@@ -314,6 +452,9 @@ const TravelForm = () => {
             <Button
               text={"Pay Insurance"}
               className={"w-[100%] my-[15px] mt-[30px]"}
+              onClick={() => {
+                dispatch(showPaymentModal());
+              }}
             ></Button>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Button } from "../Button/button";
-import { TextInput1, SelectInput } from "../Forms/form";
+import { TextInput1, SelectInput, DateInput } from "../Forms/form";
 import { useDispatch, useSelector } from "react-redux";
 import { showPackageModal, setDisplayedProposal } from "../../src/store/slices";
 import { setPurchaseProps } from "../../src/store/purchaseSlice";
@@ -7,9 +7,11 @@ import { Location, Round, Date } from "../SVG/Small";
 import { useRouter } from "next/router";
 import styles from "./Modals.module.css";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 export const CarModal = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [regNo, setRegNo] = useState("");
   const showModal = useSelector(({ state }) => state.showPackageModal);
   return (
     <div
@@ -30,13 +32,26 @@ export const CarModal = () => {
         <TextInput1
           label={"Enter your Vehicle Registration Number"}
           inputClass={"outline-0 pl-[20px]"}
+          onChange={(e) => {
+            setRegNo(e.target.value);
+          }}
           className={"mt-[5rem] "}
         ></TextInput1>
         <Button
           text={"Proceed"}
-          className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
+          className={
+            "w-[100%] mt-[30px] disabled:opacity-50 py-[30px] rounded-[6px]"
+          }
+          disable={regNo.length === 0 ? true : false}
           onClick={() => {
             dispatch(setDisplayedProposal("motor"));
+
+            dispatch(
+              setPurchaseProps({
+                productType: "Motor Insurance",
+                vehicleRegistrationNumber: regNo,
+              })
+            );
             dispatch(showPackageModal(""));
             router.push("/companies");
           }}
@@ -99,8 +114,14 @@ export const CarTermsModal = () => {
 
 export const TravelModal = () => {
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
   const showModal = useSelector(({ state }) => state.showPackageModal);
+  const [travelType, setTravelType] = useState(null);
   return (
     <div
       className={`w-[100%] 
@@ -128,6 +149,8 @@ export const TravelModal = () => {
               label={"Origin"}
               inputClass={"outline-0 pl-[40px]"}
               className={" "}
+              Formvals={{ ...register("origin", { required: true }) }}
+              formError={errors.origin}
             ></TextInput1>
           </div>
           <div className="w-[45%] relative">
@@ -135,37 +158,57 @@ export const TravelModal = () => {
             <TextInput1
               label={"Destination"}
               inputClass={"outline-0 pl-[40px]"}
+              Formvals={{ ...register("destination", { required: true }) }}
+              formError={errors.destination}
               className={" "}
             ></TextInput1>
           </div>
         </div>
         <div className="flex justify-between mt-[2rem] items-center">
           <div className="w-[45%] relative">
-            <Date className={"absolute top-[42px] left-[10px]"}></Date>
-            <TextInput1
+            {/* <Date className={"absolute top-[42px] left-[10px]"}></Date> */}
+            <DateInput
               label={"Departure"}
-              inputClass={"outline-0 pl-[40px]"}
+              inputClass={"outline-0 px-[5px]"}
               className={" "}
-            ></TextInput1>
+              Formvals={{ ...register("departure", { required: true }) }}
+              formError={errors.departure}
+            ></DateInput>
           </div>
           <div className="w-[45%] relative">
-            <Date className={"absolute top-[42px] left-[10px]"}></Date>
-            <TextInput1
+            {/* <Date className={"absolute top-[42px] left-[10px]"}></Date> */}
+            <DateInput
               label={"Return"}
-              inputClass={"outline-0 pl-[40px]"}
+              inputClass={"outline-0 px-[5px]"}
               className={" "}
-            ></TextInput1>
+              Formvals={{ ...register("returnTrip", { required: true }) }}
+              formError={errors.return}
+            ></DateInput>
           </div>
         </div>
         <div className="flex mt-[2rem]">
           <div className="mr-[30px]">
-            <input className="border border-[#77869B]" type="checkbox" />
+            <input
+              className="border border-[#77869B]"
+              value={"one-way trip"}
+              type="checkbox"
+              onChange={(e) => {
+                setTravelType(e.target.value);
+              }}
+            />
             <label className="text-[#77869B] ml-[5px] text-[13px]" htmlFor="">
               One-Way Trip
             </label>
           </div>
           <div>
-            <input className="border border-[#77869B]" type="checkbox" />
+            <input
+              className="border border-[#77869B]"
+              value={"low emmissions"}
+              type="checkbox"
+              onChange={(e) => {
+                setTravelType(e.target.value);
+              }}
+            />
             <label className="text-[#77869B] ml-[5px] text-[13px]" htmlFor="">
               Low Emissions
             </label>
@@ -173,12 +216,24 @@ export const TravelModal = () => {
         </div>
         <Button
           text={"Proceed"}
-          className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
-          onClick={() => {
+          disable={travelType == null ? true : false}
+          className={
+            "w-[100%] mt-[30px] py-[30px] disabled:opacity-50 rounded-[6px]"
+          }
+          onClick={handleSubmit((data) => {
             dispatch(setDisplayedProposal("travel"));
             dispatch(showPackageModal(""));
+
+            dispatch(
+              setPurchaseProps({
+                productType: "Travel Insurance",
+                travelInsuranceType: travelType,
+                location: "Lagos",
+                ...data,
+              })
+            );
             router.push("/companies");
-          }}
+          })}
         ></Button>
       </div>
     </div>
@@ -240,11 +295,10 @@ export const HealthModal = () => {
           onClick={handleSubmit((data) => {
             dispatch(setDisplayedProposal("health"));
             dispatch(showPackageModal(""));
-            console.log(data, checkPurchase);
             dispatch(
               setPurchaseProps({ productType: "Health Insurance", ...data })
             );
-            
+
             router.push("/companies");
           })}
         ></Button>

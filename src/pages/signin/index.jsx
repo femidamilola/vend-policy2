@@ -31,7 +31,7 @@ const Signin = () => {
         alt=""
       ></Image>
       <div
-        className={`flex flex-col pt-[10rem] items-center w-[65%] ${styles.Firstsection}`}
+        className={`flex flex-col pt-[8rem] pb-[2rem] overflow-y-scroll items-center w-[65%] ${styles.Firstsection}`}
       >
         <div className="w-[60%]">
           <h1 className="text-[#0F4A6B] text-[30px] leading-[53px] font-bold">
@@ -144,8 +144,8 @@ const Signin = () => {
         <Image
           width={270}
           height={350}
-          src={"/assets/signbg.svg"}
-          className={`absolute right-0 bottom-[-100px]`}
+          src={"/assets/signbg.png"}
+          className={`absolute right-0 bottom-[0]`}
         ></Image>
         <Image
           width={150}
@@ -156,17 +156,17 @@ const Signin = () => {
           className="cursor-pointer"
           src={"/assets/logo.svg"}
         ></Image>
-        <div className="mt-[6rem]">
-          <p className="font-bold text-[44px] leading-[55px] text-white">
+        <div className="mt-[2rem]">
+          <p className="font-bold text-[44px] leading-[50px] text-white">
             Be Safe.
           </p>
-          <p className="font-bold text-[44px] leading-[55px] text-white">
+          <p className="font-bold text-[44px] leading-[50px] text-white">
             Be Calm.
           </p>
-          <p className="font-bold text-[44px] leading-[55px] text-white">
+          <p className="font-bold text-[44px] leading-[50px] text-white">
             Be Insured.
           </p>
-          <p className="text-white opacity-90 text-[16px] mt-[3rem] leading-[25px] w-[80%]">
+          <p className="text-white opacity-90 text-[16px] mt-[2rem] leading-[25px] w-[80%]">
             We work with some of the leading insurance companies to develop the
             best insurance tailored to meet your needs
           </p>

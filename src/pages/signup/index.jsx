@@ -11,12 +11,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { setCookie } from "cookies-next";
+import Spinner from "../../../components/Spinner/spinner";
 const Signin = () => {
   const [section, setSection] = useState("verification");
   const [checked, setChecked] = useState([1, 0, 0]);
   const [userDetails, setUserDetails] = useState({});
   const router = useRouter();
-  const [signUp] = useSignUpMutation();
+  const [signUp, { isLoading: signLoading }] = useSignUpMutation();
   const schema = yup.object().shape({
     fullName: yup.string().required("Fullname is required"),
     email: yup.string().required("Email address is required"),
@@ -230,7 +231,7 @@ const Signin = () => {
   }
 
   return (
-    <div className="h-[100vh] overflow-y-hidden relative flex w-[100%]">
+    <div className="h-[100vh] overflow-y-hidden  relative flex w-[100%]">
       <Image
         src={"/assets/elipse.svg"}
         className="absolute left-[50%] top-[20px]"
@@ -239,7 +240,14 @@ const Signin = () => {
         alt=""
       ></Image>
       <div
-        className={`flex flex-col pt-[20px] items-center w-[65%] ${styles.Firstsection}`}
+        className={`absolute top-[40%] left-[50%] transform translate-x-[-50%] ${
+          signLoading ? "block" : "hidden"
+        }`}
+      >
+        <Spinner></Spinner>
+      </div>
+      <div
+        className={`flex flex-col pt-[20px] overflow-y-scroll items-center w-[65%] ${styles.Firstsection}`}
       >
         <div className="w-[60%]">
           <div className="flex w-[100%] mb-[2rem]  justify-between">
@@ -258,7 +266,7 @@ const Signin = () => {
         </div>
       </div>
       <div
-        className={`relative p-[30px] w-[35%] self-stretch ${styles.Secondsection}`}
+        className={`relative p-[30px] w-[35%] overflow-y-hidden h-[100%] self-stretch ${styles.Secondsection}`}
       >
         <Image
           width={150}

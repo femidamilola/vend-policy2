@@ -4,6 +4,13 @@
 .Firstsection {
   background: #ffffff;
 }
+.Firstsection::-webkit-scrollbar {
+  display: none;
+}
+.Firstsection {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 .Button {
   border-radius: 5px;
 }
@@ -15,7 +22,7 @@
   padding-top: 7px;
   padding-bottom: 7px;
   margin: 7px 0 !important;
-  color: #6C829B;
+  color: #6c829b;
 }
 .Dropdown {
   background: #fff9f4 !important;

@@ -4,6 +4,13 @@
 .Firstsection {
   background: #ffffff;
 }
+.Firstsection::-webkit-scrollbar {
+  display: none;
+}
+.Firstsection {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 .Button {
   border-radius: 5px;
 }
