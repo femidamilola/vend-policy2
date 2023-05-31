@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  showPackageModal: "",
+  showPackageModal: false,
   displayedProposal: "motor",
   showPaymentModal: false,
   proposalForm: {},
@@ -11,8 +11,8 @@ export const modalSlice = createSlice({
   name: "show_carmodal",
   initialState,
   reducers: {
-    showPackageModal: (state, action) => {
-      state.showPackageModal = action.payload;
+    showPackageModal: (state) => {
+      state.showPackageModal = !state.showPackageModal;
     },
     setDisplayedProposal: (state, action) => {
       state.displayedProposal = action.payload;
@@ -25,6 +25,10 @@ export const modalSlice = createSlice({
     },
   },
 });
-export const { showPackageModal, setDisplayedProposal, setProposalForm,showPaymentModal } =
-  modalSlice.actions;
+export const {
+  showPackageModal,
+  setDisplayedProposal,
+  setProposalForm,
+  showPaymentModal,
+} = modalSlice.actions;
 // Action creators are generated for each case reducer function

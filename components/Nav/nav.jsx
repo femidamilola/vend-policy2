@@ -5,13 +5,14 @@ import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 const Nav = () => {
   const router = useRouter();
- 
-  
-    const token = getCookie("token") || "";
-   
+
+  const token = getCookie("token") || "";
+
   return (
     <div
-      className={`absolute z-[200] top-0 left-0 w-[100%]  px-[100px] ${
+      className={`absolute z-[200] top-0 ${
+        router.route !== "/companies/details" ? "bg-[#3A2087]" : ""
+      }  pb-[20px] left-0 w-[100%]  px-[100px] ${
         router.route.includes("sign") || router.route.includes("dashboard")
           ? "hidden"
           : "block"
@@ -19,7 +20,7 @@ const Nav = () => {
     >
       <div className="flex items-center pt-[20px]">
         <Image
-          src={"/assets/logo.svg"}
+          src={"/assets/logo.png"}
           width={150}
           height={30}
           alt="img"

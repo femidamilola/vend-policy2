@@ -200,17 +200,7 @@ export const ProductCard1 = ({
           buttonInput.length > 20 ? "text-[12px]" : "text-[15px]"
         } `}
       >
-        <p
-          onClick={() => {
-            if (buttonInput !== "Select Package") {
-              dispatch(showPackageModal("carterms"));
-            }
-          }}
-          className="tracking-[0.05em] "
-        >
-          {" "}
-          {buttonInput}{" "}
-        </p>
+        <p className="tracking-[0.05em] "> {buttonInput} </p>
 
         <Image
           className="ml-[5px]"

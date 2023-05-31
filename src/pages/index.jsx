@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
 import { Button } from "components/Button/button";
+import { showPackageModal } from "@/store/slices";
 import {
   Health,
   Travel,
@@ -22,6 +23,7 @@ import {
   CarouselCard,
   CommentCard,
 } from "../../components/Cards/card";
+import { Motoroptions } from "../../components/Modals/Motoroptions";
 import { useDispatch, useSelector } from "react-redux";
 import { setPurchaseProps } from "@/store/purchaseSlice";
 import Slider from "react-slick";
@@ -29,9 +31,24 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 export default function Home() {
   const packages = [
-    { text: "Motor", img: <Motor></Motor>, productType: "Motor Insurance" },
-    { img: <Health></Health>, text: "Health", productType: "Health Insurance" },
-    { img: <Travel></Travel>, text: "Travel", productType: "Travel Insurance" },
+    {
+      text: "Motor",
+      img: <Motor></Motor>,
+      productType: "Motor Insurance",
+      route: "/motor/fire",
+    },
+    {
+      img: <Health></Health>,
+      text: "Health",
+      productType: "Health Insurance",
+      route: "/health",
+    },
+    {
+      img: <Travel></Travel>,
+      text: "Travel",
+      productType: "Travel Insurance",
+      route: "travel",
+    },
     { img: <ReviewPolicy></ReviewPolicy>, text: "Review your policy" },
   ];
 
@@ -118,21 +135,25 @@ export default function Home() {
         />
       </Head>
       <main className={styles.main}>
+        <Motoroptions></Motoroptions>
         <div
-          className={`${styles.Firstsection} relative  z-50 flex justify-between items-center h-[700px] px-[10%]`}
+          className={`${styles.Firstsection}  relative  z-50 flex justify-between items-center h-[700px] px-[10%]`}
         >
           <div className="text-white w-[50%]">
             <h1 className="text-[48px] leading-[69px]">
-              What policy will you be buying today?
+              What <span className="text-[#FF9E44]">policy</span> will you be
+              buying today?
             </h1>
-            <p className="text-[17px] pt-[25px]  leading-[25px] tracking-[1%]">
+            <p className="text-[17px] pt-[25px] mb-[30px]  leading-[25px] tracking-[1%]">
               We work with some of the leading insurance companies to develop
               the best insurance tailored to meet your needs
             </p>
-            <div className="flex justify-between items-center">
-              <Button text={"Get a Quote"} className={""}></Button>
+            <div className="flex mt-[50px] items-center relative">
+              <Button text={"Get a Quote"} className={"mr-[10px]"}></Button>
               <p className="text-[16px]">or</p>
-              <Twist></Twist>
+              <div className="absolute right-[15%] top-[5px]">
+                <Twist></Twist>
+              </div>
             </div>
           </div>
           <div className="absolute bottom-[0px]  right-[5%]  ">
@@ -185,7 +206,13 @@ export default function Home() {
               <div key={data.img} className="w-[20%]">
                 <PackageCard
                   onClick={() => {
-                    router.push("/product");
+                    if (data.text == "Motor") dispatch(showPackageModal());
+                    else if (
+                      data.text !== "Motor" &&
+                      !data.text.includes("Review")
+                    )
+                      router.push(data.route);
+                    else "";
                   }}
                   img={data.img}
                   text={data.text}

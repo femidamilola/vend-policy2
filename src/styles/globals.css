@@ -10,17 +10,17 @@
   box-sizing: border-box;
 }
 @font-face {
-  font-family: "Google Sans";
-  src: url("/fonts/GoogleSans-Regular.ttf");
+  font-family: "Avenir";
+  src: url("/fonts/AvenirRegular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 html {
-  font-family: "Google Sans", sans-serif;
+  font-family: "Avenir", sans-serif;
   font-size: 62.5%;
 }
 body {
-  font-family: "Google Sans", sans-serif;
+  font-family: "Avenir", sans-serif;
 }
 .slick-slider {
   position: relative;

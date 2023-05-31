@@ -1,5 +1,5 @@
 .Background {
-  background: linear-gradient(255.72deg, #3a2087 4.93%, #5d3fc9 110.31%);
+  background: #3a2087;
 }
 .Shadow1 {
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.02);
@@ -38,6 +38,6 @@
   background: linear-gradient(0deg, #ff7c03, #ff7c03);
   border-radius: 9px;
 }
-.Line{
+.Line {
   border-top: 1px solid rgba(119, 134, 155, 0.12);
 }

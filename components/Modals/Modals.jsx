@@ -8,39 +8,47 @@ import { useRouter } from "next/router";
 import styles from "./Modals.module.css";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+
 export const CarModal = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [regNo, setRegNo] = useState("");
   const showModal = useSelector(({ state }) => state.showPackageModal);
   return (
-    <div
-      className={`w-[100%] ${
-        showModal === "car" ? "block" : "hidden"
-      } flex justify-center items-center fixed  top-0 left-0 z-[200] h-[100vh]`}
-    >
-      <div
-        onClick={() => {
-          dispatch(showPackageModal(""));
-        }}
-        className="absolute top-0 left-0 w-[100%] h-[100%] bg-black opacity-[0.63]"
-      ></div>
-      <div className="w-[40%] px-[20px] py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
-        <p className="text-[#33496A] text-[20px] text-center font-bold leading-[53px]">
-          Vehicle Registration
-        </p>
-        <TextInput1
-          label={"Enter your Vehicle Registration Number"}
-          inputClass={"outline-0 pl-[20px]"}
-          onChange={(e) => {
-            setRegNo(e.target.value);
-          }}
-          className={"mt-[5rem] "}
-        ></TextInput1>
+    <div className={`w-[100%] flex justify-center items-center `}>
+      <div className="px-[40px] py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
+        <div className="flex justify-between">
+          <TextInput1
+            label={"Vehicle Registration Number"}
+            inputClass={"outline-0 pl-[20px]"}
+            onChange={(e) => {
+              setRegNo(e.target.value);
+            }}
+            className={"w-[45%]"}
+          ></TextInput1>
+          <TextInput1
+            label={"Vehicle make"}
+            inputClass={"outline-0 pl-[20px]"}
+            className={"w-[45%]"}
+          ></TextInput1>
+        </div>
+        <div className="flex justify-between mt-[20px]">
+          <TextInput1
+            label={"Vehicle model"}
+            inputClass={"outline-0 pl-[20px]"}
+            className={"w-[45%] "}
+          ></TextInput1>
+          <DateInput
+            label={"Vehicle year"}
+            inputClass={"outline-0 pl-[20px]"}
+            className={"w-[45%] "}
+          ></DateInput>
+        </div>
+
         <Button
           text={"Proceed"}
           className={
-            "w-[100%] mt-[30px] disabled:opacity-50 py-[30px] rounded-[6px]"
+            "w-[167px] mt-[30px]  h-[48px] disabled:opacity-50 rounded-[6px]"
           }
           disable={regNo.length === 0 ? true : false}
           onClick={() => {
@@ -123,27 +131,10 @@ export const TravelModal = () => {
   const showModal = useSelector(({ state }) => state.showPackageModal);
   const [travelType, setTravelType] = useState(null);
   return (
-    <div
-      className={`w-[100%] 
-      } flex justify-center ${
-        showModal === "travel" ? "block" : "hidden"
-      }  items-center fixed  top-0 left-0 z-[200] h-[100vh]`}
-    >
-      <div
-        onClick={() => {
-          dispatch(showPackageModal(""));
-        }}
-        className="absolute top-0 left-0 w-[100%] h-[100%] bg-black opacity-[0.63]"
-      ></div>
-      <div className="w-[40%] px-[20px] py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
-        <p className="text-[#33496A] text-[20px] text-center font-bold leading-[53px]">
-          Travel Insurance
-        </p>
-        <p className="text-[#77869B] text-[14px] text-center">
-          Please fill in necessary information
-        </p>
-        <div className="flex justify-between mt-[5rem] items-center">
-          <div className="w-[45%] relative">
+    <div className={`flex justify-center  items-center `}>
+      <div className=" px-[20px] py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
+        <div className="flex justify-between items-center">
+          <div className="relative w-[45%]">
             <Round className={"absolute top-[42px] left-[10px]"}></Round>
             <TextInput1
               label={"Origin"}
@@ -218,7 +209,7 @@ export const TravelModal = () => {
           text={"Proceed"}
           disable={travelType == null ? true : false}
           className={
-            "w-[100%] mt-[30px] py-[30px] disabled:opacity-50 rounded-[6px]"
+            "w-[167px] mt-[30px]  h-[48px] disabled:opacity-50 rounded-[6px]"
           }
           onClick={handleSubmit((data) => {
             dispatch(setDisplayedProposal("travel"));
@@ -250,59 +241,42 @@ export const HealthModal = () => {
   const checkPurchase = useSelector((state) => state);
   const router = useRouter();
   return (
-    <div
-      className={`w-[100%] 
-      } flex justify-center ${
-        showModal == "health" ? "block" : "hidden"
-      } items-center fixed  top-0 left-0 z-[200] h-[100vh]`}
-    >
-      <div
-        onClick={() => {
-          dispatch(showPackageModal(""));
-        }}
-        className="absolute top-0 left-0 w-[100%] h-[100%] bg-black opacity-[0.63]"
-      ></div>
-      <div className="w-[40%] px-[20px] py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
-        <p className="text-[#33496A] text-[20px] text-center font-bold leading-[53px]">
-          Health Insurance
-        </p>
-        <p className="text-[#77869B] text-[14px] text-center">
-          Please fill in necessary information
-        </p>
-        <div className="flex justify-between mt-[5rem] items-center">
-          <div className="w-[45%]">
-            {" "}
-            <SelectInput
-              label={"Gender"}
-              options={["Male", "Female"]}
-              selectClass={"outline-0"}
-              Formprops={{ ...register("gender") }}
-            ></SelectInput>
-          </div>
-          <div className="w-[45%]">
-            <TextInput1
-              label={"Age"}
-              inputClass={"outline-0 pl-[20px]"}
-              className={" "}
-              Formvals={{ ...register("age") }}
-            ></TextInput1>
-          </div>
+    <div className=" px-[40px]  py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
+      <div className="flex justify-between items-center">
+        <div className="w-[47%]">
+          {" "}
+          <SelectInput
+            label={"Gender"}
+            options={["Male", "Female"]}
+            selectClass={"outline-0"}
+            Formprops={{ ...register("gender") }}
+          ></SelectInput>
         </div>
-
-        <Button
-          text={"Proceed"}
-          className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
-          onClick={handleSubmit((data) => {
-            dispatch(setDisplayedProposal("health"));
-            dispatch(showPackageModal(""));
-            dispatch(
-              setPurchaseProps({ productType: "Health Insurance", ...data })
-            );
-
-            router.push("/companies");
-          })}
-        ></Button>
+        <div className="w-[47%]">
+          <TextInput1
+            label={"Age"}
+            inputClass={"outline-0 pl-[20px]"}
+            className={" "}
+            Formvals={{ ...register("age") }}
+          ></TextInput1>
+        </div>
       </div>
+
+      <Button
+        text={"Proceed"}
+        className={
+          "w-[167px] mt-[30px]  h-[48px] disabled:opacity-50 rounded-[6px]"
+        }
+        onClick={handleSubmit((data) => {
+          dispatch(setDisplayedProposal("health"));
+          dispatch(showPackageModal(""));
+          dispatch(
+            setPurchaseProps({ productType: "Health Insurance", ...data })
+          );
+
+          router.push("/companies");
+        })}
+      ></Button>
     </div>
   );
 };

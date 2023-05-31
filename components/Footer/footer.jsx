@@ -9,6 +9,9 @@ const Footer = () => {
   useEffect(() => {
     router.route.includes("product") ||
     router.route.includes("companies") ||
+    router.route.includes("motor") ||
+    router.route.includes("travel") ||
+    router.route.includes("health") ||
     router.route.includes("upload")
       ? setHideSub(true)
       : "";
@@ -18,7 +21,11 @@ const Footer = () => {
       className={`${
         hideSub ? "mt-[10rem]" : " mt-[20rem]"
       } w-[100%] relative pb-[5rem] bg-[#321C77] ${
-        router.route.includes("sign") || router.route.includes("dashboard")
+        router.route.includes("sign") ||
+        router.route.includes("dashboard") ||
+        router.route.includes("motor") ||
+        router.route.includes("travel") ||
+        router.route.includes("health")
           ? "hidden"
           : "block"
       }`}

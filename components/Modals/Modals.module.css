@@ -1,9 +1,20 @@
 .scrollbarhide::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* For IE, Edge and Firefox */
 .scrollbarhide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.MotorModal {
+  background: rgba(0, 0, 0, 0.37);
+}
+.Border {
+  border: 1px solid rgba(108, 130, 155, 0.56);
+  border-radius: 6px;
+}
+.BorderHover {
+  border: 1px solid #ff7c03;
+  border-radius: 6px;
 }
