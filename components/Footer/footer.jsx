@@ -24,8 +24,8 @@ const Footer = () => {
         router.route.includes("sign") ||
         router.route.includes("dashboard") ||
         router.route.includes("motor") ||
-        router.route.includes("travel") ||
-        router.route.includes("health")
+        router.route === "/travel" ||
+        router.route === "/health"
           ? "hidden"
           : "block"
       }`}

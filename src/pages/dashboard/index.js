@@ -7,7 +7,9 @@ import { DashboardCard } from "../../../components/Cards/card";
 import dynamic from "next/dynamic";
 import { useGetPackagesQuery } from "../../api/apiSlice";
 import { useEffect } from "react";
-
+import { ClaimModal } from "../../../components/Modals/Motoroptions";
+import { useDispatch } from "react-redux";
+import { showClaimsModal } from "../../store/slices";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const Dashboard = () => {
   const router = useRouter();
@@ -245,8 +247,10 @@ const Dashboard = () => {
       borderbuttom: "",
     },
   ];
+  const dispatch = useDispatch();
   return (
     <div>
+      <ClaimModal></ClaimModal>
       <div
         className={`flex ${styles.Navcontainer} items-center px-[5%] py-[20px]`}
       >
@@ -271,7 +275,14 @@ const Dashboard = () => {
             Product
           </li>
           <li className="px-[10px]">Settings</li>
-          <li className="px-[10px]">Damages and Claims</li>
+          <li
+            onClick={() => {
+              dispatch(showClaimsModal());
+            }}
+            className="px-[10px] cursor-pointer"
+          >
+            Damages and Claims
+          </li>
         </ul>
         <p
           onClick={() => router.push("/signin")}

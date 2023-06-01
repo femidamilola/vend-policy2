@@ -65,7 +65,7 @@ export const SelectInput = ({ label, options, selectClass, Formprops }) => {
         {label}
       </label>
       <select
-        className={`w-[100%] border text-[14px] my-[7px] py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px] ${selectClass} `}
+        className={`w-[100%] border outline-0 text-[14px] my-[7px] py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px] ${selectClass} `}
         name=""
         {...Formprops}
         id=""

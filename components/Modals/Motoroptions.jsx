@@ -2,8 +2,12 @@ import styles from "./Modals.module.css";
 import { Party, Theft, Comprehensive, Fire } from "../SVG/Svg";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { showPackageModal } from "@/store/slices";
+import { showPackageModal, showClaimsModal } from "@/store/slices";
 import { useSelector, useDispatch } from "react-redux";
+import { TextInput1, SelectInput } from "../Forms/form";
+import { Button } from "components/Button/button";
+import { useForm } from "react-hook-form";
+
 export const Motoroptions = () => {
   const [hovered1, setHovered1] = useState(false);
   const [hovered2, setHovered2] = useState(false);
@@ -113,6 +117,68 @@ export const Motoroptions = () => {
             ></Motorcard>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+export const ClaimModal = () => {
+  const router = useRouter();
+  const toggle = useSelector(({ state }) => state.showClaimsModal);
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  return (
+    <div
+      className={`w-[100%] h-[100vh] fixed top-0 left-0 z-[300] ${
+        toggle ? "block" : "hidden"
+      }`}
+    >
+      <div
+        className={`w-[100%] h-[100%] absolute top-0 left-0 ${styles.MotorModal}`}
+      ></div>
+      <div
+        className={`bg-white absolute top-[30%] left-[50%] py-[30px] transform translate-x-[-50%] px-[30px] rounded-[10px] w-[500px]`}
+      >
+        <div
+          onClick={() => dispatch(showClaimsModal())}
+          className="absolute right-[15px] top-[16px] cursor-pointer"
+        >
+          <img src="/assets/ex.png" alt="" />
+        </div>
+        <div className="text-center pb-[30px]">
+          <p className="text-[#33496A] text-[20px]">Report a Claim</p>
+          <p className="text-[14px] py-[8px] text-[#77869B]">
+            Select the type of insurance
+          </p>
+        </div>
+        <div>
+          <SelectInput
+            options={[
+              "Motor Insurance",
+              "Travel Insurance",
+              "Health Insurance",
+            ]}
+            label={"Insurance Package"}
+            Formprops={{ ...register("type") }}
+          ></SelectInput>
+        </div>
+        <Button
+          text={"Report Claim"}
+          className={"w-[100%] mt-[10px]"}
+          onClick={handleSubmit((data) => {
+            if (data.type.includes("Motor")) {
+              router.push("/motorclaim");
+            } else if (data.type.includes("Travel")) {
+              router.push("/travelclaim");
+            } else {
+              router.push("/healthclaim");
+            }
+          })}
+        ></Button>
       </div>
     </div>
   );
