@@ -175,15 +175,36 @@ const MotorForm = () => {
             <div className="mt-[30px] flex items-center">
               <Button
                 onClick={handleSubmit((data) => {
-                  const motorDetails = {
-                    productType: data1.productType,
-                    typeOfPackage: data1.typeOfPackage,
-                    vehicleRegistrationNumber: data1.vehicleRegistrationNumber,
-                    nameOfPackage: data1.nameOfPackage,
-                    location: data1.location,
-                    nicRegulated: data1.nicRegulated,
-                    proposalForm: data,
-                  };
+                  let motorDetails = {};
+                  if (data1.typeOfPackage === "Comprehensive Insurance") {
+                    motorDetails = {
+                      productType: data1.productType,
+                      typeOfPackage: data1.typeOfPackage,
+                      vehicleRegistrationNumber:
+                        data1.vehicleRegistrationNumber,
+                      vehicleMake: data1.vehicleMake,
+                      vehicleModel: data1.vehicleModel,
+                      vehicleYear: data1.vehicleYear,
+                      vehicleValue: data1.vehicleValue,
+                      nameOfPackage: data1.nameOfPackage,
+                      location: data1.location,
+                      nicRegulated: data1.nicRegulated,
+                      proposalForm: data,
+                    };
+                  } else
+                    motorDetails = {
+                      productType: data1.productType,
+                      typeOfPackage: data1.typeOfPackage,
+                      vehicleRegistrationNumber:
+                        data1.vehicleRegistrationNumber,
+                      vehicleMake: data1.vehicleMake,
+                      vehicleModel: data1.vehicleModel,
+                      vehicleYear: data1.vehicleYear,
+                      nameOfPackage: data1.nameOfPackage,
+                      location: data1.location,
+                      nicRegulated: data1.nicRegulated,
+                      proposalForm: data,
+                    };
 
                   submitMotorForm(motorDetails)
                     .unwrap()

@@ -15,11 +15,15 @@ const FileUpload = () => {
   );
   console.log(displayedModal);
   let sectionDisplayed = <div></div>;
+  let subText = "";
   if (displayedModal?.productType?.includes("Motor")) {
+    subText = "Please fill up the proposal form for your motor insurance";
     sectionDisplayed = <MotorForm></MotorForm>;
   } else if (displayedModal?.productType?.includes("Travel")) {
+    subText = "Please fill up the proposal form for your travel insurance";
     sectionDisplayed = <TravelForm></TravelForm>;
   } else if (displayedModal?.productType?.includes("Health")) {
+    subText = "Please fill up the proposal form for your health insurance";
     sectionDisplayed = <HealthForm></HealthForm>;
   } else {
     router.push("/");
@@ -46,9 +50,8 @@ const FileUpload = () => {
           </p>
           <p
             onClick={() => {
-                router.push("/");
+              router.push("/");
               dispatch(showPaymentModal());
-            
             }}
             className="text-[16px] font-semibold text-major border border-major px-[10px] mt-[10px] cursor-pointer"
           >
@@ -61,7 +64,7 @@ const FileUpload = () => {
       >
         <h1 className="text-[48px] leading-[69px]">Proposal Form</h1>
         <p className="opacity-90 text-[16px]">
-          Please fill up the proposal form for your Travel insurance
+        {subText}
         </p>
       </div>
 

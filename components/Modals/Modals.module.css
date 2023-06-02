@@ -18,3 +18,7 @@
   border: 1px solid #ff7c03;
   border-radius: 6px;
 }
+.TextArea::placeholder {
+  color: rgba(119, 134, 155, 0.31);
+  font-size: 13px;
+}

@@ -6,6 +6,7 @@ const initialState = {
   showPaymentModal: false,
   showClaimsModal: false,
   proposalForm: {},
+  nextRoute: "",
 };
 
 export const modalSlice = createSlice({
@@ -27,6 +28,9 @@ export const modalSlice = createSlice({
     showPaymentModal: (state, action) => {
       state.showPaymentModal = !state.showPaymentModal;
     },
+    setNextRoute: (state, action) => {
+      state.nextRoute = action.payload;
+    },
   },
 });
 export const {
@@ -34,6 +38,7 @@ export const {
   setDisplayedProposal,
   setProposalForm,
   showPaymentModal,
-  showClaimsModal
+  showClaimsModal,
+  setNextRoute,
 } = modalSlice.actions;
 // Action creators are generated for each case reducer function

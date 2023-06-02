@@ -5,8 +5,11 @@ import { Button } from "../../../components/Button/button";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setNextRoute } from "../../store/slices";
 const Details = () => {
   const [token, setToken] = useState("");
+  const dispatch = useDispatch();
   useEffect(() => {
     const toks = getCookie("token");
     setToken(toks);
@@ -111,6 +114,7 @@ const Details = () => {
       <Button
         className={"mt-[4rem]"}
         onClick={() => {
+          dispatch(setNextRoute("details"));
           token ? router.push("/upload") : router.push("/signin");
         }}
         text={"Buy Insurance (N33,000.00)"}

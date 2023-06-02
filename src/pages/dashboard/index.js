@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { ClaimModal } from "../../../components/Modals/Motoroptions";
 import { useDispatch } from "react-redux";
 import { showClaimsModal } from "../../store/slices";
+import { setCookie } from "cookies-next";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const Dashboard = () => {
   const router = useRouter();
@@ -285,7 +286,13 @@ const Dashboard = () => {
           </li>
         </ul>
         <p
-          onClick={() => router.push("/signin")}
+          onClick={() => {
+            setCookie("token", null, {
+              path: "/",
+              secure: true,
+            });
+            router.push("/signin");
+          }}
           className="text-[16px] text-white pr-[7px] cursor-pointer"
         >
           Logout

@@ -7,6 +7,8 @@ import { useSignInMutation } from "../../api/apiSlice";
 import { set, useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { setCookie } from "cookies-next";
+import { useSelector } from "react-redux";
+
 
 const Signin = () => {
   const router = useRouter();
@@ -18,6 +20,7 @@ const Signin = () => {
     formState: { errors },
     setValue,
   } = useForm();
+  const nextRoute = useSelector(({ state }) => state.nextRoute);
   const [passType, setPasType] = useState(false);
   const [signIn, { isLoading: signLoad }] = useSignInMutation();
 
@@ -96,7 +99,9 @@ const Signin = () => {
                     secure: true,
                   });
                   setUserDetails(payload?.data);
-                  router.push("/dashboard");
+                 nextRoute == "details"
+                   ? router.push("/companies/details")
+                   : router.push("/dashboard");
                 })
                 .catch((error) => {
                   setError(error?.data);

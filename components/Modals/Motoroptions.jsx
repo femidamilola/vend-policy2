@@ -3,6 +3,7 @@ import { Party, Theft, Comprehensive, Fire } from "../SVG/Svg";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { showPackageModal, showClaimsModal } from "@/store/slices";
+import { setPurchaseProps } from "@/store/purchaseSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { TextInput1, SelectInput } from "../Forms/form";
 import { Button } from "components/Button/button";
@@ -55,7 +56,10 @@ export const Motoroptions = () => {
           <div
             onMouseEnter={() => setHovered1(true)}
             onMouseLeave={() => setHovered1(false)}
-            onClick={() => router.push("/motor/thirdparty")}
+            onClick={() => {
+              dispatch(setPurchaseProps({typeOfPackage:"Third Party Insurance"}))
+              router.push("/motor/thirdparty");
+            }}
           >
             <Motorcard
               policyclass={"Third Party"}
@@ -71,7 +75,14 @@ export const Motoroptions = () => {
           <div
             onMouseEnter={() => setHovered2(true)}
             onMouseLeave={() => setHovered2(false)}
-            onClick={() => router.push("/motor/fire")}
+            onClick={() => {
+              dispatch(
+                setPurchaseProps({
+                  typeOfPackage: "Third Party/Fire Insurance",
+                })
+              );
+              router.push("/motor/fire");
+            }}
           >
             <Motorcard
               policyclass={"Third Party/Fire"}
@@ -87,7 +98,14 @@ export const Motoroptions = () => {
           <div
             onMouseEnter={() => setHovered3(true)}
             onMouseLeave={() => setHovered3(false)}
-            onClick={() => router.push("/motor/theft")}
+            onClick={() => {
+              dispatch(
+                setPurchaseProps({
+                  typeOfPackage: "Third Party/Theft Insurance",
+                })
+              );
+              router.push("/motor/theft");
+            }}
           >
             <Motorcard
               policyclass={"Third Party/Theft"}
@@ -103,7 +121,12 @@ export const Motoroptions = () => {
           <div
             onMouseEnter={() => setHovered4(true)}
             onMouseLeave={() => setHovered4(false)}
-            onClick={() => router.push("/motor/comprehensive")}
+            onClick={() => {
+              dispatch(
+                setPurchaseProps({ typeOfPackage: "Comprehensive Insurance" })
+              );
+              router.push("/motor/comprehensive");
+            }}
           >
             <Motorcard
               policyclass={"Comprehensive"}
@@ -141,7 +164,7 @@ export const ClaimModal = () => {
         className={`w-[100%] h-[100%] absolute top-0 left-0 ${styles.MotorModal}`}
       ></div>
       <div
-        className={`bg-white absolute top-[30%] left-[50%] py-[30px] transform translate-x-[-50%] px-[30px] rounded-[10px] w-[500px]`}
+        className={`bg-white absolute top-[40px] left-[50%] py-[30px] transform translate-x-[-50%] px-[30px] rounded-[10px] w-[500px]`}
       >
         <div
           onClick={() => dispatch(showClaimsModal())}
@@ -165,6 +188,19 @@ export const ClaimModal = () => {
             label={"Insurance Package"}
             Formprops={{ ...register("type") }}
           ></SelectInput>
+        </div>
+        <div>
+          <TextInput1 label={"Amount"}></TextInput1>
+        </div>
+        <div>
+          <textarea
+            name=""
+            className={`border  border-[#E0E0E0] text-[#77869B] rounded-[7px] w-[100%] p-[20px] text-[15px] outline-0  ${styles.TextArea}`}
+            placeholder="Description"
+            id=""
+            cols="30"
+            rows="5"
+          ></textarea>
         </div>
         <Button
           text={"Report Claim"}

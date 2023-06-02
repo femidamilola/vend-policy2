@@ -9,10 +9,14 @@ import styles from "./Modals.module.css";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
-export const CarModal = () => {
+export const CarModal = ({ comprehensive }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [regNo, setRegNo] = useState("");
+  const [vehicleMake, setVehicleMake] = useState("");
+  const [vehicleModel, setVehicleModel] = useState("");
+  const [vehicleYear, setVehicleYear] = useState("");
+  const [vehicleValue, setVehicleValue] = useState("");
   const showModal = useSelector(({ state }) => state.showPackageModal);
   return (
     <div className={`w-[100%] flex justify-center items-center `}>
@@ -30,19 +34,38 @@ export const CarModal = () => {
             label={"Vehicle make"}
             inputClass={"outline-0 pl-[20px]"}
             className={"w-[45%]"}
+            onChange={(e) => {
+              setVehicleMake(e.target.value);
+            }}
           ></TextInput1>
         </div>
         <div className="flex justify-between mt-[20px]">
           <TextInput1
             label={"Vehicle model"}
             inputClass={"outline-0 pl-[20px]"}
-            className={"w-[45%] "}
+            className={`${comprehensive ? "w-[40%]" : "w-[45%]"}`}
+            onChange={(e) => {
+              setVehicleModel(e.target.value);
+            }}
           ></TextInput1>
           <DateInput
             label={"Vehicle year"}
             inputClass={"outline-0 pl-[20px]"}
-            className={"w-[45%] "}
+            className={`${comprehensive ? "w-[30%]" : "w-[45%]"}`}
+            onChange={(e) => {
+              setVehicleYear(e.target.value);
+            }}
           ></DateInput>
+          <div className={`${comprehensive ? "block" : "hidden"} w-[25%]`}>
+            <TextInput1
+              label={"Vehicle value"}
+              inputClass={"outline-0 pl-[20px]"}
+              className={"w-[100%] "}
+              onChange={(e) => {
+                setVehicleValue(e.target.value);
+              }}
+            ></TextInput1>
+          </div>
         </div>
 
         <Button
@@ -58,6 +81,10 @@ export const CarModal = () => {
               setPurchaseProps({
                 productType: "Motor Insurance",
                 vehicleRegistrationNumber: regNo,
+                vehicleMake: vehicleMake,
+                vehicleModel: vehicleModel,
+                vehicleYear: vehicleYear,
+                vehicleValue: vehicleValue,
               })
             );
             dispatch(showPackageModal(""));

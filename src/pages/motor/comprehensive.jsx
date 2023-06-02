@@ -10,7 +10,7 @@ const Comprehensive = () => {
         }
         typeClass={"Comprehensive Insurance"}
         secimg={"/assets/motorpic.png"}
-        modal={<CarModal></CarModal>}
+        modal={<CarModal comprehensive={true}></CarModal>}
       ></ProductTemplate>
     </div>
   );
