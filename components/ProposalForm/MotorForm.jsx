@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
 import { setPurchaseProps } from "../../src/store/purchaseSlice";
 const MotorForm = () => {
-  const [section, setSection] = useState(3);
+  const [section, setSection] = useState(1);
   const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [util, setUtil] = useState("");
