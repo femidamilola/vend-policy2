@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { PayLock, Paycard, Paypal } from "../SVG/Svg";
 import { useRouter } from "next/router";
 const HealthForm = () => {
-  const router=useRouter()
+  const router = useRouter();
   const [section, setSection] = useState(1);
   const [id, setId] = useState("");
   let sectionDisplayed = <div></div>;
@@ -37,7 +37,7 @@ const HealthForm = () => {
     formState: { errors },
   } = useForm();
   const [planSelection, setPlanSelection] = useState("");
-  const [id1, setId1] = useState("");
+
   const plans = [
     "FGH PEARL",
     "FGH JADE",
@@ -51,9 +51,7 @@ const HealthForm = () => {
     "FGH IRIS",
   ];
   const dispatch = useDispatch();
-  useEffect(() => {
-    setId1(JSON.parse(localStorage.getItem("id")));
-  }, []);
+
   const proposalTest = useSelector(({ state }) => state.proposalForm);
   const purchasedState = useSelector(
     ({ purchaseState }) => purchaseState.proposalBody
@@ -318,10 +316,13 @@ const HealthForm = () => {
                   postForm(healthDetails)
                     .unwrap()
                     .then((payload) => {
-                      localStorage.setItem(
-                        "id",
-                        JSON.stringify(payload?.packageDetails?.userId)
+                      console.log(payload);
+                      dispatch(
+                        setPurchaseProps({
+                          formId: payload.packageDetails._id,
+                        })
                       );
+
                       setSection(() => 2);
                     })
                     .catch((error) => {
@@ -331,7 +332,9 @@ const HealthForm = () => {
                         "You have already created this package Kindly proceed to upload document"
                       )
                         setSection(2);
-                      else if (error.data.message.name.includes("TokenError")) {
+                      else if (
+                        error?.data?.message?.name?.includes("TokenError")
+                      ) {
                         setCookie("token", null, {
                           path: "/",
                           secure: true,
@@ -357,37 +360,75 @@ const HealthForm = () => {
     );
   }
   const [file, setFile] = useState("");
+  const [idSize, setIdSize] = useState(null);
+  const [addressName, setAddressName] = useState("");
+  const [addressValue, setAddressValue] = useState(null);
+  const [addressSize, setAddressSize] = useState(null);
+  const [error, showError] = useState(false);
+  const id1 = useSelector(
+    ({ purchaseState }) => purchaseState.proposalBody.formId
+  );
+
   if (section == 2) {
     sectionDisplayed = (
       <div className="px-[10%]">
         <p className="text-[#374453] text-[23px] leading-[53px] font-bold my-[20px]">
           Please upload document
         </p>
-        <div className={`${styles.Shadow2} bg-white px-[5%]  py-[50px]`}>
-          <UploadCard
-            name={id}
-            setName={setId}
-            identity={"Who are you? (ID verification)"}
-            setValue={setFile}
-            fill={"#321C77"}
-          ></UploadCard>
+        <div className={`${styles.Shadow2}  bg-white px-[5%]  py-[50px]`}>
+          <p
+            className={`text-[16px] text-[#FF7777] py-[20px] ${
+              error == true ? "block" : "hidden"
+            }`}
+          >
+            File greter than 2mb cannot be uploaded, Please check file sizes and
+            try again
+          </p>
+          <div className="flex">
+            <div className="mr-[40px]">
+              <UploadCard
+                name={id}
+                setName={setId}
+                identity={"Who are you? (ID verification)"}
+                setSize={setIdSize}
+                setValue={setFile}
+                fill={"#321C77"}
+              ></UploadCard>
+            </div>
+            <div>
+              <UploadCard
+                name={addressName}
+                setName={setAddressName}
+                identity={"Proof of Address"}
+                setValue={setAddressValue}
+                setSize={setAddressSize}
+                fill={"#33D1B5"}
+              ></UploadCard>
+            </div>
+          </div>
+
           <div className="mt-[30px] flex items-center">
             <Button
               onClick={() => {
-                const formData = new FormData();
-                formData.append("id_card", file);
-                formData.append("form_id", id1);
-                uploadDocument(formData)
-                  .unwrap()
-                  .then((payload) => {
-                    console.log(payload);
-                    setSection(3);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                    console.log(formData.has("id_card"));
-                  });
+                if (idSize > 2100000 || addressSize > 2100000) {
+                  showError(true);
+                } else {
+                  const formData = new FormData();
+                  formData.append("id_card", file);
+                  formData.append("form_id", id1);
+                  formData.append("address",addressValue)
+                  uploadDocument(formData)
+                    .unwrap()
+                    .then((payload) => {
+                      console.log(payload);
+                      setSection(3);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      console.log(formData.has("id_card"));
+                    });
+                }
               }}
               text={"Proceed to payment"}
             ></Button>

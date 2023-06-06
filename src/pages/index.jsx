@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
 import { Button } from "components/Button/button";
 import { showPackageModal } from "@/store/slices";
+
 import {
   Health,
   Travel,
@@ -25,10 +26,11 @@ import {
 } from "../../components/Cards/card";
 import { Motoroptions } from "../../components/Modals/Motoroptions";
 import { useDispatch, useSelector } from "react-redux";
-import { setPurchaseProps } from "@/store/purchaseSlice";
+import { setPurchaseProps, clearPurchaseProps } from "@/store/purchaseSlice";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useEffect } from "react";
 export default function Home() {
   const packages = [
     {
@@ -55,32 +57,32 @@ export default function Home() {
   const insureSec = [
     {
       head: "Buy Insurance in 2mins",
-      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst ",
+      text: "Make buying decisions based on full policy information and from the comfort of your home",
     },
     {
       head: "Get Quotes from different issuers",
-      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst",
+      text: "We give you the best quotes for all classes of insurance available on our platform",
     },
     {
       head: "Compare prices from the best issuers",
-      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst ",
+      text: "Compare quotes across your favorite insurers before buying your preferred policy",
     },
   ];
   const carousel = [
     {
       img: "star",
       head: "More than just price comparison",
-      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst. ",
+      text: "We know that different insurance carriers offer different rates and varying coverage. We give you access to real, accurate quotes from top insurance companies in the country.",
     },
     {
       img: "check",
       head: "100% Independent",
-      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst",
+      text: "We are 100% independent and provide unbiased and impartial Insurance quotes",
     },
     {
       img: "world",
       head: "Information at your finger tips",
-      text: "Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus liscipit dicttumst ",
+      text: "We provide information on all our covered policies and insurers in the simplest language for everyone to understand",
     },
   ];
 
@@ -115,7 +117,9 @@ export default function Home() {
     infinite: true,
   };
   const router = useRouter();
-
+  useEffect(() => {
+    dispatch(clearPurchaseProps());
+  }, []);
   return (
     <div>
       <Head>
@@ -145,8 +149,8 @@ export default function Home() {
               buying today?
             </h1>
             <p className="text-[17px] pt-[25px] mb-[30px]  leading-[25px] tracking-[1%]">
-              We work with some of the leading insurance companies to develop
-              the best insurance tailored to meet your needs
+              Access some of the industry’s best insurance providers using
+              VendPolicies
             </p>
             <div className="flex mt-[50px] items-center relative">
               <Button text={"Get a Quote"} className={"mr-[10px]"}></Button>
@@ -157,18 +161,18 @@ export default function Home() {
             </div>
           </div>
           <div className="absolute bottom-[0px]  right-[5%]  ">
-            <div className=" absolute right-[60px] bottom-[60px] w-[200px]  bg-white rounded-[12px] py-[10px] px-[20px]">
+            <div className=" absolute right-[60px] bottom-[60px] w-[210px]  bg-white rounded-[12px] py-[10px] px-[10px]">
               <div className="absolute top-[-10px] left-[-10px] ">
                 <QuoteMain></QuoteMain>
               </div>
 
               <p className="text-[14px] font-semibold ">
-                After using VendPolicy, life has been easy for us
+                Quick, easy and convenient insurance access
               </p>
             </div>
-            <div className="absolute top-[65%] left-[-60px]  flex px-[10px] items-center py-[8px] rounded-[12px] bg-white">
+            <div className="absolute top-[65%] left-[-60px]  flex px-[10px]  items-center py-[8px] rounded-[12px] bg-white">
               <CheckMain></CheckMain>
-              <p className="text-[14px] font-semibold">Officially verified</p>
+              <p className="text-[14px] font-semibold">NAICOM Licensed</p>
             </div>
             <div className="absolute top-[45px] left-[20%]">
               <World></World>
@@ -252,13 +256,13 @@ export default function Home() {
               alt=""
             />
             <h1 className="text-[35px] leading=[35px] text-semibold text-[#1B283B]">
-              Manage your insurances from one dashboard
+              One dashboard, Full Visibility
             </h1>
             <p className="text-[16px] text-[#627284] leading-[30px] py-[3rem] pt-[2rem] tracking-[0.03em]">
-              Odio morbi pharetra vulpultate varius facillisi ridiculus a
-              viverra enim faucibus liscipit dicttumst. Odio morbi pharetra
-              vulpultate varius facillisi ridiculus a viverra enim faucibus
-              liscipit dicttumst
+              Using our unified user dashboard, we aggregate insurances across
+              insurers and policies. Our users have full visibility on all of
+              the purchased insurances from motor to travel to health, from
+              every insurer.
             </p>
             <Button text={"Get started"} className={""}></Button>
           </div>
@@ -302,18 +306,24 @@ export default function Home() {
           <div className="h-[100%] absolute top-0 left-0 w-[80%]">
             <Image fill alt="" src={"/assets/slant.svg"}></Image>
           </div>
-          <div className="w-[40%]">
+          <div className="w-[46%]">
             <h1 className="text-white my-[3rem]  text-[30px] leading-[53px] font-semibold">
               What makes VendInsurance Policy different?
             </h1>
             <p className="text-[15px] text-white leading-[30px]  tracking-[0.02em]">
-              Odio morbi pharetra vulpultate varius facillisi ridiculus a
-              viverra enim faucibus liscipit dicttumst. Odio morbi pharetra
-              vulpultate varius facillisi ridiculus a viverra enim faucibus
-              liscipit dicttumst. Odio morbi pharetra vulpultate varius
-              facillisi ridiculus a viverra enim faucibus liscipit dicttumst.
-              Odio morbi pharetra vulpultate varius facillisi ridiculus a
-              viverra enim faucibus liscipit dicttumst{" "}
+              What makes VendPolicies different? Vendpolices is more than just
+              an aggregator/broker. We provide you with as much information as
+              we can, as clearly as possible to guide decision making.
+            </p>
+            <p className="text-[15px] text-white leading-[30px] py-[15px]  tracking-[0.02em]">{
+              `We know what's important is different for everyone, so we give you
+              options to choose and make the right decision for you.`}
+            </p>
+            <p className="text-[15px] text-white leading-[30px]  tracking-[0.02em]">{`
+              You can trust us to keep an eye on the insurance providers we work
+              with to make sure they're keeping up their end of the deal and
+              providing you with a good service. Our pledge is never to let our
+              customers down.`}
             </p>
             <Button text={"Get a Quote"} className={"mt-[3rem]"}></Button>
           </div>
@@ -334,19 +344,21 @@ export default function Home() {
         <div
           className={`${styles.Fourthsection} px-[10%] py-[4rem] mt-[8rem] flex justify-between`}
         >
-          <div className="w-[35%]">
+          <div className="w-[40%]">
             <h1 className="text-[#1B283B] text-[30px] font-semibold leading-[50px]">
               We priortize service and satisfaction
             </h1>
-            <p className="text-[15px] leading-[26px] text-[#657587] tracking-[2%] py-[3rem]">
-              Odio morbi pharetra vulpultate varius facillisi ridiculus a
-              viverra enim faucibus liscipit dicttumst. Odio morbi pharetra
-              vulpultate varius facillisi ridiculus a viverra enim faucibus
-              liscipit dicttumst. Odio morbi pharetra vulpultate varius
-              facillisi ridiculus a viverra enim faucibus liscipit dicttumst.
-              Odio morbi pharetra vulpultate varius facillisi ridiculus a{" "}
+            <p className="text-[15px] leading-[26px] text-[#657587] tracking-[2%] pt-[3rem]">
+              At VendPolicies, we ensure that all our partners are held to very
+              high standard terms of service especially in terms of claims
+              processing.
+            </p>{" "}
+            <p className="text-[15px] leading-[26px]  text-[#657587] tracking-[2%] py-[5px]">
+              We are constantly seeking the feedback of our customers to improve
+              quality of service across all our partners.The satisfaction of our
+              client is our utmost priority
             </p>
-            <div className="flex">
+            <div className="flex mt-[15px]">
               {[1, 2, 3, 4, 5].map((data) => (
                 <Image
                   key={data}
@@ -362,7 +374,7 @@ export default function Home() {
           <div className="w-[40%]">
             <CommentCard
               comment={
-                "“Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus. ridiculus a viverra enim”"
+                "“The service was fast and I was issued my insurance certificate almost instantly”"
               }
               img={"/assets/user2.svg"}
               name={"Kehinde Ogunsanya"}
@@ -370,7 +382,7 @@ export default function Home() {
             ></CommentCard>
             <CommentCard
               comment={
-                "“Odio morbi pharetra vulpultate varius facillisi ridiculus a viverra enim faucibus. ridiculus a viverra enim”"
+                "“Great customer service, I got stuck during onboarding but was quickly unblocked by the team”"
               }
               className={""}
               img={"/assets/user1.svg"}

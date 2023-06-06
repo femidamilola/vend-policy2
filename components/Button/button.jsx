@@ -24,10 +24,10 @@ export const DashboardButton = ({ text, className, onClick }) => {
   );
 };
 
-export const SigninButton = ({ text, className }) => {
+export const SigninButton = ({ text, className,onClick }) => {
   const router = useRouter();
   return (
-    <div onClick={() => router.push("signin")}>
+    <div onClick={onClick}>
       <button
         className={`"bg-transparent font-semibold rounded-[10px] text-[#FF7C03]  text-[14px] px-[30px] py-[6px] border border-2 border-[#FF7C03] " ${styles.Button} ${className}`}
       >

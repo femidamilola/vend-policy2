@@ -51,6 +51,14 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Todos"],
     }),
+    submitClaimsForm: builder.mutation({
+      query: (form) => ({
+        url: `/product/claims`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
     submitTravelForm: builder.mutation({
       query: (form) => ({
         url: `/product/travel/submitProposalForm`,
@@ -75,6 +83,22 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Todos"],
     }),
+    pay: builder.mutation({
+      query: (form) => ({
+        url: `/pay`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    uploadClaimsDocument: builder.mutation({
+      query: (form) => ({
+        url: `/product/claims/uploadDoc`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
     uploadTravelDocument: builder.mutation({
       query: (form) => ({
         url: `/product/travel/uploadDocument`,
@@ -90,10 +114,13 @@ export const {
   useSignUpMutation,
   useSignInMutation,
   useGetPackagesQuery,
+  useSubmitClaimsFormMutation,
   usePostFormMutation,
   useUploadDocumentMutation,
   useSubmitMotorFormMutation,
   useUploadMotorDocumentMutation,
+  useUploadClaimsDocumentMutation,
   useSubmitTravelFormMutation,
-  useUploadTravelDocumentMutation
+  useUploadTravelDocumentMutation,
+  usePayMutation
 } = apiSlice;

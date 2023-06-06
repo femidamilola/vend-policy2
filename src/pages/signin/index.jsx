@@ -7,8 +7,8 @@ import { useSignInMutation } from "../../api/apiSlice";
 import { set, useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { setCookie } from "cookies-next";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { setPurchaseProps } from "../../store/purchaseSlice";
 
 const Signin = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const Signin = () => {
   const nextRoute = useSelector(({ state }) => state.nextRoute);
   const [passType, setPasType] = useState(false);
   const [signIn, { isLoading: signLoad }] = useSignInMutation();
-
+  const dispatch = useDispatch();
   return (
     <div className="h-[100vh] overflow-y-hidden relative flex w-[100%]">
       <Image
@@ -98,10 +98,12 @@ const Signin = () => {
                     path: "/",
                     secure: true,
                   });
+                 
+                  dispatch(setPurchaseProps({ id: payload.userId }));
                   setUserDetails(payload?.data);
-                 nextRoute == "details"
-                   ? router.push("/companies/details")
-                   : router.push("/dashboard");
+                  nextRoute == "details"
+                    ? router.push("/companies/details")
+                    : router.push("/dashboard");
                 })
                 .catch((error) => {
                   setError(error?.data);

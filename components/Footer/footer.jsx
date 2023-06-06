@@ -35,14 +35,16 @@ const Footer = () => {
           hideSub ? "hidden" : "block"
         }`}
       >
-        <div className="flex justify-around items-center text-white py-[50px]">
+        <div className="flex justify-around items-center text-white py-[30px]">
           <div className="w-[40%]">
-            <h1 className="text-[30px] leading-[50px]">
+            <h1 className="text-[30px] leading-[45px]">
               Ready? Get started with your Insurance now
             </h1>
-            <p className="text-[15px] leading-[30px]">
-              Odio morbi pharetra vulpultate varius facillisi ridiculus a
-              viverra enim faucibus liscipit dicttumst.
+            <p className="text-[15px] leading-[24px]">
+              VP provides quotes from a range of Nigerian insurers, you are able
+              to choose the cover that suits your needs and budget — in minutes.
+              Simply enter your details, compare quotes and select your
+              preferred deals
             </p>
           </div>
           <div className="w-[20%]">
@@ -77,26 +79,32 @@ const Footer = () => {
           </div>
           <div className={`${styles.Listcontainer}`}>
             <p>Insurance package</p>
-            {[
-              "Buy an Insurance",
-              "Personal Health",
-              "Insurance Products",
-              "Renew Policy",
-            ].map((data) => (
-              <p key={data}>{data}</p>
-            ))}
+            {["Motor", "Travel", "Health", "Marine", "Renew Policy"].map(
+              (data) => (
+                <p key={data}>{data}</p>
+              )
+            )}
           </div>
           <div className={`${styles.Listcontainer}`}>
             <p className="tracking-[1px]">Contact Us</p>
-            <div className="flex">
-              <Image
+            <div className="flex items-center">
+              {/* <Image
                 src={"/assets/mail.svg"}
                 width={14}
                 height={14}
                 alt={""}
                 className="mr-[7px]"
-              ></Image>
-              <p>Help.vendpolicy@yahoo.com</p>
+              ></Image> */}
+              <p className="mr-[7px]">Email: </p>
+              <p>talktous@vendpolicies.com</p>
+            </div>
+            <div className="flex  items-center">
+              <p className="mr-[7px]">Twitter: </p>
+              <p>@Vendpolicies</p>
+            </div>
+            <div className="flex items-center">
+              <p className="mr-[7px]">Instagram: </p>
+              <p>Vendpolicies</p>
             </div>
             <p
               style={{ fontWeight: "700", fontSize: "16px" }}

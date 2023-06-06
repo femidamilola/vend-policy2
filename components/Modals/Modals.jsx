@@ -1,5 +1,5 @@
 import { Button } from "../Button/button";
-import { TextInput1, SelectInput, DateInput } from "../Forms/form";
+import { TextInput1, SelectInput, NumberInput, DateInput } from "../Forms/form";
 import { useDispatch, useSelector } from "react-redux";
 import { showPackageModal, setDisplayedProposal } from "../../src/store/slices";
 import { setPurchaseProps } from "../../src/store/purchaseSlice";
@@ -48,14 +48,15 @@ export const CarModal = ({ comprehensive }) => {
               setVehicleModel(e.target.value);
             }}
           ></TextInput1>
-          <DateInput
+          <NumberInput
             label={"Vehicle year"}
+            placeholder={"YYYY"}
             inputClass={"outline-0 pl-[20px]"}
             className={`${comprehensive ? "w-[30%]" : "w-[45%]"}`}
             onChange={(e) => {
               setVehicleYear(e.target.value);
             }}
-          ></DateInput>
+          ></NumberInput>
           <div className={`${comprehensive ? "block" : "hidden"} w-[25%]`}>
             <TextInput1
               label={"Vehicle value"}
@@ -76,7 +77,7 @@ export const CarModal = ({ comprehensive }) => {
           disable={regNo.length === 0 ? true : false}
           onClick={() => {
             dispatch(setDisplayedProposal("motor"));
-
+            console.log(vehicleYear);
             dispatch(
               setPurchaseProps({
                 productType: "Motor Insurance",

@@ -271,7 +271,7 @@ const Signin = () => {
         <Image
           width={150}
           height={30}
-          src={"/assets/logo.svg"}
+          src={"/assets/logo.png"}
           onClick={() => router.push("/")}
         ></Image>
         {section == "registered" ? (
@@ -296,11 +296,7 @@ const Signin = () => {
             <p className="text-center text-white text-[18px] py-[4rem] opacity-90 tracking-wider px-[30px]">
               Complete basic information to proceed to the next sign up process
             </p>
-            <Image
-              width={396}
-              height={258}
-              src={"/assets/question.svg"}
-            ></Image>
+            <img src={"/assets/question.png"} alt=""></img>
           </div>
         )}
       </div>

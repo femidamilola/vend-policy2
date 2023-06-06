@@ -38,6 +38,7 @@ const Nav = () => {
             <SigninButton
               text={"Sign in"}
               className={"h-[100%] tracking-[0.05em]"}
+              onClick={() => router.push("/signin")}
             ></SigninButton>
           ) : (
             <p

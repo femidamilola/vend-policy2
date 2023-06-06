@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { PayLock, Paycard, Paypal } from "../SVG/Svg";
 import { useDispatch, useSelector } from "react-redux";
 import { showPaymentModal } from "../../src/store/slices";
+import { setPurchaseProps } from "../../src/store/purchaseSlice";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import {
@@ -17,9 +18,7 @@ import {
 } from "../../src/api/apiSlice";
 const TravelForm = () => {
   const [section, setSection] = useState(1);
-  const [id, setId] = useState("");
-  const [id1, setId1] = useState("");
-  const [idCard, setIdCard] = useState(null);
+
   const [submitTravelForm] = useSubmitTravelFormMutation();
   const [uploadTravelDocument] = useUploadTravelDocumentMutation();
   let sectionDisplayed = <div></div>;
@@ -30,9 +29,7 @@ const TravelForm = () => {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
-  useEffect(() => {
-    setId1(JSON.parse(localStorage.getItem("id")));
-  }, []);
+
   const data1 = useSelector(({ purchaseState }) => purchaseState.proposalBody);
   if (section === 1) {
     sectionDisplayed = (
@@ -259,7 +256,6 @@ const TravelForm = () => {
                     departure: data1.departure,
                     returnTrip: data1.returnTrip,
                     travelInsuranceType: data1.travelInsuranceType,
-                    age: "25",
                     proposalForm: {
                       personalData: {
                         nameOfProposer: data.nameOfProposer,
@@ -293,6 +289,11 @@ const TravelForm = () => {
                   submitTravelForm(travelDetails)
                     .unwrap()
                     .then((payload) => {
+                      dispatch(
+                        setPurchaseProps({
+                          formId: payload.packageDetails._id,
+                        })
+                      );
                       setSection(2);
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     })
@@ -316,6 +317,16 @@ const TravelForm = () => {
       </div>
     );
   }
+  const id1 = useSelector(
+    ({ purchaseState }) => purchaseState.proposalBody.formId
+  );
+  const [passportName, setPassportName] = useState("");
+  const [passportValue, setPassportValue] = useState(null);
+  const [passportSize, setPassportSize] = useState(null);
+  const [ticketName, setTicketName] = useState("");
+  const [ticketValue, setTicketValue] = useState(null);
+  const [ticketSize, setTicketSize] = useState(null);
+  const [error, showError] = useState(false);
   if (section == 2) {
     sectionDisplayed = (
       <div className="px-[10%]">
@@ -323,28 +334,59 @@ const TravelForm = () => {
           Please upload document
         </p>
         <div className={`${styles.Shadow2} bg-white px-[5%]  py-[50px]`}>
-          <UploadCard
-            name={id}
-            fill={"#321C77"}
-            setName={setId}
-            setValue={setIdCard}
-            identity={"Who are you? (ID verification)"}
-          ></UploadCard>
+          <p
+            className={`text-[16px] text-[#FF7777] py-[20px] ${
+              error == true ? "block" : "hidden"
+            }`}
+          >
+            File greter than 2mb cannot be uploaded, Please check file sizes and
+            try again
+          </p>
+          <div className="flex">
+            <div className="mr-[40px]">
+              <UploadCard
+                name={passportName}
+                fill={"#321C77"}
+                setName={setPassportName}
+                setSize={setPassportSize}
+                setValue={setPassportValue}
+                identity={"Valid International Passport"}
+              ></UploadCard>
+            </div>
+            <div>
+              <UploadCard
+                name={ticketName}
+                fill={"#33D1B5"}
+                setName={setTicketName}
+                setSize={setTicketSize}
+                setValue={setTicketValue}
+                identity={"Travel Ticket showing itinerary"}
+              ></UploadCard>
+            </div>
+          </div>
+
           <div className="mt-[30px] flex items-center">
             <Button
               onClick={() => {
-                const formData = new FormData();
-                formData.append("id_card", idCard);
-                formData.append("form_id", id1);
-                uploadTravelDocument(formData)
-                  .unwrap()
-                  .then((payload) => {
-                    setSection(3);
+                if (ticketSize > 2100000 || passportSize > 2100000) {
+                  showError(true);
                     window.scrollTo({ top: 0, behavior: "smooth" });
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
+                } else {
+                  const formData = new FormData();
+                  formData.append("passport", passportValue);
+                  formData.append("ticket", ticketValue);
+                  formData.append("form_id", id1);
+                  uploadTravelDocument(formData)
+                    .unwrap()
+                    .then((payload) => {
+                      console.log(payload);
+                      setSection(3);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                }
               }}
               text={"Proceed to payment"}
             ></Button>

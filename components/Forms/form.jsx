@@ -28,6 +28,38 @@ export const TextInput1 = ({
     </div>
   );
 };
+export const NumberInput = ({
+  className,
+  label,
+  labelClass,
+  inputClass,
+  Formvals,
+  formError,
+  placeholder,
+  value,
+  onChange,
+  id,
+}) => {
+  return (
+    <div className={className}>
+      <label className={`text-[#77869B]  text-[16px] ${labelClass}`} htmlFor="">
+        {label}
+      </label>
+      <input
+        id={id}
+        className={`w-[100%] pl-[10px] border text-[14px] my-[7px] outline-0 py-[10px] text-[#6C829B] border-[#E0E0E0] rounded-[5px] ${inputClass}`}
+        type="number"
+        min="1900"
+        max="2099"
+        placeholder={placeholder}
+        value={value}
+        {...Formvals}
+        onChange={onChange}
+      />
+      {formError && <span className="text-major">This field is required</span>}
+    </div>
+  );
+};
 
 export const DateInput = ({
   className,

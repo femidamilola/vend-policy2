@@ -2,23 +2,25 @@ import styles from "./Proposal.module.css";
 import { GreaterThan, LeftArrow } from "../SVG/Small";
 import UploadCard from "../UploadCard";
 import { TextInput1 } from "../Forms/form";
-import PhoneInput from "react-phone-input-2";
 import { Button } from "../Button/button";
 import "react-phone-input-2/lib/style.css";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PayLock, Paycard, Paypal } from "../SVG/Svg";
 import Image from "next/image";
+
 import { useForm } from "react-hook-form";
 import {
   useSubmitMotorFormMutation,
   useUploadMotorDocumentMutation,
+  usePayMutation,
 } from "../../src/api/apiSlice";
 import { showPaymentModal } from "../../src/store/slices";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
+import { setPurchaseProps } from "../../src/store/purchaseSlice";
 const MotorForm = () => {
-  const [section, setSection] = useState(1);
+  const [section, setSection] = useState(3);
   const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [util, setUtil] = useState("");
@@ -36,10 +38,6 @@ const MotorForm = () => {
   const [submitMotorForm] = useSubmitMotorFormMutation();
   const [uploadMotorDocument] = useUploadMotorDocumentMutation();
 
-  const [id1, setId1] = useState(null);
-  useEffect(() => {
-    setId1(JSON.parse(localStorage.getItem("id")));
-  }, []);
   if (section === 1) {
     sectionDisplayed = (
       <div className="px-[10%] ">
@@ -80,8 +78,8 @@ const MotorForm = () => {
               <TextInput1
                 label={"City"}
                 className={"w-[35%]"}
-                Formvals={{ ...register("mailingAdress", { required: true }) }}
-                formError={errors.mailingAdress}
+                Formvals={{ ...register("city", { required: true }) }}
+                formError={errors.city}
               ></TextInput1>
 
               <div className="w-[35%]">
@@ -134,6 +132,7 @@ const MotorForm = () => {
               <TextInput1
                 className={"w-[47%]"}
                 label={"Mailing Address (Optional)"}
+                Formvals={{ ...register("mailingAdress") }}
               ></TextInput1>
               <TextInput1
                 className={"w-[47%]"}
@@ -210,9 +209,8 @@ const MotorForm = () => {
                     .unwrap()
                     .then((payload) => {
                       console.log(payload);
-                      localStorage.setItem(
-                        "id",
-                        JSON.stringify(payload.packageDetails._id)
+                      dispatch(
+                        setPurchaseProps({ formId: payload.packageDetails._id })
                       );
                       setSection(2);
                       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -226,7 +224,7 @@ const MotorForm = () => {
                         setSection(2);
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       } else if (
-                        error.data.message.name == "TokenExpiredError"
+                        error?.data?.message?.name == "TokenExpiredError"
                       ) {
                         setCookie("token", null, {
                           path: "/",
@@ -245,6 +243,12 @@ const MotorForm = () => {
       </div>
     );
   }
+  const id1 = useSelector(
+    ({ purchaseState }) => purchaseState.proposalBody.formId
+  );
+  const [idSize, setIdSize] = useState(null);
+  const [utilSize, setutilSize] = useState(null);
+  const [error, showError] = useState(false);
   if (section == 2) {
     sectionDisplayed = (
       <div className="px-[10%]">
@@ -252,6 +256,14 @@ const MotorForm = () => {
           Please upload document
         </p>
         <div className={`${styles.Shadow2} bg-white px-[5%]  py-[50px]`}>
+          <p
+            className={`text-[16px] text-[#FF7777] py-[20px] ${
+              error == true ? "block" : "hidden"
+            }`}
+          >
+            File greter than 2mb cannot be uploaded, Please check file sizes and
+            try again
+          </p>
           <div className="flex">
             <div className="mr-[40px]">
               <UploadCard
@@ -260,6 +272,7 @@ const MotorForm = () => {
                 setName={setId}
                 setValue={setIdCard}
                 identity={"Who are you? (ID verification)"}
+                setSize={setIdSize}
               ></UploadCard>
             </div>
             <UploadCard
@@ -267,26 +280,32 @@ const MotorForm = () => {
               setName={setUtil}
               setValue={setUtilFile}
               fill={"#FF7C03"}
-              identity={"Utility Bill in the last 3 months"}
+              identity={"Vehicle License"}
+              setSize={setutilSize}
             ></UploadCard>
           </div>
 
           <div className="mt-[30px] flex items-center">
             <Button
               onClick={() => {
-                const formData = new FormData();
-                formData.append("id_card", idCard);
-                formData.append("utility_bill", utilFile);
-                formData.append("form_id", id1);
-                uploadMotorDocument(formData)
-                  .unwrap()
-                  .then((payload) => {
-                    setSection(3);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
+                if (idSize > 2100000 || utilSize > 2100000) {
+                  showError(true);
+                } else {
+                  const formData = new FormData();
+                  formData.append("id_card", idCard);
+                  formData.append("licence", utilFile);
+                  formData.append("form_id", id1);
+                  uploadMotorDocument(formData)
+                    .unwrap()
+                    .then((payload) => {
+                      console.log(payload);
+                      setSection(3);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                }
               }}
               text={"Proceed to payment"}
             ></Button>
@@ -296,6 +315,8 @@ const MotorForm = () => {
       </div>
     );
   }
+
+  const [pay] = usePayMutation();
   if (section == 3) {
     sectionDisplayed = (
       <div className="px-[10%]">
@@ -307,15 +328,26 @@ const MotorForm = () => {
             className={`${styles.Shadow2} bg-white px-[5%] w-[60%]   py-[50px]`}
           >
             <div className="flex justify-between  mb-[20px]">
-              <TextInput1
-                className={"w-[47%] "}
-                label={"First Name"}
-              ></TextInput1>
-
-              <TextInput1
-                className={"w-[47%] "}
-                label={"Last Name"}
-              ></TextInput1>
+              <div className="w-[47%]">
+                <TextInput1
+                  className={"w-[100%] "}
+                  label={"First Name"}
+                  Formvals={{ ...register("payFirstName", { required: true }) }}
+                ></TextInput1>
+                {errors.payFirstName && (
+                  <p className="text-[#FF7777]">This field cannot be empty</p>
+                )}
+              </div>
+              <div className="w-[47%]">
+                <TextInput1
+                  className={"w-[100%] "}
+                  label={"Last Name"}
+                  Formvals={{ ...register("payLastName", { required: true }) }}
+                ></TextInput1>
+                {errors.payLastName && (
+                  <p className="text-[#FF7777]">This field cannot be empty</p>
+                )}
+              </div>
             </div>
             <div className="flex justify-between mb-[20px]">
               <TextInput1
@@ -393,9 +425,9 @@ const MotorForm = () => {
             </div>
             <Button
               text={"Pay Insurance"}
-              onClick={() => {
+              onClick={handleSubmit((data) => {
                 dispatch(showPaymentModal());
-              }}
+              })}
               className={"w-[100%] my-[15px] mt-[30px]"}
             ></Button>
           </div>

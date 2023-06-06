@@ -1,6 +1,9 @@
 import { useState } from "react";
 import UploadCard from "../../../components/UploadCard";
 import { Button } from "../../../components/Button/button";
+import { useUploadClaimsDocumentMutation } from "../../api/apiSlice";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 const MotorClaim = () => {
   const [completedFormName, setCompletedFormName] = useState("");
   const [completedFormValue, setCompletedFormValue] = useState(null);
@@ -10,6 +13,16 @@ const MotorClaim = () => {
   const [repairValue, setRepairValue] = useState("");
   const [policeName, setPoliceName] = useState("");
   const [policeValue, setPoliceValue] = useState("");
+  const [uploadDoc] = useUploadClaimsDocumentMutation();
+  const [size1, setSize1] = useState(null);
+  const [size2, setSize2] = useState(null);
+  const [size3, setSize3] = useState(null);
+  const [size4, setSize4] = useState(null);
+  const router = useRouter();
+  const id1 = useSelector(
+    ({ purchaseState }) => purchaseState.proposalBody.claimsId
+  );
+  const [disableBtn, setDisableBtn] = useState(false);
   return (
     <div>
       <div className="h-[343px] bg-[#3a2087]">
@@ -29,6 +42,7 @@ const MotorClaim = () => {
               fill={"#33D1B5"}
               setName={setCompletedFormName}
               setValue={setCompletedFormValue}
+              setSize={setSize1}
               identity={"Completed form"}
             ></UploadCard>
           </div>
@@ -37,6 +51,7 @@ const MotorClaim = () => {
               name={damageName}
               setName={setDamageName}
               setValue={setDamageValue}
+              setSize={setSize2}
               fill={"#FF7C03"}
               identity={"Pictures of damage"}
             ></UploadCard>
@@ -46,6 +61,7 @@ const MotorClaim = () => {
               name={repairName}
               setName={setRepairName}
               setValue={setRepairValue}
+              setSize={setSize3}
               fill={"#482CA1"}
               identity={"Repair Estimate"}
             ></UploadCard>
@@ -56,6 +72,7 @@ const MotorClaim = () => {
               name={policeName}
               setName={setPoliceName}
               setValue={setPoliceValue}
+              setSize={setSize4}
               fill={"#435D7B"}
               identity={"Police Report"}
             ></UploadCard>
@@ -64,22 +81,29 @@ const MotorClaim = () => {
 
         <div className="py-[30px] mb-[30px]  flex items-center">
           <Button
-            className={"w-[180px] h-[56px] rounded-[6px]"}
-            //   onClick={() => {
-            //     const formData = new FormData();
-            //     formData.append("id_card", idCard);
-            //     formData.append("utility_bill", utilFile);
-            //     formData.append("form_id", id1);
-            //     uploadMotorDocument(formData)
-            //       .unwrap()
-            //       .then((payload) => {
-            //         setSection(3);
-            //         window.scrollTo({ top: 0, behavior: "smooth" });
-            //       })
-            //       .catch((error) => {
-            //         console.log(error);
-            //       });
-            //   }}
+            disable={disableBtn}
+            className={"w-[180px] disabled:opacity-50 h-[56px] rounded-[6px]"}
+            onClick={() => {
+              setDisableBtn(true);
+              const formData = new FormData();
+              formData.append("form", completedFormValue);
+              formData.append("damage", damageValue);
+              formData.append("police", policeValue);
+              formData.append("repair", repairValue);
+              formData.append("insuranceType", "Motor Insurance");
+              formData.append("formId", id1);
+              uploadDoc(formData)
+                .unwrap()
+                .then((payload) => {
+                  console.log(payload);
+                  setDisableBtn(false);
+                  router.push("/dashboard");
+                })
+                .catch((error) => {
+                  console.log(error);
+                  setDisableBtn(false);
+                });
+            }}
             text={"Submit"}
           ></Button>
           <p className="text-[#F5564C] ml-[50px] text-[14px]">Cancel</p>

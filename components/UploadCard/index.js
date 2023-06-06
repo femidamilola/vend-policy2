@@ -1,7 +1,7 @@
 import styles from "./UploadCard.module.css";
 
 import { Camera, File, Upload } from "../SVG/Small";
-const UploadCard = ({ name, setName, setValue, identity, fill }) => {
+const UploadCard = ({ name, setName, setValue, setSize, identity, fill }) => {
   return (
     <div className="w-[250px]">
       <div
@@ -35,6 +35,8 @@ const UploadCard = ({ name, setName, setValue, identity, fill }) => {
               type="file"
               accept="image/png, image/jpeg,image/jpg, .pdf"
               onChange={(e) => {
+                setSize(e?.target?.files[0].size);
+
                 setName(e?.target?.files[0]?.name);
                 setValue(e?.target?.files[0]);
               }}

@@ -6,11 +6,12 @@ import { useRouter } from "next/router";
 import { DashboardCard } from "../../../components/Cards/card";
 import dynamic from "next/dynamic";
 import { useGetPackagesQuery } from "../../api/apiSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ClaimModal } from "../../../components/Modals/Motoroptions";
 import { useDispatch } from "react-redux";
 import { showClaimsModal } from "../../store/slices";
 import { setCookie } from "cookies-next";
+
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const Dashboard = () => {
   const router = useRouter();
@@ -47,16 +48,20 @@ const Dashboard = () => {
     isLoading,
     isSuccess,
     isError,
-    error,
+    error: dashError,
   } = useGetPackagesQuery();
 
-  useEffect(() => {
-    if (packages) {
-      console.log(packages);
-    } else if (isError) {
-      console.log(error);
-    }
-  }, []);
+  let userDetails = null;
+
+  if (isLoading) {
+    console.log("loading");
+  } else if (packages) {
+    userDetails = packages?.data?.userDetails;
+    console.log(packages, "packages");
+  }
+  if (isError) {
+    if (dashError?.data?.message?.message == "jwt expired") router.push("/signin");
+  }
   const tableData = [
     {
       claims: (
@@ -307,8 +312,12 @@ const Dashboard = () => {
             className="mx-[16px]"
           ></Image>
           <div>
-            <p className="text-[15px] text-white">Adeyemi Oladayo</p>
-            <p className={`${styles.Id} text-[14px]`}>ID: 1203847328</p>
+            <p className="text-[15px] text-white">
+              {userDetails ? userDetails.fullName : ""}
+            </p>
+            <p className={`${styles.Id} text-[14px]`}>{`ID: ${
+              userDetails ? userDetails._id : ""
+            }`}</p>
           </div>
         </div>
       </div>
@@ -318,7 +327,9 @@ const Dashboard = () => {
             Welcome to your dashboard!
           </p>
           <div className="py-[18px] mb-auto">
-            <p className="text-major text-[21px] font-bold">120-384-7328</p>
+            <p className="text-major text-[21px] font-bold">
+              {userDetails ? userDetails._id : ""}
+            </p>
             <p className="text-center text-[#77869B] text-[13px]">Member ID</p>
           </div>
           <div
@@ -326,7 +337,7 @@ const Dashboard = () => {
           >
             <div>
               <p className="text-[#77869B] text-[15px] font-bold">
-                Adeyemi Oladayo
+                {userDetails ? userDetails.fullName : ""}
               </p>
               <p className="text-common text-[13px]">Member since 19/04/2022</p>
             </div>

@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { TextInput1, SelectInput } from "../Forms/form";
 import { Button } from "components/Button/button";
 import { useForm } from "react-hook-form";
-
+import { useSubmitClaimsFormMutation } from "@/api/apiSlice";
 export const Motoroptions = () => {
   const [hovered1, setHovered1] = useState(false);
   const [hovered2, setHovered2] = useState(false);
@@ -34,7 +34,7 @@ export const Motoroptions = () => {
   return (
     <div
       className={`w-[100%]   fixed top-0 z-[300] left-0  h-[100vh] ${
-        toggle ? "block" : "hidden"
+        toggle == true ? "block" : "hidden"
       }`}
     >
       <div
@@ -57,7 +57,9 @@ export const Motoroptions = () => {
             onMouseEnter={() => setHovered1(true)}
             onMouseLeave={() => setHovered1(false)}
             onClick={() => {
-              dispatch(setPurchaseProps({typeOfPackage:"Third Party Insurance"}))
+              dispatch(
+                setPurchaseProps({ typeOfPackage: "Third Party Insurance" })
+              );
               router.push("/motor/thirdparty");
             }}
           >
@@ -147,8 +149,10 @@ export const Motoroptions = () => {
 
 export const ClaimModal = () => {
   const router = useRouter();
+
   const toggle = useSelector(({ state }) => state.showClaimsModal);
   const dispatch = useDispatch();
+  const [claimsDetails] = useSubmitClaimsFormMutation();
   const {
     register,
     handleSubmit,
@@ -190,7 +194,13 @@ export const ClaimModal = () => {
           ></SelectInput>
         </div>
         <div>
-          <TextInput1 label={"Amount"}></TextInput1>
+          <TextInput1
+            Formvals={{ ...register("amount", { required: true }) }}
+            label={"Amount"}
+          ></TextInput1>
+          {errors.amount && (
+            <p className="mb-[3px] text-[#FF7777]">This field is required</p>
+          )}
         </div>
         <div>
           <textarea
@@ -200,19 +210,41 @@ export const ClaimModal = () => {
             id=""
             cols="30"
             rows="5"
+            {...register("description", { required: true })}
           ></textarea>
+          {errors.description && (
+            <p className="mb-[3px] text-[#FF7777]">This field is required</p>
+          )}
         </div>
         <Button
           text={"Report Claim"}
           className={"w-[100%] mt-[10px]"}
           onClick={handleSubmit((data) => {
-            if (data.type.includes("Motor")) {
-              router.push("/motorclaim");
-            } else if (data.type.includes("Travel")) {
-              router.push("/travelclaim");
-            } else {
-              router.push("/healthclaim");
-            }
+            const claimsData = {
+              insurancePackage: data.type,
+              amount: data.amount,
+              description: data.description,
+            };
+            claimsDetails(claimsData)
+              .unwrap()
+              .then((payload) => {
+                console.log(payload);
+                 dispatch(showClaimsModal());
+                if (payload.claims.insurancePackage.includes("Motor")) {
+                  dispatch(setPurchaseProps({ claimsId: payload.claims._id }));
+                  router.push("/motorclaim");
+                } else if (payload.claims.insurancePackage.includes("Travel")) {
+                  dispatch(setPurchaseProps({ claimsId: payload.claims._id }));
+                  router.push("/travelclaim");
+                } else if (payload.claims.insurancePackage.includes("Health")) {
+                  dispatch(setPurchaseProps({ claimsId: payload.claims._id }));
+                  router.push("/healthclaim");
+                } else "";
+              })
+              .catch((error) => {
+                
+                console.log(error);
+              });
           })}
         ></Button>
       </div>
