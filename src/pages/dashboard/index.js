@@ -261,7 +261,7 @@ const Dashboard = () => {
         className={`flex ${styles.Navcontainer} items-center px-[5%] py-[20px]`}
       >
         <Image
-          src={"/assets/logo.svg"}
+          src={"/assets/logo.png"}
           width={150}
           height={30}
           alt="img"

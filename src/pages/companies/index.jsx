@@ -9,14 +9,13 @@ const Company = () => {
   const dispatch = useDispatch();
   const Header = ({ img, location, price, onClick }) => (
     <div className="w-[100%] px-[25px] py-[40px] flex flex-col items-center">
-      <Image
-        width={130}
-        height={50}
+      <img
+        className="w-[130px] h-[50px]"
         src={`/assets/partner${img}.png`}
         alt=""
-      ></Image>
+      />
 
-      <p style={{ color: "rgba(55, 68, 83, 0.44)" }} className="text-[15px]">
+      <p style={{ color: "rgba(55, 68, 83, 0.44)" }} className="text-[15px] mt-[10px]">
         {location}
       </p>
       <h1 className=" whitespace-nowrap text-[#374453] text-[25px] leading-[53px]">
@@ -121,8 +120,8 @@ const Company = () => {
           <thead>
             <tr className="">
               <th></th>
-              {companyData.map((data,i) => (
-                <th key={i}  className="pb-[30px]">
+              {companyData.map((data, i) => (
+                <th key={i} className="pb-[30px]">
                   <Header
                     img={data.img}
                     location={data.location}

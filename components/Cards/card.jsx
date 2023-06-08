@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./Card.module.css";
 import { DashboardButton } from "components/Button/button";
 import { setPurchaseProps } from "@/store/purchaseSlice";
+import { useRouter } from "next/router";
 export const PackageCard = ({ img, text, onClick }) => {
   return (
     <div
@@ -142,11 +143,12 @@ export const ProductCard1 = ({
   const [buttonInput, setbuttonInput] = useState("Select Package");
   const options = [
     "Third Party Insurance",
-    "Third Party Fire and Theft Insurace",
+    "Comprehensive Insurance",
     "Third Party and Fire Insurance",
+    "Third Party and Theft Insurance",
   ];
   const check = useSelector(({ purchaseState }) => purchaseState);
-  console.log(check);
+  const router = useRouter();
   return (
     <div
       className={`px-[40px] relative  w-[30%] ${className} relative py-[2.6rem] shadow-[0px_7px_32px_1px_rgba(0, 0, 0, 0.09)]`}
@@ -194,6 +196,17 @@ export const ProductCard1 = ({
         ))}
       </div>
       <div
+        onClick={() => {
+          if (buttonInput == "Comprehensive Insurance") {
+            router.push("/motor/comprehensive");
+          } else if (buttonInput == "Third Party Insurance") {
+            router.push("/motor/thirdparty");
+          } else if (buttonInput == "Third Party and Theft Insurance") {
+            router.push("/motor/theft");
+          } else if (buttonInput == "Third Party and Fire Insurance") {
+            router.push("/motor/fire");
+          } else "";
+        }}
         className={` absolute bottom-[25px] left-[50%] transform translate-x-[-50%] ${
           orange ? "bg-[#ffffff]  text-[#FF7C03]" : "bg-[#FF7C03] text-white"
         } w-[80%] rounded-[6px] whitespace-nowrap  cursor-pointer font-bold flex justify-center py-[10px] ${

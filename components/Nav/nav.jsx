@@ -13,7 +13,9 @@ const Nav = () => {
       className={`absolute z-[200] top-0 ${
         router.route !== "/companies/details" ? "bg-[#3A2087]" : ""
       }  pb-[20px] left-0 w-[100%]  px-[100px] ${
-        router.route.includes("sign") || router.route.includes("dashboard")
+        router.route.includes("sign") ||
+        router.route.includes("dashboard") ||
+        router.route.includes("welcome")
           ? "hidden"
           : "block"
       }`}

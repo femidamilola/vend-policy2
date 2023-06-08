@@ -141,21 +141,25 @@ export default function Home() {
       <main className={styles.main}>
         <Motoroptions></Motoroptions>
         <div
-          className={`${styles.Firstsection}  relative  z-50 flex justify-between items-center h-[700px] px-[10%]`}
+          className={`${styles.Firstsection}  relative  z-50 flex justify-between items-center h-[700px] px-[5%]`}
         >
           <div className="text-white w-[50%]">
             <h1 className="text-[48px] leading-[69px]">
               What <span className="text-[#FF9E44]">policy</span> will you be
               buying today?
             </h1>
-            <p className="text-[17px] pt-[25px] mb-[30px]  leading-[25px] tracking-[1%]">
+            <p className="text-[18px] pt-[25px] mb-[30px] w-[70%] leading-[25px] tracking-[1%]">
               Access some of the industry’s best insurance providers using
               VendPolicies
             </p>
             <div className="flex mt-[50px] items-center relative">
-              <Button text={"Get a Quote"} className={"mr-[10px]"}></Button>
-              <p className="text-[16px]">or</p>
-              <div className="absolute right-[15%] top-[5px]">
+              <Button
+                text={"Get a Quote"}
+                onClick={() => router.push("/product")}
+                className={"mr-[10px]"}
+              ></Button>
+              <p className="text-[16px] ml-[20px]">or</p>
+              <div className="absolute right-[15%] top-[-40px]">
                 <Twist></Twist>
               </div>
             </div>
@@ -166,13 +170,15 @@ export default function Home() {
                 <QuoteMain></QuoteMain>
               </div>
 
-              <p className="text-[14px] font-semibold ">
+              <p className="text-[14px] text-center font-semibold ">
                 Quick, easy and convenient insurance access
               </p>
             </div>
             <div className="absolute top-[65%] left-[-60px]  flex px-[10px]  items-center py-[8px] rounded-[12px] bg-white">
               <CheckMain></CheckMain>
-              <p className="text-[14px] font-semibold">NAICOM Licensed</p>
+              <p className="text-[14px] text-center font-semibold">
+                NAICOM Licensed
+              </p>
             </div>
             <div className="absolute top-[45px] left-[20%]">
               <World></World>
@@ -225,7 +231,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="flex justify-between mt-[10rem]  px-[10%]">
+        <div className="flex justify-between mt-[10rem]  px-[5%]">
           <div className="relative">
             <Image
               width={194}
@@ -264,10 +270,14 @@ export default function Home() {
               the purchased insurances from motor to travel to health, from
               every insurer.
             </p>
-            <Button text={"Get started"} className={""}></Button>
+            <Button
+              text={"Get started"}
+              onClick={() => router.push("/product")}
+              className={""}
+            ></Button>
           </div>
         </div>
-        <div className="w-[80%] relative ml-[50%] mt-[15rem] transform translate-x-[-50%] flex justify-between">
+        <div className="w-[90%] relative ml-[50%] mt-[15rem] transform translate-x-[-50%] flex justify-between">
           <Image
             width={133}
             height={125}
@@ -286,7 +296,7 @@ export default function Home() {
           ))}
         </div>
         <div
-          className={`${styles.Thirdsection} relative mt-[7rem] py-[15rem]  w-[100%] flex justify-between px-[10%] items-center`}
+          className={`${styles.Thirdsection} relative mt-[7rem] py-[15rem]  w-[100%] flex justify-between px-[5%] items-center`}
         >
           <Image
             alt=""
@@ -315,17 +325,22 @@ export default function Home() {
               an aggregator/broker. We provide you with as much information as
               we can, as clearly as possible to guide decision making.
             </p>
-            <p className="text-[15px] text-white leading-[30px] py-[15px]  tracking-[0.02em]">{
-              `We know what's important is different for everyone, so we give you
+            <p className="text-[15px] text-white leading-[30px] py-[15px]  tracking-[0.02em]">
+              {`We know what's important is different for everyone, so we give you
               options to choose and make the right decision for you.`}
             </p>
-            <p className="text-[15px] text-white leading-[30px]  tracking-[0.02em]">{`
+            <p className="text-[15px] text-white leading-[30px]  tracking-[0.02em]">
+              {`
               You can trust us to keep an eye on the insurance providers we work
               with to make sure they're keeping up their end of the deal and
               providing you with a good service. Our pledge is never to let our
               customers down.`}
             </p>
-            <Button text={"Get a Quote"} className={"mt-[3rem]"}></Button>
+            <Button
+              text={"Get a Quote"}
+              onClick={() => router.push("/product")}
+              className={"mt-[3rem] relative z-[300]"}
+            ></Button>
           </div>
           <div className="w-[45%] h-[130%]">
             <Slider {...settings}>
@@ -342,7 +357,7 @@ export default function Home() {
           </div>
         </div>
         <div
-          className={`${styles.Fourthsection} px-[10%] py-[4rem] mt-[8rem] flex justify-between`}
+          className={`${styles.Fourthsection} px-[5%] py-[4rem] mt-[8rem] flex justify-between`}
         >
           <div className="w-[40%]">
             <h1 className="text-[#1B283B] text-[30px] font-semibold leading-[50px]">

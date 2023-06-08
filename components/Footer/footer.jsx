@@ -12,7 +12,7 @@ const Footer = () => {
     router.route.includes("motor") ||
     router.route.includes("travel") ||
     router.route.includes("health") ||
-    router.route.includes("upload")
+    router.route.includes("upload")|| router.route.includes("welcome") 
       ? setHideSub(true)
       : "";
   }, [router.route]);
@@ -25,13 +25,14 @@ const Footer = () => {
         router.route.includes("dashboard") ||
         router.route.includes("motor") ||
         router.route === "/travel" ||
-        router.route === "/health"
+        router.route === "/health" ||
+        router.route.includes("welcome")
           ? "hidden"
           : "block"
       }`}
     >
       <div
-        className={`w-[80%]  absolute left-[50%] transform translate-x-[-50%] top-[-140px] rounded-[18px] grid m-auto bg-[#6243D3] ${
+        className={`w-[90%]  absolute left-[50%] transform translate-x-[-50%] top-[-140px] rounded-[18px] grid m-auto bg-[#6243D3] ${
           hideSub ? "hidden" : "block"
         }`}
       >
@@ -59,7 +60,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="w-[80%] grid m-auto ">
+      <div className="w-[90%] grid m-auto ">
         <div
           className={`flex text-white w-[100%] px-[20px] ${
             hideSub ? "mt-[5rem]" : "mt-[15rem]"

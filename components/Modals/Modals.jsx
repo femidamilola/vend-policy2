@@ -39,11 +39,11 @@ export const CarModal = ({ comprehensive }) => {
             }}
           ></TextInput1>
         </div>
-        <div className="flex justify-between mt-[20px]">
+        <div className="flex mt-[20px]">
           <TextInput1
             label={"Vehicle model"}
             inputClass={"outline-0 pl-[20px]"}
-            className={`${comprehensive ? "w-[40%]" : "w-[45%]"}`}
+            className={`${comprehensive ? "w-[40%]" : "w-[45%]"} mr-[20px]`}
             onChange={(e) => {
               setVehicleModel(e.target.value);
             }}
@@ -51,8 +51,8 @@ export const CarModal = ({ comprehensive }) => {
           <NumberInput
             label={"Vehicle year"}
             placeholder={"YYYY"}
-            inputClass={"outline-0 pl-[20px]"}
-            className={`${comprehensive ? "w-[30%]" : "w-[45%]"}`}
+            inputClass={"outline-0 pl-[10px]"}
+            className={`w-[100px] mr-[20px]`}
             onChange={(e) => {
               setVehicleYear(e.target.value);
             }}

@@ -13,7 +13,7 @@ export const TextInput1 = ({
 }) => {
   return (
     <div className={className}>
-      <label className={`text-[#77869B]  text-[16px] ${labelClass}`} htmlFor="">
+      <label className={`text-[#77869B]  text-[15px] ${labelClass}`} htmlFor="">
         {label}
       </label>
       <input
@@ -42,7 +42,7 @@ export const NumberInput = ({
 }) => {
   return (
     <div className={className}>
-      <label className={`text-[#77869B]  text-[16px] ${labelClass}`} htmlFor="">
+      <label className={`text-[#77869B]  text-[15px] ${labelClass}`} htmlFor="">
         {label}
       </label>
       <input
