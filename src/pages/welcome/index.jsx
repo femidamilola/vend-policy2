@@ -3,11 +3,11 @@ import styles from "../signup/Signup.module.css";
 import { Button } from "../../../components/Button/button";
 import "react-phone-input-2/lib/style.css";
 import { useRouter } from "next/router";
-
+import { getCookie } from "cookies-next";
 import Spinner from "../../../components/Spinner/spinner";
 const Signin = () => {
   const router = useRouter();
-
+  const token = getCookie("token");
   let main = (
     <div className="mt-[100px] w-[500px]">
       <h1 className="text-[#0F4A6B] text-[30px] leading-[53px] font-bold">
@@ -29,7 +29,9 @@ const Signin = () => {
       </p>
       <Button
         text={"Proceed to Product"}
-        onClick={() => router.push("/companies/details")}
+        onClick={() => {
+          token ? router.push("/companies/details") : router.push("/signin");
+        }}
         className={"w-[100%] rounded-[5px] my-[5rem]"}
       ></Button>
     </div>

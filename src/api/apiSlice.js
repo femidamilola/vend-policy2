@@ -83,6 +83,30 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Todos"],
     }),
+    uploadComprehensiveDocument: builder.mutation({
+      query: (form) => ({
+        url: `/product/comprehensive/uploadDocument`,
+        method: "POST",
+        body: form,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    verifyPayment: builder.mutation({
+      query: (data) => ({
+        url: `/verifyPayment`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    setPassword: builder.mutation({
+      query: (data) => ({
+        url: `/auth/setPassword`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
     pay: builder.mutation({
       query: (form) => ({
         url: `/pay`,
@@ -118,9 +142,12 @@ export const {
   usePostFormMutation,
   useUploadDocumentMutation,
   useSubmitMotorFormMutation,
+  useUploadComprehensiveDocumentMutation,
   useUploadMotorDocumentMutation,
   useUploadClaimsDocumentMutation,
   useSubmitTravelFormMutation,
   useUploadTravelDocumentMutation,
-  usePayMutation
+  usePayMutation,
+  useSetPasswordMutation,
+  useVerifyPaymentMutation
 } = apiSlice;

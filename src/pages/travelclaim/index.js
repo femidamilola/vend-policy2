@@ -1,5 +1,5 @@
 import { useState } from "react";
-import UploadCard from "../../../components/UploadCard";
+import {UploadCard} from "../../../components/UploadCard";
 import { Button } from "../../../components/Button/button";
 import { useUploadClaimsDocumentMutation } from "../../api/apiSlice";
 import { useRouter } from "next/router";

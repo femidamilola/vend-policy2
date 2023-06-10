@@ -11,6 +11,8 @@ import { ClaimModal } from "../../../components/Modals/Motoroptions";
 import { useDispatch } from "react-redux";
 import { showClaimsModal } from "../../store/slices";
 import { setCookie } from "cookies-next";
+import { Left, Right } from "./dashboardSVG";
+import Spinner from "../../../components/Spinner/spinner";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const Dashboard = () => {
@@ -32,8 +34,8 @@ const Dashboard = () => {
   );
   const ClaimsComp = ({ icon, desc }) => (
     <div className="flex items-center">
-      {icon}
-      <p className="text-common pl-[15px] text-[14px]">{desc}</p>
+      <div className="w-[50px] flex justify-center">{icon}</div>
+      <p className="text-common pl-[15px] text-[15px]">{desc}</p>
     </div>
   );
   const ClaimStatus = ({ status, color }) => {
@@ -52,83 +54,63 @@ const Dashboard = () => {
   } = useGetPackagesQuery();
 
   let userDetails = null;
-
+  let activePackages;
+  let claims = [];
   if (isLoading) {
     console.log("loading");
   } else if (packages) {
-    userDetails = packages?.data?.userDetails;
     console.log(packages, "packages");
+    userDetails = packages?.data?.userDetails;
+    let activepack = [...packages?.data?.activePackages];
+    let claimes = [...packages?.data?.claims];
+    activePackages = activepack?.reverse();
+    claims = claimes.reverse();
   }
   if (isError) {
-    if (dashError?.data?.message?.message == "jwt expired") router.push("/signin");
+    console.log(isError);
+    if (dashError?.data?.message?.message == "jwt expired")
+      router.push("/signin");
   }
-  const tableData = [
-    {
-      claims: (
-        <ClaimsComp
-          icon={MedIcon}
-          desc={"Broken legs from the gym/ sports centre"}
-        ></ClaimsComp>
-      ),
-      date: "05/11/2022",
-      cost: "N2,000.00",
-      status: (
-        <ClaimStatus status={"Pending"} color={"text-[#FFB703]"}></ClaimStatus>
-      ),
-    },
-    {
-      claims: (
-        <ClaimsComp
-          icon={MotorIcon}
-          desc={"Car Accident that happened in Yaba"}
-        ></ClaimsComp>
-      ),
-      date: "05/11/2022",
-      cost: "N12,000.00",
-      status: (
-        <ClaimStatus status={"Resolved"} color={"text-[#33D1B5]"}></ClaimStatus>
-      ),
-    },
-    {
-      claims: (
-        <ClaimsComp
-          icon={MedIcon}
-          desc={"Broken legs from the gym/ sports centre"}
-        ></ClaimsComp>
-      ),
-      date: "05/11/2022",
-      cost: "N2,000.00",
-      status: (
-        <ClaimStatus status={"Pending"} color={"text-[#FFB703]"}></ClaimStatus>
-      ),
-    },
-    {
-      claims: (
-        <ClaimsComp
-          icon={MotorIcon}
-          desc={"Car Accident that happened in Yaba"}
-        ></ClaimsComp>
-      ),
-      date: "05/11/2022",
-      cost: "N12,000.00",
-      status: (
-        <ClaimStatus status={"Resolved"} color={"text-[#33D1B5]"}></ClaimStatus>
-      ),
-    },
-    {
-      claims: (
-        <ClaimsComp
-          icon={MedIcon}
-          desc={"Broken legs from the gym/ sports centre"}
-        ></ClaimsComp>
-      ),
-      date: "05/11/2022",
-      cost: "N2,000.00",
-      status: (
-        <ClaimStatus status={"Pending"} color={"text-[#FFB703]"}></ClaimStatus>
-      ),
-    },
-  ];
+
+  const tableData = claims.map((data) => {
+    const date=new Date(data.createdAt)
+    return {
+      claims: () => {
+        if (data.insurancePackage.includes("Health"))
+          return (
+            <ClaimsComp icon={MedIcon} desc={data.description}></ClaimsComp>
+          );
+        else if (data.insurancePackage.includes("Motor"))
+          return (
+            <ClaimsComp icon={MotorIcon} desc={data.description}></ClaimsComp>
+          );
+        else if (data.insurancePackage.includes("Travel"))
+          return (
+            <ClaimsComp icon={TravIcon} desc={data.description}></ClaimsComp>
+          );
+        else "";
+      },
+      date: date.toLocaleDateString("en-GB"),
+      cost: data.amount,
+      status: () => {
+        if (data.status === "pending")
+          return (
+            <ClaimStatus
+              status={"Pending"}
+              color={"text-[#FFB703]"}
+            ></ClaimStatus>
+          );
+        else if (data.status === "resolved")
+          return (
+            <ClaimStatus
+              status={"Resolved"}
+              color={"text-[#33D1B5]"}
+            ></ClaimStatus>
+          );
+        else "";
+      },
+    };
+  });
 
   const chartTest = {
     options: {
@@ -185,267 +167,347 @@ const Dashboard = () => {
     },
     series: [50, 50],
   };
-
-  const actives = [
-    {
-      svg: <Heart fill={"#FF7777"}></Heart>,
-      background: "bg-medical",
-      type: "Medical",
-      company: "Allianz Health Insurance",
-      btnText: "View more",
-      color: "text-[#FF7777]",
-      borderbuttom: "border-b-[#F5564C]",
-    },
-    {
-      svg: <Bike fill={"#FFB703"}></Bike>,
-      background: "bg-motor",
-      type: "Motor",
-      company: "Lasaco Motor Insurance",
-      btnText: "View more",
-      color: "text-[#FFB703]",
-      borderbuttom: "border-b-[#FFB703]",
-    },
-    {
-      svg: <Plane fill={"#3E96FC"}></Plane>,
-      background: "bg-travel",
-      type: "Travel",
-      company: "HEM Travel Insurance 2",
-      btnText: "View more",
-      color: "text-[#3E96FC]",
-      borderbuttom: "border-b-[#3E96FC]",
-    },
-  ];
-  const expired = [
-    {
-      svg: <Heart fill={"#77869B"}></Heart>,
-      background: "bg-expired",
-      type: "Medical",
-      company: "Allianz Health Insurance",
-      btnText: "Renew",
-      color: "text-ex",
-      borderbuttom: "",
-    },
-    {
-      svg: <Bike fill={"#77869B"}></Bike>,
-      background: "bg-expired",
-      type: "Motor",
-      company: "Lasaco Motor Insurance",
-      btnText: "Renew",
-      color: "text-ex",
-      borderbuttom: "",
-    },
-    {
-      svg: <Plane fill={"#77869B"}></Plane>,
-      background: "bg-expired",
-      type: "Travel",
-      company: "HEM Travel Insurance 2",
-      btnText: "Renew",
-      color: "text-ex",
-      borderbuttom: "",
-    },
-    {
-      svg: <Plane fill="#77869B"></Plane>,
-      background: "bg-expired",
-      type: "Travel",
-      company: "HEM Travel Insurance 2",
-      btnText: "Renew",
-      color: "text-ex",
-      borderbuttom: "",
-    },
-  ];
+  const [startPagin, setStartPagin] = useState(0);
+  const [endPagin, setEndPagin] = useState(3);
+  const [nextCount, setNextCount] = useState(0);
+  function nextPagin() {
+    console.log(
+      nextCount,
+      startPagin,
+      Math.floor(activePackages.length / 3),
+      activePackages.length
+    );
+    if (activePackages.length <= 3) return;
+    else if (
+      activePackages.length > 3 &&
+      Math.floor(activePackages.length / 3) !== nextCount &&
+      activePackages.length % 3 !== 0
+    ) {
+      setNextCount((count) => count + 1);
+      setStartPagin((pagin) => pagin + 3);
+      setEndPagin((pagin) => pagin + 3);
+    } else if (
+      activePackages.length > 3 &&
+      Math.floor(activePackages.length / 3) !== nextCount + 1 &&
+      activePackages.length % 3 === 0
+    ) {
+      setNextCount((count) => count + 1);
+      setStartPagin((pagin) => pagin + 3);
+      setEndPagin((pagin) => pagin + 3);
+    } else "";
+  }
+  function prevPagin() {
+    console.log(startPagin, activePackages.length, "prev");
+    if (activePackages.length <= 3) return;
+    else if (activePackages.length > 3 && startPagin !== 0) {
+      setNextCount(0);
+      setStartPagin((pagin) => pagin - 3);
+      setEndPagin((pagin) => pagin - 3);
+    } else "";
+  }
+  const actives = activePackages
+    ? activePackages.slice(startPagin, endPagin).map((data) => {
+        return {
+          svg: () => {
+            if (data.productType.includes("Health"))
+              return <Heart fill={"#FF7777"}></Heart>;
+            else if (data.productType.includes("Motor"))
+              return <Bike fill={"#FFB703"}></Bike>;
+            else if (data.productType.includes("Travel"))
+              return <Plane fill={"#3E96FC"}></Plane>;
+            else "";
+          },
+          background: () => {
+            if (data.productType.includes("Health")) return "bg-medical";
+            else if (data.productType.includes("Motor")) return "bg-motor";
+            else if (data.productType.includes("Travel")) return "bg-travel";
+            else "";
+          },
+          type: () => {
+            if (data.productType.includes("Health")) return "Medical";
+            else if (data.productType.includes("Motor")) return "Motor";
+            else if (data.productType.includes("Travel")) return "Travel";
+            else "";
+          },
+          company: data.nameOfPackage,
+          btnText: "View more",
+          color: () => {
+            if (data.productType.includes("Health")) return "text-[#FF7777]";
+            else if (data.productType.includes("Motor"))
+              return "text-[#FFB703]";
+            else if (data.productType.includes("Travel"))
+              return "text-[#3E96FC]";
+            else "";
+          },
+          borderbuttom: () => {
+            if (data.productType.includes("Health"))
+              return "border-b-[#F5564C]";
+            else if (data.productType.includes("Motor"))
+              return "border-b-[#FFB703]";
+            else if (data.productType.includes("Travel"))
+              return "border-b-[#3E96FC]";
+            else "";
+          },
+        };
+      })
+    : "";
+  const expired = [];
   const dispatch = useDispatch();
   return (
     <div>
-      <ClaimModal></ClaimModal>
-      <div
-        className={`flex ${styles.Navcontainer} items-center px-[5%] py-[20px]`}
-      >
-        <Image
-          src={"/assets/logo.png"}
-          width={150}
-          height={30}
-          alt="img"
-          className="mr-[30px] cursor-pointer"
-          onClick={() => {
-            router.push("/");
-          }}
-        ></Image>
-        <ul className="flex text-white text-[16px] mr-auto">
-          <li className="px-[10px]">Dashboard</li>
-          <li
-            onClick={() => {
-              router.push("/");
-            }}
-            className="px-[10px] cursor-pointer"
-          >
-            Product
-          </li>
-          <li className="px-[10px]">Settings</li>
-          <li
-            onClick={() => {
-              dispatch(showClaimsModal());
-            }}
-            className="px-[10px] cursor-pointer"
-          >
-            Damages and Claims
-          </li>
-        </ul>
-        <p
-          onClick={() => {
-            setCookie("token", null, {
-              path: "/",
-              secure: true,
-            });
-            router.push("/signin");
-          }}
-          className="text-[16px] text-white pr-[7px] cursor-pointer"
-        >
-          Logout
-        </p>
-        <Notification></Notification>
-        <div className="flex">
-          <Image
-            width={35}
-            src={"/assets/profpic.svg"}
-            height={34}
-            alt=""
-            className="mx-[16px]"
-          ></Image>
-          <div>
-            <p className="text-[15px] text-white">
-              {userDetails ? userDetails.fullName : ""}
-            </p>
-            <p className={`${styles.Id} text-[14px]`}>{`ID: ${
-              userDetails ? userDetails._id : ""
-            }`}</p>
-          </div>
+      {!packages ? (
+        <div className="absolute top-0 left-0 z-[200] flex justify-center items-center  h-[100vh] w-[100vw]">
+          <Spinner></Spinner>
         </div>
-      </div>
-      <div className="px-[10%] mt-[5rem] flex">
-        <div className={` ${styles.User} w-[35%] flex flex-col items-center`}>
-          <p className="text-[16px] text-[#77869B] font-bold py-[20px]">
-            Welcome to your dashboard!
-          </p>
-          <div className="py-[18px] mb-auto">
-            <p className="text-major text-[21px] font-bold">
-              {userDetails ? userDetails._id : ""}
-            </p>
-            <p className="text-center text-[#77869B] text-[13px]">Member ID</p>
-          </div>
+      ) : (
+        <div>
+          <ClaimModal></ClaimModal>
           <div
-            className={`${styles.BorderTop} flex px-[15px] py-[10px] w-[100%]  items-center justify-between`}
+            className={`flex ${styles.Navcontainer} items-center px-[5%] py-[20px]`}
           >
-            <div>
-              <p className="text-[#77869B] text-[15px] font-bold">
-                {userDetails ? userDetails.fullName : ""}
-              </p>
-              <p className="text-common text-[13px]">Member since 19/04/2022</p>
-            </div>
-            <p className="text-[#3E96FC] text-[13px]">View History</p>
-          </div>
-        </div>
-        <div className="ml-[50px] w-[60%]">
-          <p className="text-[#77869B] pb-[20px] font-bold text-[20px] ">
-            Active Packages
-          </p>
-          <div className="flex justify-between w-[100%]">
-            {actives.map((data, i) => (
-              <DashboardCard
-                key={i}
-                svg={data.svg}
-                background={data.background}
-                type={data.type}
-                company={data.company}
-                btnText={data.btnText}
-                color={data.color}
-                borderbuttom={data.borderbuttom}
-              ></DashboardCard>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className={`px-[10%] w-[100%] mt-[2rem] py-[4rem]`}>
-        <p className="text-[#77869B] py-[20px] text-[20px] font-bold tracking-[1px]">
-          Expired Packages
-        </p>
-        <div className="flex  w-[100%]">
-          {expired.map((data, i) => (
-            <div key={i} className="mr-[40px]">
-              <DashboardCard
-                svg={data.svg}
-                background={data.background}
-                type={data.type}
-                company={data.company}
-                btnText={data.btnText}
-                color={data.color}
-                borderbuttom={data.borderbuttom}
-              ></DashboardCard>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="py-[4rem] px-[10%]">
-        <p className="text-[#77869B] py-[20px] text-[20px] font-bold tracking-[1px]">
-          Recent Claims
-        </p>
-        <div className={`flex `}>
-          <div
-            className={`${styles.User} mr-auto px-[20px] py-[30px] justify-center`}
-          >
-            <div className="mb-auto">
-              <ApexChart
-                options={chartTest.options}
-                series={chartTest.series}
-                type="donut"
-                width="300"
-              ></ApexChart>
-            </div>
-
-            <div className="w-[100%]">
-              <p className="text-[#77869B] text-[13px] mb-[7px]">
-                Being reviewed
-              </p>
-              <div className="h-[20px]  flex">
-                <div className="w-[50%] rounded-l-[3px] bg-major"></div>
-                <div className="w-[50%] rounded-r-[3px] bg-ex"></div>
+            <Image
+              src={"/assets/logo.png"}
+              width={150}
+              height={30}
+              alt="img"
+              className="mr-[30px] cursor-pointer"
+              onClick={() => {
+                router.push("/");
+              }}
+            ></Image>
+            <ul className="flex text-white text-[16px] mr-auto">
+              <li className="px-[10px]">Dashboard</li>
+              <li
+                onClick={() => {
+                  router.push("/");
+                }}
+                className="px-[10px] cursor-pointer"
+              >
+                Product
+              </li>
+              <li className="px-[10px]">Settings</li>
+              <li
+                onClick={() => {
+                  dispatch(showClaimsModal());
+                }}
+                className="px-[10px] cursor-pointer"
+              >
+                Damages and Claims
+              </li>
+            </ul>
+            <p
+              onClick={() => {
+                setCookie("token", null, {
+                  path: "/",
+                  secure: true,
+                });
+                router.push("/signin");
+              }}
+              className="text-[16px] text-white pr-[7px] cursor-pointer"
+            >
+              Logout
+            </p>
+            <Notification></Notification>
+            <div className="flex">
+              <Image
+                width={35}
+                src={"/assets/profpic.svg"}
+                height={34}
+                alt=""
+                className="mx-[16px]"
+              ></Image>
+              <div>
+                <p className="text-[15px] text-white">
+                  {userDetails ? userDetails.fullName : ""}
+                </p>
+                <p className={`${styles.Id} text-[14px]`}>{`ID: ${
+                  userDetails ? userDetails._id : ""
+                }`}</p>
               </div>
             </div>
           </div>
-          <div
-            className={`w-[65%] ${styles.User} px-[20px] py-[30px] justify-center`}
-          >
-            <table className="w-[100%] ">
-              <thead>
-                <tr className="text-[#77869B] text-[16px]">
-                  <th className="text-start py-[20px]">Claim Description</th>
-                  <th>Date</th>
-                  <th>Cost</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody className={`w-[100%] px-[20px] pt-[30px]`}>
-                {tableData.map((data, i) => (
-                  <tr key={i} className=" w-[100%] ">
-                    <td className="text-center py-[15px]">{data.claims}</td>
-                    <td className="text-center text-common text-[14px]">
-                      {data.date}
-                    </td>
-                    <td className="text-center text-common text-[14px]">
-                      {data.cost}
-                    </td>
-                    <td className="text-center text-common text-[14px]">
-                      {data.status}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <p className="relative top-[20px] cursor-pointer text-[12px] text-major">
-              Back to Home Page
+          <div className="px-[7%] mt-[5rem] flex relative">
+            <div className="flex items-center absolute top-0 right-[10%]">
+              <div
+                onClick={() => {
+                  prevPagin();
+                }}
+                className="mr-[25px] hover:opacity-[19%] cursor-pointer"
+              >
+                <Left></Left>
+              </div>
+              <div
+                onClick={() => {
+                  nextPagin();
+                }}
+                className="cursor-pointer hover:opacity-[19%]"
+              >
+                <Right></Right>
+              </div>
+            </div>
+            <div
+              className={` ${styles.User} w-[35%] flex flex-col items-center`}
+            >
+              <p className="text-[16px] text-[#77869B] font-bold py-[20px]">
+                Welcome to your dashboard!
+              </p>
+              <div className="py-[18px] mb-auto">
+                <p className="text-major text-[21px] font-bold">
+                  {userDetails ? userDetails._id : ""}
+                </p>
+                <p className="text-center text-[#77869B] text-[13px]">
+                  Member ID
+                </p>
+              </div>
+              <div
+                className={`${styles.BorderTop} flex px-[15px] py-[10px] w-[100%]  items-center justify-between`}
+              >
+                <div>
+                  <p className="text-[#77869B] text-[15px] font-bold">
+                    {userDetails ? userDetails.fullName : ""}
+                  </p>
+                  <p className="text-common text-[13px]">
+                    Member since 19/04/2022
+                  </p>
+                </div>
+                <p className="text-[#3E96FC] text-[13px]">View History</p>
+              </div>
+            </div>
+            <div className="ml-[50px] w-[60%]">
+              <p className="text-[#77869B] pb-[20px] font-bold text-[20px] ">
+                Active Packages
+              </p>
+              <div className="flex w-[100%]">
+                {actives.length > 0 ? (
+                  actives.map((data, i) => (
+                    <DashboardCard
+                      key={i}
+                      svg={data.svg()}
+                      background={data.background()}
+                      type={data.type()}
+                      company={data.company}
+                      btnText={data.btnText}
+                      color={data.color()}
+                      borderbuttom={data.borderbuttom()}
+                      className={"mr-[40px]"}
+                    ></DashboardCard>
+                  ))
+                ) : (
+                  <p className="text-[#77869B] w-[100%] py-[7px] text-center text-[20px] font-bold tracking-[1px]">
+                    {`You currently don't have any active packages`}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className={`px-[7%] w-[100%] mt-[2rem] py-[4rem]`}>
+            <p className="text-[#77869B] py-[20px] text-[20px] font-bold tracking-[1px]">
+              Expired Packages
             </p>
+            <div className="flex  w-[100%]">
+              {expired.length > 0 ? (
+                expired.map((data, i) => (
+                  <div key={i} className="mr-[40px]">
+                    <DashboardCard
+                      svg={data.svg}
+                      background={data.background}
+                      type={data.type}
+                      company={data.company}
+                      btnText={data.btnText}
+                      color={data.color}
+                      borderbuttom={data.borderbuttom}
+                    ></DashboardCard>
+                  </div>
+                ))
+              ) : (
+                <p className="text-[#77869B] w-[100%] py-[7px] text-center text-[20px] font-bold tracking-[1px]">
+                  {`You currently don't have any expired packages`}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="py-[4rem] px-[7%]">
+            <p className="text-[#77869B] py-[20px] text-[20px] font-bold tracking-[1px]">
+              Recent Claims
+            </p>
+            <div className={`flex `}>
+              <div
+                className={`${styles.User} mr-auto px-[20px] py-[30px] justify-center`}
+              >
+                <div className="mb-auto">
+                  <ApexChart
+                    options={chartTest.options}
+                    series={chartTest.series}
+                    type="donut"
+                    width="300"
+                  ></ApexChart>
+                </div>
+
+                <div className="w-[100%]">
+                  <p className="text-[#77869B] text-[13px] mb-[7px]">
+                    Being reviewed
+                  </p>
+                  <div className="h-[20px]  flex">
+                    <div className="w-[50%] rounded-l-[3px] bg-major"></div>
+                    <div className="w-[50%] rounded-r-[3px] bg-ex"></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`w-[65%] ${styles.User} h-[420px] px-[20px] py-[30px] justify-center`}
+              >
+                <div
+                  className={`h-[350px] overflow-y-scroll ${styles.Hidescroll}`}
+                >
+                  {tableData.length > 0 ? (
+                    <table className="w-[100%] relative ">
+                      <thead>
+                        <tr className="text-[#77869B] text-[16px]">
+                          <th className="text-start w-[60%] py-[20px]">
+                            Claim Description
+                          </th>
+                          <th className="w-[10%]">Date</th>
+                          <th className="w-[20%]">Cost</th>
+                          <th className="w-[10%]">Status</th>
+                        </tr>
+                      </thead>
+
+                      <tbody
+                        className={`w-[100%] h-[100%] relative px-[20px] pt-[30px]`}
+                      >
+                        {tableData.map((data, i) => (
+                          <tr key={i} className=" w-[100%] ">
+                            <td className="text-center w-[60%] py-[15px]">
+                              {data.claims()}
+                            </td>
+                            <td className="text-center w-[10%] text-common text-[14px]">
+                              {data.date}
+                            </td>
+                            <td className="text-center w-[20%] text-common text-[14px]">
+                              {data.cost}
+                            </td>
+                            <td className="text-center w-[10%] text-common text-[14px]">
+                              {data.status()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p className="text-[#77869B] w-[100%] py-[7px] mt-[30px] text-center text-[20px] font-bold tracking-[1px]">
+                      {`You currently dont have any claims`}
+                    </p>
+                  )}
+                </div>
+
+                <p className=" cursor-pointer text-[12px] mt-[15px] text-major">
+                  Back to Home Page
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

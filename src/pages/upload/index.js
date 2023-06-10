@@ -1,10 +1,10 @@
 import styles from "./Upload.module.css";
 import { useRouter } from "next/router";
 import "react-phone-input-2/lib/style.css";
-import TravelForm from "../../../components/ProposalForm/TravelForm";
+import TravelForm from "../../../components/TravelForm/TravelForm";
 import { useSelector, useDispatch } from "react-redux";
-import MotorForm from "../../../components/ProposalForm/MotorForm";
-import HealthForm from "../../../components/ProposalForm/HealthForm";
+import MotorForm from "../../../components/MotorForm/MotorForm";
+import HealthForm from "../../../components/HealthForm/HealthForm";
 import Image from "next/image";
 import { showPaymentModal } from "../../store/slices";
 

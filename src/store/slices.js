@@ -10,6 +10,8 @@ const initialState = {
   signUpSection: "verify",
   userDetails: {},
   checked: [1, 0, 0],
+  email:"",
+  uploadSection: 1,
 };
 
 export const modalSlice = createSlice({
@@ -43,6 +45,12 @@ export const modalSlice = createSlice({
     setChecked: (state, action) => {
       state.checked = action.payload;
     },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
+    setUploadSection: (state, action) => {
+      state.uploadSection = action.payload;
+    },
   },
 });
 export const {
@@ -55,5 +63,7 @@ export const {
   setSignUpSection,
   setUserDetails,
   setChecked,
+  setUploadSection,
+  setEmail
 } = modalSlice.actions;
 // Action creators are generated for each case reducer function

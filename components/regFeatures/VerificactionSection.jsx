@@ -6,11 +6,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { setCookie } from "cookies-next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSignUpSection } from "../../src/store/slices";
+import { useSetPasswordMutation } from "../../src/api/apiSlice";
 export const VerificationSection = () => {
   const [checked, setChecked] = useState([1, 0, 0]);
   const dispatch = useDispatch();
+  const [setPassword] = useSetPasswordMutation();
   const schema = yup.object().shape({
     password: yup
       .string()
@@ -36,8 +38,14 @@ export const VerificationSection = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const [showError, setShowError] = useState(false);
+  const email = useSelector(({ state }) => state.email);
+  console.log(email);
   return (
     <div className="mt-[60px] pb-[2rem]">
+      <p className={`${showError ? "block" : "hidden"} text-[15px] text-major`}>
+        Password and Confirm password do not match
+      </p>
       <h1 className="text-[#0F4A6B] pt-[40px] text-[30px] leading-[53px] font-bold">
         Choose Password
       </h1>
@@ -81,7 +89,24 @@ export const VerificationSection = () => {
         text={"Next"}
         className={"w-[500px] rounded-[5px] my-[2rem]"}
         onClick={handleSubmit((data) => {
-          dispatch(setSignUpSection("email"));
+          if (data.password !== data.password1) {
+            setShowError(true);
+          } else {
+            const details = {
+              email: email,
+              password: data.password,
+              callBackUrl: "vend-policy.vercel.app/welcome",
+            };
+            setPassword(details)
+              .unwrap()
+              .then((payload) => {
+                console.log(payload);
+                dispatch(setSignUpSection("email"));
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
         })}
       ></Button>
     </div>

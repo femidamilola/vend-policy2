@@ -255,21 +255,25 @@ export const DashboardCard = ({
   color,
   background,
   borderbuttom,
+  className
 }) => {
   return (
     <div
-      className={`w-[200px] border-b ${borderbuttom} border-b-[5px] py-[20px] rounded-[8px] flex flex-col items-center ${styles.Card}`}
+      className={`w-[200px] relative border-b ${borderbuttom} border-b-[5px] py-[20px] rounded-[8px] flex flex-col items-center ${styles.Card} ${className}`}
     >
       <div
         className={`flex px-[15px] h-[30px] justify-center ${background} items-center  w-[100px] rounded-[4px]`}
       >
-        {svg}
-        <p className={` ${color} ml-[4px] text-[13px]`}>{type}</p>
+        <div>{svg}</div>
+
+        <p className={` ${color} ml-[2px] text-[15px]`}>{type}</p>
       </div>
-      <p className="text-common  px-[30px] text-center py-[30px] text-[16px] font-bold">
+      <p className="text-common  px-[30px] text-center py-[50px] text-[16px] font-bold">
         {company}
       </p>
-      <DashboardButton text={btnText}></DashboardButton>
+      <div className="absolute bottom-[20px]">
+        <DashboardButton text={btnText}></DashboardButton>
+      </div>
     </div>
   );
 };

@@ -11,7 +11,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { setCookie } from "cookies-next";
-import { setSignUpSection, setUserDetails } from "../../src/store/slices";
+import {
+  setSignUpSection,
+  setUserDetails,
+  setEmail,
+} from "../../src/store/slices";
 import { useDispatch } from "react-redux";
 export const RegisterSection = () => {
   const [signUp] = useSignUpMutation();
@@ -93,9 +97,11 @@ export const RegisterSection = () => {
             email: data.email,
             bvnData: data.bvnData,
           };
+          dispatch(setEmail(data.email));
           signUp(details)
             .unwrap()
             .then((payload) => {
+              console.log(payload);
               setCookie("token", payload?.token, {
                 path: "/",
                 secure: true,
@@ -107,11 +113,20 @@ export const RegisterSection = () => {
             })
             .catch((error) => {
               console.error("rejected", error);
-              if (error.data.message === "email exists already") {
+              if (error.data.message === "Email exists already") {
                 router.push("/signin");
-              } else {
-                ("");
-              }
+              } else if (
+                error.data.message ===
+                "Email already exists, proceed to set password"
+              ) {
+                setCookie("token", error.data?.token, {
+                  path: "/",
+                  secure: true,
+                });
+
+                dispatch(setSignUpSection("password"));
+                dispatch(setChecked([1, 2, 3]));
+              } else "";
             });
         })}
         className={`w-[500px] mt-[50px] rounded-[5px] ${styles.Button}`}
