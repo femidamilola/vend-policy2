@@ -88,7 +88,7 @@ export const CarModal = ({ comprehensive }) => {
                 vehicleValue: vehicleValue,
               })
             );
-            dispatch(showPackageModal(""));
+           
             router.push("/companies");
           }}
         ></Button>
@@ -106,9 +106,7 @@ export const CarTermsModal = () => {
       } flex justify-center items-center fixed  top-0 left-0 z-[200] h-[100vh]`}
     >
       <div
-        onClick={() => {
-          dispatch(showPackageModal(""));
-        }}
+       
         className="absolute top-0 left-0 w-[100%] h-[100%] bg-black opacity-[0.63]"
       ></div>
       <div className="w-[40%] px-[40px] py-[30px] z-[300] bg-[#ffffff] rounded-[15px]">
@@ -141,7 +139,7 @@ export const CarTermsModal = () => {
         <Button
           text={"Proceed"}
           className={"w-[100%] mt-[30px] py-[30px] rounded-[6px]"}
-          onClick={() => dispatch(showPackageModal("car"))}
+        
         ></Button>
       </div>
     </div>
@@ -241,7 +239,7 @@ export const TravelModal = () => {
           }
           onClick={handleSubmit((data) => {
             dispatch(setDisplayedProposal("travel"));
-            dispatch(showPackageModal(""));
+            
 
             dispatch(
               setPurchaseProps({
@@ -297,7 +295,7 @@ export const HealthModal = () => {
         }
         onClick={handleSubmit((data) => {
           dispatch(setDisplayedProposal("health"));
-          dispatch(showPackageModal(""));
+        
           dispatch(
             setPurchaseProps({ productType: "Health Insurance", ...data })
           );
