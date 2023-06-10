@@ -59,7 +59,7 @@ const Dashboard = () => {
   if (isLoading) {
     console.log("loading");
   } else if (packages) {
-    console.log(packages, "packages");
+   
     userDetails = packages?.data?.userDetails;
     let activepack = [...packages?.data?.activePackages];
     let claimes = [...packages?.data?.claims];
