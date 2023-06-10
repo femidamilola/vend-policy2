@@ -13,7 +13,7 @@ const FileUpload = () => {
   const displayedModal = useSelector(
     ({ purchaseState }) => purchaseState.proposalBody
   );
-  console.log(displayedModal);
+  
   let sectionDisplayed = <div></div>;
   let subText = "";
   if (displayedModal?.productType?.includes("Motor")) {
